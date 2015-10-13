@@ -29,5 +29,5 @@ Route::post('auth/register', ['as'=>'auth.postRegister','uses'=>'Auth\AuthContro
 // Reset password
 Route::get('auth/email', ['as'=>'auth.getEmail','uses'=>'Auth\AuthController@getEmail']);
 Route::post('auth/email', ['as'=>'auth.postEmail','uses'=>'Auth\AuthController@postEmail']);
-Route::get('auth/reset', ['as'=>'auth.getReset','uses'=>'Auth\AuthController@getReset']);
+Route::get('auth/reset/{token}', ['as'=>'auth.getReset','uses'=>'Auth\AuthController@getReset']);
 Route::post('auth/reset', ['as'=>'auth.postReset','uses'=>'Auth\AuthController@postReset']);
