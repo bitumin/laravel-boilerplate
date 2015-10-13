@@ -25,50 +25,37 @@ class UserTableSeeder extends Seeder
         ]);
 
         // Roles
-        $admin = Role::create([
+        $admin = \Caffeinated\Shinobi\Models\Role::create([
             'name' => 'Admin',
             'slug' => 'admin',
             'description' => 'VerdeSoft admin'
         ]);
-        $guest = Role::create([
+        $guest = \Caffeinated\Shinobi\Models\Role::create([
             'name' => 'Guest',
             'slug' => 'guest',
             'description' => 'VerdeSoft Guest user'
         ]);
 
         // Assign permissions to roles
-        $admin->assignPermission($fullAcces->id);
+        $admin->assignPermission($fullAccess->id);
         $guest->assignPermission($restrictedAccess->id);
 
         // Register admin users
         $admin1 = \App\User::create([
-            'name'      => 'Nombre',
-            'email'     => 'nombre@email',
-            'password'  => bcrypt('password'),
-        ]);
-        $admin2 = \App\User::create([
-            'name'      => 'Nombre',
-            'email'     => 'nombre@email',
-            'password'  => bcrypt('password'),
-        ]);
-        $admin3 = \App\User::create([
-            'name'      => 'Nombre',
-            'email'     => 'nombre@email',
-            'password'  => bcrypt('password'),
+            'name'      => 'Mitxel Moriana Casado',
+            'email'     => 'mmoriana',
+            'password'  => bcrypt('.v3rD3s0fT!'),
         ]);
 
         // Register guest user
-        $guest = \App\User::create([
-            'name'      => 'Nombre',
-            'email'     => 'nombre@email',
-            'password'  => bcrypt('password'),
+        $guest1 = \App\User::create([
+            'name'      => 'Invitado',
+            'email'     => 'invitado',
+            'password'  => bcrypt('verdesoft'),
         ]);
 
         // Assign roles to users
         $admin1->assignRole($admin->id);
-        $admin2->assignRole($admin->id);
-        $admin3->assignRole($admin->id);
-        $guest->assignRole($guest->id);
-
+        $guest1->assignRole($guest->id);
     }
 }
