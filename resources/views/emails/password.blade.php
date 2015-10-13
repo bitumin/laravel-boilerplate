@@ -1,1 +1,1 @@
-Click here to reset your password: {{ route('auth/reset/',$token) }}
+Click here to reset your password: {{ route('auth.getReset',$token) }}
