@@ -10,30 +10,49 @@
 
 @section('content')
     <div class="container">
-        <div class="content">
-            <form method="POST" action="/auth/register">
-                {!! csrf_field() !!}
-                <div>
-                    Name
-                    <input type="text" name="name" value="{{ old('name') }}">
+        @if (count($errors) > 0)
+            <div class="alert alert-danger">
+                <strong>Whoops!</strong> There were some problems with your input.<br><br>
+                <ul>
+                    @foreach ($errors->all() as $error)
+                        <li>{{ $error }}</li>
+                    @endforeach
+                </ul>
+            </div>
+        @endif
+        <form method="POST" action="{{ route('auth.postRegister') }}">
+            {!! csrf_field() !!}
+            <div class="form-group">
+                <label class="col-md-4 control-label">Name</label>
+                <div class="col-md-6">
+                    <input class="form-control" type="text" name="name" value="{{ old('name') }}">
                 </div>
-                <div>
-                    Email
-                    <input type="email" name="email" value="{{ old('email') }}">
+            </div>
+            <div class="form-group">
+                <label class="col-md-4 control-label">Email</label>
+                <div class="col-md-6">
+                    <input class="form-control" type="email" name="email" value="{{ old('email') }}">
                 </div>
-                <div>
-                    Password
-                    <input type="password" name="password">
+            </div>
+            <div class="form-group">
+                <label class="col-md-4 control-label">Password</label>
+                <div class="col-md-6">
+                    <input class="form-control" type="password" name="password" id="password">
                 </div>
-                <div>
-                    Confirm Password
-                    <input type="password" name="password_confirmation">
+            </div>
+            <div class="form-group">
+                <label class="col-md-4 control-label">Confirm Password</label>
+                <div class="col-md-6">
+                    <input class="form-control" type="password" name="password_confirmation" id="password_confirmation">
                 </div>
-                <div>
-                    <button type="submit">Register</button>
+            </div>
+            <div class="form-group">
+                <div class="col-md-6 col-md-offset-4">
+                    <button type="submit" class="btn btn-primary">Register</button>
+                    <a href="{{ route('auth.getLogin') }}" class="btn btn-default">Back</a>
                 </div>
-            </form>
-        </div>
+            </div>
+        </form>
     </div>
 @endsection
 

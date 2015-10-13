@@ -43,14 +43,14 @@ class UserTableSeeder extends Seeder
         // Register admin users
         $admin1 = \App\User::create([
             'name'      => 'Mitxel Moriana Casado',
-            'email'     => 'mmoriana',
+            'email'     => 'mmoriana@verdesoft',
             'password'  => bcrypt('.v3rD3s0fT!'),
         ]);
 
         // Register guest user
         $guest1 = \App\User::create([
             'name'      => 'Invitado',
-            'email'     => 'invitado',
+            'email'     => 'invitado@verdesoft',
             'password'  => bcrypt('verdesoft'),
         ]);
 

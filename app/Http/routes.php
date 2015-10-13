@@ -11,9 +11,11 @@
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+// Public routes
+Route::get('/', ['as'=>'getHome','uses'=>'PublicController@getHome']);
+
+// Dashboard routes
+Route::get('/dashboard', ['as'=>'getDashboard','uses'=>'DashboardController@getDashboard']);
 
 // Authentication
 Route::get('auth/login', ['as'=>'auth.getLogin','uses'=>'Auth\AuthController@getLogin']);
