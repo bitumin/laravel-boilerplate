@@ -16,14 +16,16 @@ Route::get('/', function () {
 });
 
 // Authentication
-Route::get('auth/login', 'Auth\AuthController@getLogin');
-Route::post('auth/login', 'Auth\AuthController@postLogin');
-Route::get('auth/logout', 'Auth\AuthController@getLogout');
+Route::get('auth/login', ['as'=>'auth.getLogin','uses'=>'Auth\AuthController@getLogin']);
+Route::post('auth/login', ['as'=>'auth.postLogin','uses'=>'Auth\AuthController@postLogin']);
+Route::get('auth/logout', ['as'=>'auth.getLogout','uses'=>'Auth\AuthController@getLogout']);
 
 // Registration
-Route::get('auth/register', 'Auth\AuthController@getRegister');
-Route::post('auth/register', 'Auth\AuthController@postRegister');
+Route::get('auth/register', ['as'=>'auth.getRegister','uses'=>'Auth\AuthController@getRegister']);
+Route::post('auth/register', ['as'=>'auth.postRegister','uses'=>'Auth\AuthController@postRegister']);
 
 // Reset password
-Route::get('auth/reset', ['as'=>'auth.reset','uses'=>'AuthController@reset']);
-Route::post('auth/reset', ['as'=>'auth.doReset','uses'=>'AuthController@doreset']);
+Route::get('auth/email', ['as'=>'auth.getEmail','uses'=>'Auth\AuthController@getEmail']);
+Route::post('auth/email', ['as'=>'auth.postEmail','uses'=>'Auth\AuthController@postEmail']);
+Route::get('auth/reset', ['as'=>'auth.getReset','uses'=>'Auth\AuthController@getReset']);
+Route::post('auth/reset', ['as'=>'auth.postReset','uses'=>'Auth\AuthController@postReset']);
