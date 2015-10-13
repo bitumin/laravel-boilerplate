@@ -1,7 +1,7 @@
 @extends('layout.basic')
 
 @section('title')
-    <title>Under maintenance</title>
+    <title>Prohibido</title>
 @endsection
 
 @section('css')
@@ -11,7 +11,7 @@
 @section('content')
     <div class="container">
         <div class="content">
-            <div class="title">Be right back.</div>
+            <div class="title">Su usario no dispone de los permisos para acceder.</div>
         </div>
     </div>
 @endsection

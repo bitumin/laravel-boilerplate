@@ -1,7 +1,7 @@
 @extends('layout.basic')
 
 @section('title')
-    <title>Under maintenance</title>
+    <title>No encontrado</title>
 @endsection
 
 @section('css')
@@ -11,7 +11,7 @@
 @section('content')
     <div class="container">
         <div class="content">
-            <div class="title">Be right back.</div>
+            <div class="title">Recurso no encontrado. El servidor web no encuentra la página o recurso solicitado.</div>
         </div>
     </div>
 @endsection
