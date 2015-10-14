@@ -14,6 +14,10 @@
 // Public routes
 Route::get('/', ['as'=>'getHome','uses'=>'PublicController@getHome']);
 
+//View examples
+Route::get('/example/basic',['as'=>'example.basic','uses'=>'PublicController@exampleBasic']);
+Route::get('/example/code',['as'=>'example.code','uses'=>'PublicController@exampleCode']);
+
 // Dashboard routes
 Route::get('/dashboard', ['as'=>'getDashboard','uses'=>'DashboardController@getDashboard']);
 

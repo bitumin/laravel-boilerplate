@@ -8,4 +8,14 @@ class PublicController extends Controller
     {
         return view('welcome');
     }
+
+    public function exampleBasic()
+    {
+        return view('examples.basic');
+    }
+
+    public function exampleCode()
+    {
+        return view('examples.code');
+    }
 }

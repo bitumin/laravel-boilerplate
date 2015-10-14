@@ -1,4 +1,4 @@
-@extends('layout.basic')
+@extends('layouts.basic')
 
 @section('title')
     <title>Send password reset link form</title>
