@@ -11,15 +11,26 @@
 |
 */
 
+/*
+ * Route::get('',['as'=>'','uses'=>'']);
+ * Route::post('',['as'=>'','uses'=>'']);
+ */
+
 // Public routes
 Route::get('/', ['as'=>'getHome','uses'=>'PublicController@getHome']);
 
-//View examples
+// View examples
 Route::get('/example/basic',['as'=>'example.basic','uses'=>'PublicController@exampleBasic']);
 Route::get('/example/code',['as'=>'example.code','uses'=>'PublicController@exampleCode']);
+Route::get('/example/flot-charts',['as'=>'example.flot','uses'=>'PublicController@exampleFlotCharts']);
+Route::get('/example/morris-charts',['as'=>'example.morris','uses'=>'PublicController@exampleMorrisCharts']);
+Route::get('/example/timeline',['as'=>'example.timeline','uses'=>'PublicController@exampleTimeline']);
+Route::get('/example/tables',['as'=>'example.tables','uses'=>'PublicController@exampleTables']);
+Route::get('/example/dashboard',['as'=>'example.dashboard','uses'=>'PublicController@exampleDashboard']);
 
 // Dashboard routes
 Route::get('/dashboard', ['as'=>'getDashboard','uses'=>'DashboardController@getDashboard']);
+Route::get('/dashboard/users',['as'=>'getUsers','uses'=>'DashboardController@getUsers']);
 
 // Authentication
 Route::get('auth/login', ['as'=>'auth.getLogin','uses'=>'Auth\AuthController@getLogin']);

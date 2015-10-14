@@ -18,4 +18,29 @@ class PublicController extends Controller
     {
         return view('examples.code');
     }
+
+    public function exampleFlotCharts()
+    {
+        return view('examples.flot_charts');
+    }
+
+    public function exampleMorrisCharts()
+    {
+        return view('examples.morris_charts');
+    }
+
+    public function exampleTimeline()
+    {
+        return view('examples.timeline');
+    }
+
+    public function exampleTables()
+    {
+        return view('examples.tables');
+    }
+
+    public function exampleDashboard()
+    {
+        return view('examples.dashboard');
+    }
 }
