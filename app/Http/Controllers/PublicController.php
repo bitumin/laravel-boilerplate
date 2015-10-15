@@ -43,4 +43,40 @@ class PublicController extends Controller
     {
         return view('examples.dashboard');
     }
+
+    public function exampleForms()
+    {
+        return view('examples.forms');
+    }
+
+    public function exampleButtons()
+    {
+        return view('examples.buttons');
+    }
+
+    public function exampleGrid()
+    {
+        return view('examples.grid');
+    }
+
+    public function exampleIcons()
+    {
+        return view('examples.icons');
+    }
+
+    public function exampleNotifications()
+    {
+        return view('examples.notifications');
+    }
+
+    public function examplePanels()
+    {
+        return view('examples.panels');
+    }
+
+    public function exampleTypography()
+    {
+        return view('examples.typography');
+    }
+
 }
