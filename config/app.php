@@ -146,9 +146,10 @@ return [
         App\Providers\RouteServiceProvider::class,
 
         /*
-         * Packages Service Providers...
+         * Other Service Providers...
          */
         Caffeinated\Shinobi\ShinobiServiceProvider::class,
+        Laravel\Socialite\SocialiteServiceProvider::class,
     ],
 
     /*

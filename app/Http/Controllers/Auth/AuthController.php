@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Auth;
 
+use App\Invitation;
 use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Mail\Message;
@@ -11,6 +12,7 @@ use Validator;
 use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\ThrottlesLogins;
 use Illuminate\Foundation\Auth\AuthenticatesAndRegistersUsers;
+use \Caffeinated\Shinobi\Models\Role;
 
 class AuthController extends Controller
 {
@@ -31,6 +33,8 @@ class AuthController extends Controller
     protected $redirectAfterLogout = '/auth/login';
     protected $loginPath = '/auth/login';
 
+    protected $defaultRoleSlug = 'guest';
+
     /**
      * Create a new authentication controller instance.
      *
@@ -49,11 +53,26 @@ class AuthController extends Controller
      */
     protected function validator(array $data)
     {
-        return Validator::make($data, [
-            'name' => 'required|max:255',
-            'email' => 'required|email|max:255|unique:users',
-            'password' => 'required|confirmed|min:6',
-        ]);
+        switch(config('auth.method')) {
+            case 'invitation':
+                $validator = Validator::make($data, [
+                    'name' => 'required|max:255',
+                    'keyword' => 'required',
+                    'email' => 'required|email|max:255|exists:invitations',
+                    'password' => 'required|confirmed|min:6',
+                ]);
+                if($validator->passes() && !$this->checkInvitation($data))
+                    return Validator::make([], ['keyword' => 'exists:invitations']);
+                return $validator;
+                break;
+            default: //for default, default_role, confirm and confirm_role registration methods
+                return Validator::make($data, [
+                    'name' => 'required|max:255',
+                    'email' => 'required|email|max:255|unique:users',
+                    'password' => 'required|confirmed|min:6',
+                ]);
+                break;
+        }
     }
 
     /**
@@ -64,11 +83,47 @@ class AuthController extends Controller
      */
     protected function create(array $data)
     {
-        return User::create([
-            'name' => $data['name'],
-            'email' => $data['email'],
-            'password' => bcrypt($data['password']),
-        ]);
+        switch(config('auth.method')) {
+            case 'invitation':
+                $newUser = User::create([
+                    'name' => $data['name'],
+                    'email' => $data['email'],
+                    'password' => bcrypt($data['password']),
+                ]);
+                $invitation = Invitation::where('email',$data['email'])->first();
+                $newUser->assignRole($invitation->id);
+                $invitation->expired = true;
+                $invitation->save();
+                return $newUser;
+                break;
+            case 'default_role':
+            case 'confirm_role':
+                $newUser = User::create([
+                    'name' => $data['name'],
+                    'email' => $data['email'],
+                    'password' => bcrypt($data['password']),
+                ]);
+                $newUser->assignRole(Role::where('slug',$this->getDefaultRole())->first()->id);
+                return $newUser;
+                break;
+            default: //for default and confirm registration methods
+                return User::create([
+                    'name' => $data['name'],
+                    'email' => $data['email'],
+                    'password' => bcrypt($data['password']),
+                ]);
+                break;
+        }
+    }
+
+    protected function checkInvitation(array $data)
+    {
+        $invitation = Invitation::where('email',$data['email'])->first();
+        $invitationKeyword = $invitation->keyword;
+        $providedKeyword = bcrypt($data['keyword']);
+        if(!$invitation->expired && ($providedKeyword == $invitationKeyword))
+            return true;
+        return false;
     }
 
     /**
@@ -112,6 +167,16 @@ class AuthController extends Controller
     protected function getEmailSubject()
     {
         return isset($this->subject) ? $this->subject : 'Your Password Reset Link';
+    }
+
+    /**
+     * Get the default role to be assigned to the newly registered users.
+     *
+     * @return string
+     */
+    protected function getDefaultRole()
+    {
+        return isset($this->defaultRoleSlug) ? $this->defaultRoleSlug : 'guest';
     }
 
     /**

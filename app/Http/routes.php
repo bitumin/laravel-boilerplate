@@ -44,12 +44,7 @@ Route::get('auth/login', ['as'=>'auth.getLogin','uses'=>'Auth\AuthController@get
 Route::post('auth/login', ['as'=>'auth.postLogin','uses'=>'Auth\AuthController@postLogin']);
 Route::get('auth/logout', ['as'=>'auth.getLogout','uses'=>'Auth\AuthController@getLogout']);
 
-// Registration (3 methods)
-// Method 1a (Laravel 5.1 default): Immediate registration. User is created without any role assigned.
-// Method 1b (Laravel 5.1 default + default role): Immediate registration. Default role is assigned.
-// Method 2  (Invitation): One pre-generated keyword is needed in order to register. Specified role is assigned.
-// Method 3a (E-mail confirmation): Email is sent to the provided email to confirm user registration. No role is assigned.
-// Method 3b (E-mail confirmation + default role): Email confirmation is sent to the provided email. Default role is assigned.
+// Registration. 5 different methods. More info in config/auth.php
 Route::get('auth/register', ['as'=>'auth.getRegister','uses'=>'Auth\AuthController@getRegister']);
 Route::post('auth/register', ['as'=>'auth.postRegister','uses'=>'Auth\AuthController@postRegister']);
 

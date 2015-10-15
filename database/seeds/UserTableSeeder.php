@@ -57,5 +57,14 @@ class UserTableSeeder extends Seeder
         // Assign roles to users
         $admin1->assignRole($admin->id);
         $guest1->assignRole($guest->id);
+
+        // Create an invitation (for the invitation registation method)
+        \App\Invitation::create([
+            'expired' => 0,
+            'email' => 'invitado@email.com',
+            'role_id' => $guest->id,
+            'keyword' => bcrypt('randomInvitationCode')
+        ]);
+
     }
 }

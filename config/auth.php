@@ -1,6 +1,16 @@
 <?php
 
 return [
+    /*--------------------------------------------------------------------------
+     * Users registration method
+     *--------------------------------------------------------------------------
+     * default      : Default Laravel 5.1 method. Immediate registration. User is created without any role assigned.
+     * default_role : Immediate registration. Default role is assigned.
+     * invitation   : Pre-generated keyword is needed in order to register. Specified role is assigned.
+     * confirm      : Email is sent to the provided email to confirm user registration. No role is assigned.
+     * confirm_role : Email confirmation is sent to the provided email. Default role is assigned.
+     */
+    'method' => 'invitation',
 
     /*
     |--------------------------------------------------------------------------
