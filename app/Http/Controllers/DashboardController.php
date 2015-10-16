@@ -11,7 +11,7 @@ class DashboardController extends Controller
 
     public function getDashboard()
     {
-        return view('examples.dashboard');
+        return view('dashboard');
     }
 
     public function getUsers()

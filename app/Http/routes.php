@@ -17,7 +17,7 @@
  */
 
 // Public routes
-Route::get('/', ['as'=>'getHome','uses'=>'PublicController@getHome']);
+Route::get('/',['as'=>'public.home','uses'=>'PublicController@getHome']);
 
 // View examples
 Route::get('/example/basic',['as'=>'example.basic','uses'=>'PublicController@exampleBasic']);
@@ -36,20 +36,23 @@ Route::get('/example/panels',['as'=>'example.panels','uses'=>'PublicController@e
 Route::get('/example/typography',['as'=>'example.typography','uses'=>'PublicController@exampleTypography']);
 
 // Dashboard routes
-Route::get('/dashboard', ['as'=>'getDashboard','uses'=>'DashboardController@getDashboard']);
-Route::get('/dashboard/users',['as'=>'getUsers','uses'=>'DashboardController@getUsers']);
+Route::get('/dashboard',['as'=>'dashboard.home','uses'=>'DashboardController@getDashboard']);
+Route::get('/dashboard/profile',['as'=>'dashboard.profile','uses'=>'DashboardController@getProfile']);
+Route::get('/dashboard/settings',['as'=>'dashboard.settings','uses'=>'DashboardController@getSettings']);
+Route::get('/dashboard/users',['as'=>'dashboard.users','uses'=>'DashboardController@getUsers']);
 
 // Authentication
-Route::get('auth/login', ['as'=>'auth.getLogin','uses'=>'Auth\AuthController@getLogin']);
-Route::post('auth/login', ['as'=>'auth.postLogin','uses'=>'Auth\AuthController@postLogin']);
-Route::get('auth/logout', ['as'=>'auth.getLogout','uses'=>'Auth\AuthController@getLogout']);
+Route::get('auth/login',['as'=>'auth.getLogin','uses'=>'Auth\AuthController@getLogin']);
+Route::post('auth/login',['as'=>'auth.postLogin','uses'=>'Auth\AuthController@postLogin']);
+Route::get('auth/logout',['as'=>'auth.getLogout','uses'=>'Auth\AuthController@getLogout']);
 
-// Registration. 5 different methods. More info in config/auth.php
-Route::get('auth/register', ['as'=>'auth.getRegister','uses'=>'Auth\AuthController@getRegister']);
-Route::post('auth/register', ['as'=>'auth.postRegister','uses'=>'Auth\AuthController@postRegister']);
+// Registration. Different registration methods can be set in config/auth.php
+Route::get('auth/register',['as'=>'auth.getRegister','uses'=>'Auth\AuthController@getRegister']);
+Route::post('auth/register',['as'=>'auth.postRegister','uses'=>'Auth\AuthController@postRegister']);
+Route::get('auth/verify/{confirmationCode}',['as'=>'auth.verifyEmail','uses'=>'Auth\AuthController@verifyEmail']);
 
 // Reset password
-Route::get('auth/email', ['as'=>'auth.getEmail','uses'=>'Auth\AuthController@getEmail']);
-Route::post('auth/email', ['as'=>'auth.postEmail','uses'=>'Auth\AuthController@postEmail']);
-Route::get('auth/reset/{token}', ['as'=>'auth.getReset','uses'=>'Auth\AuthController@getReset']);
-Route::post('auth/reset', ['as'=>'auth.postReset','uses'=>'Auth\AuthController@postReset']);
+Route::get('auth/email',['as'=>'auth.getEmail','uses'=>'Auth\AuthController@getEmail']);
+Route::post('auth/email',['as'=>'auth.postEmail','uses'=>'Auth\AuthController@postEmail']);
+Route::get('auth/reset/{token}',['as'=>'auth.getReset','uses'=>'Auth\AuthController@getReset']);
+Route::post('auth/reset',['as'=>'auth.postReset','uses'=>'Auth\AuthController@postReset']);

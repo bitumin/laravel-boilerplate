@@ -10,7 +10,7 @@ return [
      * confirm      : Email is sent to the provided email to confirm user registration. No role is assigned.
      * confirm_role : Email confirmation is sent to the provided email. Default role is assigned.
      */
-    'method' => 'invitation',
+    'method' => 'confirm',
 
     /*
     |--------------------------------------------------------------------------

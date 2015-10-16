@@ -6,6 +6,8 @@ use App\Invitation;
 use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Mail\Message;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Password;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Validator;
@@ -46,6 +48,74 @@ class AuthController extends Controller
     }
 
     /**
+     * Handle a registration request for the application.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function postRegister(Request $request)
+    {
+        $validator = $this->validator($request->all());
+
+        if ($validator->fails()) {
+            $this->throwValidationException(
+                $request, $validator
+            );
+        }
+
+        if(config('auth.method') == 'confirm' || config('auth.method') == 'confirm_role') {
+            $this->create($request->all());
+            return redirect($this->loginPath())
+                ->with('status','Please check your inbox and follow the steps in the confirmation email to finish your registration.');
+        }
+
+        Auth::login($this->create($request->all()));
+
+        return redirect($this->redirectPath());
+    }
+
+    /**
+     * Handle a login request to the application.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function postLogin(Request $request)
+    {
+        $this->validate($request, [
+            $this->loginUsername() => 'required', 'password' => 'required',
+        ]);
+
+        // If the class is using the ThrottlesLogins trait, we can automatically throttle
+        // the login attempts for this application. We'll key this by the username and
+        // the IP address of the client making these requests into this application.
+        $throttles = $this->isUsingThrottlesLoginsTrait();
+
+        if ($throttles && $this->hasTooManyLoginAttempts($request))
+            return $this->sendLockoutResponse($request);
+
+        $credentials = $this->getCredentials($request);
+
+        if(config('auth.method') == 'confirm' || config('auth.method') == 'confirm_role')
+            $credentials['confirmed'] = '1';
+
+        if (Auth::attempt($credentials, $request->has('remember')))
+            return $this->handleUserWasAuthenticated($request, $throttles);
+
+        // If the login attempt was unsuccessful we will increment the number of attempts
+        // to login and redirect the user back to the login form. Of course, when this
+        // user surpasses their maximum number of attempts they will get locked out.
+        if ($throttles)
+            $this->incrementLoginAttempts($request);
+
+        return redirect($this->loginPath())
+            ->withInput($request->only($this->loginUsername(), 'remember'))
+            ->withErrors([
+                $this->loginUsername() => $this->getFailedLoginMessage(),
+            ]);
+    }
+
+    /**
      * Get a validator for an incoming registration request.
      *
      * @param  array  $data
@@ -55,15 +125,7 @@ class AuthController extends Controller
     {
         switch(config('auth.method')) {
             case 'invitation':
-                $validator = Validator::make($data, [
-                    'name' => 'required|max:255',
-                    'keyword' => 'required',
-                    'email' => 'required|email|max:255|exists:invitations',
-                    'password' => 'required|confirmed|min:6',
-                ]);
-                if($validator->passes() && !$this->checkInvitation($data))
-                    return Validator::make([], ['keyword' => 'exists:invitations']);
-                return $validator;
+                return $this->checkInvitation($data);
                 break;
             default: //for default, default_role, confirm and confirm_role registration methods
                 return Validator::make($data, [
@@ -73,6 +135,35 @@ class AuthController extends Controller
                 ]);
                 break;
         }
+    }
+
+    /**
+     * Check provided invitation data and force validation error if data is not valid.
+     *
+     * @param array $data
+     * @return \Illuminate\Contracts\Validation\Validator
+     */
+    protected function checkInvitation(array $data)
+    {
+        $rules = [
+            'name' => 'required|max:255',
+            'keyword' => 'required',
+            'email' => 'required|email|max:255|unique:users|exists:invitations',
+            'password' => 'required|confirmed|min:6',
+        ];
+        //if provided invitation data is invalid, force validation errors
+        $invitation = Invitation::where('email',$data['email'])->first();
+        if($invitation->expired) {
+            $data['invitation'] = '1';
+            $rules['invitation'] = 'unique:invitations,expired';
+        }
+        if(bcrypt($data['keyword']) != $invitation->keyword) {
+            $data['keyword'] = '0';
+            $rules['keyword'] = 'required|in:1';
+        }
+        $validator = Validator::make($data, $rules);
+        
+        return $validator;
     }
 
     /**
@@ -96,8 +187,33 @@ class AuthController extends Controller
                 $invitation->save();
                 return $newUser;
                 break;
-            case 'default_role':
+            case 'confirm':
+                $confirmationCode = str_random(30);
+                Mail::send('emails.verify', ['confirmationCode'=>$confirmationCode], function($m) use ($data) {
+                    $m->to($data['email'], $data['name'])->subject('Verify your email address');
+                });
+                return User::create([
+                    'name' => $data['name'],
+                    'email' => $data['email'],
+                    'password' => bcrypt($data['password']),
+                    'confirmation_code' => $confirmationCode,
+                ]);
+                break;
             case 'confirm_role':
+                $confirmationCode = str_random(30);
+                Mail::send('email.verify', $confirmationCode, function($m) use ($data) {
+                    $m->to($data['email'], $data['name'])->subject('Verify your email address');
+                });
+                $newUser = User::create([
+                    'name' => $data['name'],
+                    'email' => $data['email'],
+                    'password' => bcrypt($data['password']),
+                    'confirmation_code' => $confirmationCode,
+                ]);
+                $newUser->assignRole(Role::where('slug',$this->getDefaultRole())->first()->id);
+                return $newUser;
+                break;
+            case 'default_role':
                 $newUser = User::create([
                     'name' => $data['name'],
                     'email' => $data['email'],
@@ -106,7 +222,7 @@ class AuthController extends Controller
                 $newUser->assignRole(Role::where('slug',$this->getDefaultRole())->first()->id);
                 return $newUser;
                 break;
-            default: //for default and confirm registration methods
+            default: //default registration method
                 return User::create([
                     'name' => $data['name'],
                     'email' => $data['email'],
@@ -116,14 +232,20 @@ class AuthController extends Controller
         }
     }
 
-    protected function checkInvitation(array $data)
+    public function verifyEmail($confirmationCode)
     {
-        $invitation = Invitation::where('email',$data['email'])->first();
-        $invitationKeyword = $invitation->keyword;
-        $providedKeyword = bcrypt($data['keyword']);
-        if(!$invitation->expired && ($providedKeyword == $invitationKeyword))
-            return true;
-        return false;
+        if(!$confirmationCode)
+            return redirect($this->loginPath())->withErrors(['verify'=>'The confirmation code is invalid.']);
+
+        $user = User::where('confirmation_code',$confirmationCode)->first();
+        if(!$user)
+            return redirect($this->loginPath())->withErrors(['verify'=>'The confirmation code is invalid.']);
+
+        $user->confirmed = true;
+        $user->confirmation_code = null;
+        $user->save();
+
+        return redirect($this->loginPath())->with(['status'=>'You have successfully verified your account.']);
     }
 
     /**
