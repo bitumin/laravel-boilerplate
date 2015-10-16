@@ -16,71 +16,98 @@ class UserTableSeeder extends Seeder
      */
     public function run()
     {
-        // Permissions
+        // Example permissions
+        $debugging = Permission::create([
+            'name' => 'Debugging',
+            'slug' => 'debug',
+            'description' => 'Acces to developer views and controllers.'
+        ]);
         $manageUsers = Permission::create([
-            'name' => 'manage_users',
+            'name' => 'Manage users',
             'slug' => 'manage-users',
-            'description' => 'Manage users, roles and permissions. Has access to user manager in dashboard.'
+            'description' => 'Manage users, roles and permissions. Has access to users manager view in dashboard.'
         ]);
-        $changeProfile = Permission::create([
-            'name' => 'manage_users',
-            'slug' => 'manage-users',
-            'description' => 'Manage personal profile details',
+        $manageProfile = Permission::create([
+            'name' => 'Manage profile',
+            'slug' => 'manage-profile',
+            'description' => 'Manage personal profile details. Access profile manager view in dashboard.',
+        ]);
+        $manageSettings = Permission::create([
+            'name' => 'Manage settings',
+            'slug' => 'manage-settings',
+            'description' => 'Manage settings. Access settings manager view in dashboard.',
         ]);
 
-        $fullAccess = Permission::create([
-            'name' => 'full_access',
-            'slug' => 'full-acces',
-            'description' => 'Full access'
-        ]);
-        $restrictedAccess = Permission::create([
-            'name' => 'restricted_access',
-            'slug' => 'restricted-acces',
-            'description' => 'Restricted access'
-        ]);
-
-        // Roles
+        // Exmaple roles
         $admin = Role::create([
-            'name' => 'Admin',
+            'name' => 'Administrator',
             'slug' => 'admin',
-            'description' => 'VerdeSoft admin'
+            'description' => 'Administrator'
+        ]);
+        $user = Role::create([
+            'name' => 'User',
+            'slug' => 'user',
+            'description' => 'User'
         ]);
         $guest = Role::create([
             'name' => 'Guest',
             'slug' => 'guest',
-            'description' => 'VerdeSoft Guest user'
+            'description' => 'Guest'
         ]);
 
-        // Assign permissions to roles
-        $admin->assignPermission($fullAccess->id);
-        $guest->assignPermission($restrictedAccess->id);
+        // Example assign permissions to roles
+        $admin->assignPermission($manageUsers->id);
+        $admin->assignPermission($manageProfile->id);
+        $admin->assignPermission($manageSettings->id);
+        $admin->assignPermission($debugging->id);
+        $user->assignPermission($manageProfile->id);
+        $user->assignPermission($manageSettings->id);
 
-        // Register admin users
-        $admin1 = User::create([
-            'name'      => 'Mitxel Moriana Casado',
-            'email'     => 'mmoriana@verdesoft.com',
-            'password'  => bcrypt('.v3rD3s0fT!'),
-            'confirmed' => true,
-        ]);
+        if(\App::environment() == 'local')
+        {
+            // Register admin users
+            $testAdmin = User::create([
+                'name'      => 'Test Administrator',
+                'email'     => 'admin@email.com',
+                'password'  => bcrypt('admin'),
+                'confirmed' => true,
+            ]);
+            $testUser = User::create([
+                'name'      => 'Test User',
+                'email'     => 'user@email.com',
+                'password'  => bcrypt('user'),
+                'confirmed' => true,
+            ]);
+            $testGuest = User::create([
+                'name'      => 'Test Guest',
+                'email'     => 'guest@email.com',
+                'password'  => bcrypt('guest'),
+                'confirmed' => true,
+            ]);
 
-        // Register guest user
-        $guest1 = User::create([
-            'name'      => 'Guest',
-            'email'     => 'guest@verdesoft.com',
-            'password'  => bcrypt('verdesoft'),
-            'confirmed' => true,
-        ]);
+            // Assign roles to users
+            $testAdmin->assignRole($admin->id);
+            $testUser->assignRole($user->id);
+            $testGuest->assignRole($guest->id);
 
-        // Assign roles to users
-        $admin1->assignRole($admin->id);
-        $guest1->assignRole($guest->id);
-
-        // Create an invitation (for the invitation registation method)
-        Invitation::create([
-            'expired' => 0,
-            'email' => 'invitado@email.com',
-            'role_id' => $guest->id,
-            'keyword' => bcrypt('randomInvitationCode')
-        ]);
+            // Create test invitations (for the invitation registation method)
+            if(config('auth.method')=='invitation') {
+                Invitation::create([
+                    'email' => 'guest1@email.com',
+                    'role_id' => $admin->id,
+                    'keyword' => bcrypt('guest1')
+                ]);
+                Invitation::create([
+                    'email' => 'guest2@email.com',
+                    'role_id' => $user->id,
+                    'keyword' => bcrypt('guest2')
+                ]);
+                Invitation::create([
+                    'email' => 'guest3@email.com',
+                    'role_id' => $guest->id,
+                    'keyword' => bcrypt('guest3')
+                ]);
+            }
+        }
     }
 }

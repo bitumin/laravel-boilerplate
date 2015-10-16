@@ -224,12 +224,19 @@
                         <i class="fa fa-user fa-fw"></i>  <i class="fa fa-caret-down"></i>
                     </a>
                     <ul class="dropdown-menu dropdown-user">
-                        <li><a href="{{ route('dashboard.profile') }}"><i class="fa fa-user fa-fw"></i> My Profile</a>
+                        @if(\Illuminate\Support\Facades\Auth::user()->may('manage-profile'))
+                        <li>
+                            <a href="{{ route('dashboard.profile') }}"><i class="fa fa-user fa-fw"></i> My Profile</a>
                         </li>
-                        <li><a href="{{ route('dashboard.settings') }}"><i class="fa fa-gear fa-fw"></i> Settings</a>
+                        @endif
+                        @if(\Illuminate\Support\Facades\Auth::user()->may('manage-settings'))
+                        <li>
+                            <a href="{{ route('dashboard.settings') }}"><i class="fa fa-gear fa-fw"></i> Settings</a>
                         </li>
+                        @endif
                         <li class="divider"></li>
-                        <li><a href="{{ route('auth.getLogout') }}"><i class="fa fa-sign-out fa-fw"></i> Logout</a>
+                        <li>
+                            <a href="{{ route('auth.getLogout') }}"><i class="fa fa-sign-out fa-fw"></i> Logout</a>
                         </li>
                     </ul><!-- /.dropdown-user -->
                 </li><!-- /.dropdown -->
@@ -250,9 +257,9 @@
                         <li>
                             <a href="{{ route('dashboard.home') }}"><i class="fa fa-dashboard fa-fw"></i> Dashboard</a>
                         </li>
-                        @if()
+                        @if(\Illuminate\Support\Facades\Auth::user()->may('manage-users'))
                         <li>
-                            <a href="{{ route('dashboard.users') }}"><i class="fa fa-table fa-fw"></i> Users</a>
+                            <a href="{{ route('dashboard.users') }}"><i class="fa fa-users fa-fw"></i> Manage users</a>
                         </li>
                         @endif
                         <li>
