@@ -7,6 +7,8 @@ use Illuminate\Contracts\Auth\Guard;
 
 class RedirectIfAuthenticated
 {
+    private $redirectPath = '/dashboard';
+
     /**
      * The Guard implementation.
      *
@@ -34,7 +36,7 @@ class RedirectIfAuthenticated
     public function handle($request, Closure $next)
     {
         if ($this->auth->check()) {
-            return redirect('/home');
+            return redirect($this->redirectPath);
         }
 
         return $next($request);

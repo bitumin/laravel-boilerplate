@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers\Auth;
 
+use Validator;
+use App\Http\Controllers\Controller;
 use App\Invitation;
 use App\User;
 use Illuminate\Http\Request;
@@ -9,11 +11,10 @@ use Illuminate\Mail\Message;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Password;
-use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
-use Validator;
-use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\ThrottlesLogins;
 use Illuminate\Foundation\Auth\AuthenticatesAndRegistersUsers;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use Laravel\Socialite\Facades\Socialite;
 use \Caffeinated\Shinobi\Models\Role;
 
 class AuthController extends Controller
@@ -34,8 +35,7 @@ class AuthController extends Controller
     protected $redirectPath = '/dashboard';
     protected $redirectAfterLogout = '/auth/login';
     protected $loginPath = '/auth/login';
-
-    protected $defaultRoleSlug = 'guest';
+    private $defaultRoleSlug = 'guest';
 
     /**
      * Create a new authentication controller instance.
@@ -126,6 +126,15 @@ class AuthController extends Controller
         switch(config('auth.method')) {
             case 'invitation':
                 return $this->checkInvitation($data);
+                break;
+            case 'social':
+            case 'social_role':
+                return Validator::make($data, [
+                    'name' => 'required|max:255',
+                    'email' => 'sometimes|email|max:255|unique:users',
+                    'provider' => 'required|in:facebook,google,twitter,bitbucket,github,linkedin',
+                    'provider_id' => 'required',
+                ]);
                 break;
             default: //for default, default_role, confirm and confirm_role registration methods
                 return Validator::make($data, [
@@ -232,7 +241,7 @@ class AuthController extends Controller
         }
     }
 
-    public function verifyEmail($confirmationCode)
+    public function verifyEmail(string $confirmationCode)
     {
         if(!$confirmationCode)
             return redirect($this->loginPath())->withErrors(['verify'=>'The confirmation code is invalid.']);
@@ -373,5 +382,186 @@ class AuthController extends Controller
             return $this->redirectPath;
 
         return property_exists($this, 'redirectTo') ? $this->redirectTo : '/home';
+    }
+
+    /**
+     * Redirect the user to the GitHub authentication page.
+     *
+     * @return Response
+     */
+    public function githubRedirectToProvider()
+    {
+        return Socialite::driver('github')->scopes(['user:email'])->redirect();
+    }
+
+    /**
+     * Obtain the user information from GitHub.
+     *
+     * @return Response
+     */
+    public function githubHandleProviderCallback()
+    {
+        /*
+         * If 'cURL error 60' appears:
+         * Download pem file at http://curl.haxx.se/ca/cacert.pem
+         * or https://gist.github.com/VersatilityWerks/5719158/download
+         * And set php.ini to curl.cainfo = "[pathtothisfile]\cacert.pem"
+         */
+        $user = Socialite::driver('github')->user();
+        return $this->socialOAuthLogin($user,'github');
+    }
+
+    /**
+     * Redirect the user to the Linkedin authentication page.
+     *
+     * @return Response
+     */
+    public function linkedinRedirectToProvider()
+    {
+        return Socialite::driver('linkedin')->redirect();
+    }
+
+    /**
+     * Obtain the user information from Linkedin.
+     *
+     * @return Response
+     */
+    public function linkedinHandleProviderCallback()
+    {
+        $user = Socialite::driver('linkedin')->user();
+        return $this->socialOAuthLogin($user,'linkedin');
+    }
+
+    /**
+     * Redirect the user to the Facebook authentication page.
+     *
+     * @return Response
+     */
+    public function facebookRedirectToProvider()
+    {
+        return Socialite::driver('facebook')->scopes(['email'])->redirect();
+    }
+
+    /**
+     * Obtain the user information from Facebook.
+     *
+     * @return Response
+     */
+    public function facebookHandleProviderCallback()
+    {
+        $user = Socialite::driver('facebook')->user();
+        return $this->socialOAuthLogin($user,'facebook');
+    }
+
+    /**
+     * Redirect the user to the Twitter authentication page.
+     *
+     * @return Response
+     */
+    public function twitterRedirectToProvider()
+    {
+        return Socialite::driver('twitter')->redirect();
+    }
+
+    /**
+     * Obtain the user information from Twitter.
+     *
+     * @return Response
+     */
+    public function twitterHandleProviderCallback()
+    {
+        /*
+         * Typical errors:
+         * 1) Despite settings and verifying an email account in twitter,
+         * a null email is returned, possibly triggering an email validation error.
+         */
+        $user = Socialite::driver('twitter')->user();
+        return $this->socialOAuthLogin($user,'twitter');
+    }
+
+    /**
+     * Redirect the user to the Google authentication page.
+     *
+     * @return Response
+     */
+    public function googleRedirectToProvider()
+    {
+        $scopes = [
+            'https://www.googleapis.com/auth/plus.me',
+            'https://www.googleapis.com/auth/plus.profile.emails.read',
+        ];
+        return Socialite::driver('google')->scopes($scopes)->redirect();
+    }
+
+    /**
+     * Obtain the user information from Google.
+     *
+     * @return Response
+     */
+    public function googleHandleProviderCallback()
+    {
+        $user = Socialite::driver('google')->user();
+        return $this->socialOAuthLogin($user,'google');
+    }
+
+    /**
+     * Redirect the user to the Bitbucket authentication page.
+     *
+     * @return Response
+     */
+    public function bitbucketRedirectToProvider()
+    {
+        return Socialite::driver('bitbucket')->redirect();
+    }
+
+    /**
+     * Obtain the user information from Bitbucket.
+     *
+     * @return Response
+     */
+    public function bitbucketHandleProviderCallback()
+    {
+        /*
+         * Typical errors:
+         * 1) Despite settings and verifying an email account in Bitbucket,
+         * a null email is returned, possibly triggering an email validation error.
+         * 2) If an error '...when retreiving token credentials' appear, get sure
+         * to tick the following permission in the Bitbucket consumer app configuration:
+         *    - Email or User READ
+         *    - Repositories READ <<< !!!
+         */
+        $user = Socialite::driver('bitbucket')->user();
+        return $this->socialOAuthLogin($user,'bitbucket');
+    }
+
+    private function socialOAuthLogin($user, $provider)
+    {
+        // OAuth One Providers
+        // $token = $user->token;
+        // $tokenSecret = $user->tokenSecret;
+        // OAuth Two Providers
+        // $token = $user->token;
+
+        $data = [
+            'name' => (!empty($user->getName())) ? $user->getName() : $user->getNickname(),
+            'email' => $user->getEmail(),
+            'confirmed' => true,
+            'provider' => $provider,
+            'provider_id' => $user->getId()
+        ];
+
+        if(!($authUser = User::where('provider',$provider)->where('provider_id',$user->getId())->first())) {
+            $validator = $this->validator($data);
+            if($validator->fails())
+                return redirect($this->loginPath())->withErrors($validator);
+            $authUser = User::create($data);
+            if(config('auth.method')=='social_role')
+                $authUser->assignRole(Role::where('slug',$this->getDefaultRole())->first()->id);
+        }
+        
+        if(Auth::login($authUser, $remember = true))
+            return redirect($this->redirectPath());
+        return redirect($this->loginPath())
+            ->withErrors([$this->loginUsername() => $this->getFailedLoginMessage(),]);
     }
 }

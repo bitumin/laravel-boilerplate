@@ -150,6 +150,7 @@ return [
          */
         Caffeinated\Shinobi\ShinobiServiceProvider::class,
         Laravel\Socialite\SocialiteServiceProvider::class,
+        Cviebrock\EloquentSluggable\SluggableServiceProvider::class,
     ],
 
     /*
@@ -198,6 +199,7 @@ return [
         'URL'       => Illuminate\Support\Facades\URL::class,
         'Validator' => Illuminate\Support\Facades\Validator::class,
         'View'      => Illuminate\Support\Facades\View::class,
+        'Socialite' => Laravel\Socialite\Facades\Socialite::class,
 
     ],
 

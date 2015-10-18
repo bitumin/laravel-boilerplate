@@ -35,4 +35,40 @@ return [
         'secret' => env('STRIPE_SECRET'),
     ],
 
+    'facebook' => [
+        'client_id'     => env('FACEBOOK_ID'),
+        'client_secret' => env('FACEBOOK_SECRET'),
+        'redirect'      => 'http://verde.tools/auth/facebook/callback',
+    ],
+
+    'twitter' => [
+        'client_id'     => env('TWITTER_ID'),
+        'client_secret' => env('TWITTER_SECRET'),
+        'redirect'      => 'http://verde.tools/auth/twitter/callback',
+    ],
+
+    'linkedin' => [
+        'client_id'     => env('LINKEDIN_ID'),
+        'client_secret' => env('LINKEDIN_SECRET'),
+        'redirect'      => 'http://verde.tools/auth/linkedin/callback',
+    ],
+
+    'google' => [
+        'client_id'     => env('GOOGLE_ID'),
+        'client_secret' => env('GOOGLE_SECRET'),
+        'redirect'      => 'http://verde.tools/auth/google/callback',
+    ],
+
+    'github' => [
+        'client_id'     => env('GITHUB_ID'),
+        'client_secret' => env('GITHUB_SECRET'),
+        'redirect'      => 'http://verde.tools/auth/github/callback',
+    ],
+
+    'bitbucket' => [
+        'client_id'     => env('BITBUCKET_ID'),
+        'client_secret' => env('BITBUCKET_SECRET'),
+        'redirect'      => 'http://verde.tools/auth/bitbucket/callback',
+    ],
+
 ];

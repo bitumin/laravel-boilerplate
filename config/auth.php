@@ -9,8 +9,10 @@ return [
      * invitation   : Pre-generated keyword is needed in order to register. Specified role is assigned.
      * confirm      : Email is sent to the provided email to confirm user registration. No role is assigned.
      * confirm_role : Email confirmation is sent to the provided email. Default role is assigned.
+     * social       : This combines confirm method with the alternative to use social network to register instead.
+     * social_role  : Same as above, plus automatically assign a role to the new user.
      */
-    'method' => 'confirm',
+    'method' => 'social_role',
 
     /*
     |--------------------------------------------------------------------------

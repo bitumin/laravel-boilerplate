@@ -3,6 +3,8 @@
 namespace App;
 
 use Caffeinated\Shinobi\Traits\ShinobiTrait;
+use Cviebrock\EloquentSluggable\SluggableTrait;
+use Cviebrock\EloquentSluggable\SluggableInterface;
 use Illuminate\Auth\Authenticatable;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Auth\Passwords\CanResetPassword;
@@ -13,12 +15,23 @@ use Illuminate\Contracts\Auth\CanResetPassword as CanResetPasswordContract;
 
 class User extends Model implements AuthenticatableContract,
                                     AuthorizableContract,
-                                    CanResetPasswordContract
+                                    CanResetPasswordContract,
+                                    SluggableInterface
 {
-    use Authenticatable, Authorizable, CanResetPassword, ShinobiTrait {
+    use Authenticatable, Authorizable, CanResetPassword, ShinobiTrait, SluggableTrait {
         ShinobiTrait::can as may;
         Authorizable::can insteadof ShinobiTrait;
     }
+
+    /**
+     * Table columns from where to build the slug and store it.
+     *
+     * @var array
+     */
+    protected $sluggable = [
+        'build_from' => 'name',
+        'save_to'    => 'slug',
+    ];
 
     /**
      * The database table used by the model.
@@ -32,7 +45,7 @@ class User extends Model implements AuthenticatableContract,
      *
      * @var array
      */
-    protected $fillable = ['name', 'email', 'password', 'confirmation_code'];
+    protected $fillable = ['name', 'email', 'password', 'confirmed', 'confirmation_code', 'provider', 'provider_id'];
 
     /**
      * The attributes excluded from the model's JSON form.

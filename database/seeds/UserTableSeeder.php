@@ -2,8 +2,8 @@
 
 use Illuminate\Database\Seeder;
 use Illuminate\Database\Eloquent\Model;
-use \Caffeinated\Shinobi\Models\Permission;
-use \Caffeinated\Shinobi\Models\Role;
+use \App\Permission;
+use \App\Role;
 use \App\User;
 use \App\Invitation;
 
@@ -19,39 +19,32 @@ class UserTableSeeder extends Seeder
         // Example permissions
         $debugging = Permission::create([
             'name' => 'Debugging',
-            'slug' => 'debug',
             'description' => 'Acces to developer views and controllers.'
         ]);
         $manageUsers = Permission::create([
             'name' => 'Manage users',
-            'slug' => 'manage-users',
             'description' => 'Manage users, roles and permissions. Has access to users manager view in dashboard.'
         ]);
         $manageProfile = Permission::create([
             'name' => 'Manage profile',
-            'slug' => 'manage-profile',
             'description' => 'Manage personal profile details. Access profile manager view in dashboard.',
         ]);
         $manageSettings = Permission::create([
             'name' => 'Manage settings',
-            'slug' => 'manage-settings',
             'description' => 'Manage settings. Access settings manager view in dashboard.',
         ]);
 
         // Exmaple roles
         $admin = Role::create([
             'name' => 'Administrator',
-            'slug' => 'admin',
             'description' => 'Administrator'
         ]);
         $user = Role::create([
             'name' => 'User',
-            'slug' => 'user',
             'description' => 'User'
         ]);
         $guest = Role::create([
             'name' => 'Guest',
-            'slug' => 'guest',
             'description' => 'Guest'
         ]);
 
