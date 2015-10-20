@@ -36,6 +36,7 @@ Route::get('/example/panels',['as'=>'example.panels','uses'=>'PublicController@e
 Route::get('/example/typography',['as'=>'example.typography','uses'=>'PublicController@exampleTypography']);
 Route::get('/example/change-language',['as'=>'example.change-language','uses'=>'PublicController@exampleChangeLanguage']);
 Route::post('/example/do-change-language',['as'=>'change-language','uses'=>'LocaleController@changeLanguage']);
+Route::get('/example/google-maps',['as'=>'example.gmaps','uses'=>'PublicController@exampleGoogleMaps']);
 
 // Dashboard routes
 Route::get('/dashboard',['as'=>'dashboard.home','uses'=>'DashboardController@getDashboard']);

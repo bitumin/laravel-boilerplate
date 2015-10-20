@@ -84,4 +84,9 @@ class PublicController extends Controller
         return view('examples.change-language');
     }
 
+    public function exampleGoogleMaps()
+    {
+        return view('examples.phpgmaps');
+    }
+
 }

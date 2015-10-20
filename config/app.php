@@ -156,6 +156,11 @@ return [
         App\Providers\RouteServiceProvider::class,
 
         /*
+         * Custom Application Service Providers...
+         */
+        App\Providers\PhpgmapsServiceProvider::class,
+
+        /*
          * Other Service Providers...
          */
         Caffeinated\Shinobi\ShinobiServiceProvider::class,
@@ -210,6 +215,7 @@ return [
         'Validator' => Illuminate\Support\Facades\Validator::class,
         'View'      => Illuminate\Support\Facades\View::class,
         'Socialite' => Laravel\Socialite\Facades\Socialite::class,
+        'Phpgmaps'  => \App\Lib\Facades\Phpgmaps::class,
 
     ],
 
