@@ -1,7 +1,25 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: Mitxel
- * Date: 20/10/2015
- * Time: 14:42
- */
+
+namespace App\Jobs;
+
+use Illuminate\Contracts\Bus\SelfHandling;
+
+class ChangeLocale extends Job implements SelfHandling
+{
+    protected $lang;
+
+    public function __construct($lang)
+    {
+        $this->lang = $lang;
+    }
+
+    /**
+     * Change the app locale.
+     *
+     * @return void
+     */
+    public function handle()
+    {
+        session()->put('locale',$this->lang);
+    }
+}

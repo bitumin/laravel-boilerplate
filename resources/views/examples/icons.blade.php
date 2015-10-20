@@ -1289,5 +1289,7 @@
         <!-- /.row -->
     </div>
 @endsection
+
 @section('js')
+
 @endsection

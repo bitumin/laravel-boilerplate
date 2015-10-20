@@ -1,7 +1,12 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: Mitxel
- * Date: 20/10/2015
- * Time: 14:56
- */
+
+return [
+
+    'life' => 'Shit happens!',
+    'change-language' => 'Choose your language:',
+    'tag-es' => 'Spanish',
+    'tag-en' => 'English',
+    'tag-fr' => 'French',
+    'submit' => 'Submit',
+
+];

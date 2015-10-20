@@ -41,6 +41,16 @@ return [
 
     'timezone' => 'UTC',
 
+    /*--------------------------------------------------------------------------
+     * Available languages/locales
+     *--------------------------------------------------------------------------
+     *
+     * This array determines the available languages that the user can choose as
+     * his/her preferred session language.
+     */
+
+    'languages' => ['es','en','fr'],
+
     /*
     |--------------------------------------------------------------------------
     | Application Locale Configuration
@@ -52,7 +62,7 @@ return [
     |
     */
 
-    'locale' => 'en',
+    'locale' => 'es',
 
     /*
     |--------------------------------------------------------------------------

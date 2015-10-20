@@ -34,6 +34,8 @@ Route::get('/example/icons',['as'=>'example.icons','uses'=>'PublicController@exa
 Route::get('/example/notifications',['as'=>'example.notifications','uses'=>'PublicController@exampleNotifications']);
 Route::get('/example/panels',['as'=>'example.panels','uses'=>'PublicController@examplePanels']);
 Route::get('/example/typography',['as'=>'example.typography','uses'=>'PublicController@exampleTypography']);
+Route::get('/example/change-language',['as'=>'example.change-language','uses'=>'PublicController@exampleChangeLanguage']);
+Route::post('/example/do-change-language',['as'=>'change-language','uses'=>'LocaleController@changeLanguage']);
 
 // Dashboard routes
 Route::get('/dashboard',['as'=>'dashboard.home','uses'=>'DashboardController@getDashboard']);

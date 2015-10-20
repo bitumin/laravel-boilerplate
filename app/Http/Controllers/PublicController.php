@@ -79,4 +79,9 @@ class PublicController extends Controller
         return view('examples.typography');
     }
 
+    public function exampleChangeLanguage()
+    {
+        return view('examples.change-language');
+    }
+
 }
