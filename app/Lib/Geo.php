@@ -217,7 +217,7 @@ class Geo
             $pLat = ($pLat * 180) /$pi;
             $points[] = array($pLat,$pLng);
         }
-        $PolyEnc = new \PolylineEncoder($points);
+        $PolyEnc = new PolylineEncoder($points);
         $EncString = $PolyEnc->dpEncode();
 
         return $EncString['Points'];

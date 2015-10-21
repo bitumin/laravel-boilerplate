@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\App;
 
 class Phpgmaps {
 
+    protected $googleMapsURL = 'maps.google.es';
     protected $output_js;
     protected $output_js_contents;
     protected $output_html;
@@ -2211,7 +2212,7 @@ class Phpgmaps {
         }
 
         if ($this->https) { $data_location = 'https://'; }else{ $data_location = 'http://'; }
-        $data_location .= "maps.google.com/maps/api/geocode/json?address=".urlencode(utf8_encode($address))."&sensor=".$this->sensor;
+        $data_location .= $this->googleMapsURL."/maps/api/geocode/json?address=".urlencode(utf8_encode($address))."&sensor=".$this->sensor;
         if ($this->region!="" && strlen($this->region)==2) { $data_location .= "&region=".$this->region; }
         $data = file_get_contents($data_location);
 

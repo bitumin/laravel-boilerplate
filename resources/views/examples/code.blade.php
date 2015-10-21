@@ -1,11 +1,11 @@
-@extends('layouts.code')
+@extends('layouts.basic')
 
 @section('title')
     <title>Code</title>
 @endsection
 
 @section('css')
-
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/8.8.0/styles/darkula.min.css">
 @endsection
 
 @section('content')
@@ -61,9 +61,6 @@
 @endsection
 
 @section('js')
-    <script>
-        $(document).ready(function () {
-            //JS code goes here
-        });
-    </script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/8.8.0/highlight.min.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
 @endsection

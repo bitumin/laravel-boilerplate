@@ -1,5 +1,7 @@
 <?php
 
+namespace App\Lib;
+
 // Version:		0.3
 // Author:		Gabriel Svennerberg
 // License:     MIT
