@@ -11,6 +11,7 @@ class Phpgmaps {
     protected $output_js_contents;
     protected $output_html;
 
+    var $initializeOnLoad           = TRUE;                     // Initializes the map after echoing the code
     var $adsense					= FALSE; 					// Whether Google Adsense For Content should be enabled
     var $adsenseChannelNumber		= ''; 						// The Adsense channel number for tracking the performance of this AdUnit
     var $adsenseFormat				= 'HALF_BANNER';			// The format of the AdUnit
@@ -154,8 +155,6 @@ class Phpgmaps {
         {
             $this->initialize($config);
         }
-
-        #Log::info('debug', "Google Maps Class Initialized");
     }
 
     public function initialize($config = array())
@@ -174,7 +173,6 @@ class Phpgmaps {
 
     public function add_marker($params = array())
     {
-
         $marker = array();
         $this->markersInfo['marker_'.count($this->markers)] = array();
 
@@ -2110,18 +2108,24 @@ class Phpgmaps {
 
         if ($this->loadAsynchronously) {
             $this->output_js_contents .= '
-			function loadScript_'.$this->map_name.'() {
-				var script = document.createElement("script");
-  				script.type = "text/javascript";
-  				script.src = "'.$apiLocation.'&callback=initialize_'.$this->map_name.'";
-  				document.body.appendChild(script);
-			}
-			window.onload = loadScript_'.$this->map_name.';
+            function loadScript_'.$this->map_name.'() {
+                var script = document.createElement("script");
+                script.type = "text/javascript";
+                script.src = "'.$apiLocation.'&callback=initialize_'.$this->map_name.'";
+                document.body.appendChild(script);
+            }
 			';
+            if($this->initializeOnLoad) {
+                $this->output_js_contents .= '
+                window.onload = loadScript_'.$this->map_name.';
+			    ';
+            }
         }else{
-            $this->output_js_contents .= '
-			google.maps.event.addDomListener(window, "load", initialize_'.$this->map_name.');
-			';
+            if($this->initializeOnLoad) {
+                $this->output_js_contents .= '
+			    google.maps.event.addDomListener(window, "load", initialize_'.$this->map_name.');
+			    ';
+            }
         }
 
         // Minify the Javascript if the $minifyJS config value is true. Requires Jsmin.php and PHP 5+
