@@ -21,6 +21,18 @@
             </div>
             <!-- /.col-lg-12 -->
         </div>
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        Google maps KML4 marker icons
+                    </div>
+                    <div class="panel-body">
+                        <p>Collection of icons Google makes available for Google Earth and Google Maps: <a target="_blank" href="http://kml4earth.appspot.com/icons.html">http://kml4earth.appspot.com/icons.html</a>.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
         <!-- /.row -->
         <div class="row">
             <div class="col-lg-12">

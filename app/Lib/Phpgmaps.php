@@ -7,11 +7,13 @@ use Illuminate\Support\Facades\App;
 class Phpgmaps {
 
     protected $googleMapsURL = 'maps.google.es';
+
     protected $output_js;
     protected $output_js_contents;
     protected $output_html;
+    protected $api;
 
-    var $initializeOnLoad           = TRUE;                     // Initializes the map after echoing the code
+    var $initializeOnLoad           = TRUE;                     // Initialize the map on document load after echoing the code
     var $adsense					= FALSE; 					// Whether Google Adsense For Content should be enabled
     var $adsenseChannelNumber		= ''; 						// The Adsense channel number for tracking the performance of this AdUnit
     var $adsenseFormat				= 'HALF_BANNER';			// The format of the AdUnit
@@ -20,7 +22,9 @@ class Phpgmaps {
     var $apiKey						= ''; 						// If you've got an API key you can use it by passing this parameter. Setup an API key here: https://code.google.com/apis/console
     var $backgroundColor			= '';						// A hex color value shown as the map background when tiles have not yet loaded as the user pans
     var $bicyclingOverlay			= FALSE;					// If set to TRUE will overlay bicycling information (ie. bike paths and suggested routes) onto the map by default
-    var $center						= "37.4419, -122.1419";		// Sets the default center location (lat/long co-ordinate or address) of the map. If defaulting to the users location set to "auto"
+    var $center						= "auto";	            	// Sets the default center location (lat/long co-ordinate or address) of the map. If defaulting to the users location set to "auto"
+    var $centerLat                  = '';                       // Sets the default lat co-ordinate for the map central location (defaults to $center)
+    var $centerLng                  = '';                       // Sets the default long co-ordinate for the map central location (default to $center)
     var $class 						= '';						// A class name if wishing to style the map further through CSS. Can also be useful if wanting it to be responsive etc.
     var $cluster					= FALSE;					// Whether to cluster markers
     var $clusterGridSize			= 60;						// The grid size of a cluster in pixels
@@ -43,6 +47,7 @@ class Phpgmaps {
     var $infowindowMaxWidth			= 0;						// The maximum width of the infowindow in pixels. Expecting an integer without units
     var $keyboardShortcuts			= TRUE;						// If set to FALSE will disable to map being controlled via the keyboard
     var $jsfile						= '';						// Set this to the path of an external JS file if you wish the JavaScript to be placed in a file rather than output directly into the <head></head> section. The library will try to create the file if it does not exist already. Please ensure the destination file is writeable
+    var $jsWithHtmlTags             = TRUE;                     // Output the javascript code with the <script> tags
     var $kmlLayerURL				= '';						// A URL to publicly available KML or GeoRSS data for displaying geographic information. Multiple KML layers can be passed in by using an array of URL's. Note, if using multiple you'll probably have to set $kmlLayerPreserveViewport to true and manually set map center and zoom
     var $kmlLayerPreserveViewport	= FALSE;					// Specifies whether the map should be adjusted to the bounds of the KmlLayer's contents. By default the map is zoomed and positioned to show the entirety of the layer's contents
     var $language					= '';						// The map will by default load in the language of the browser. This can be overriden however here. For a full list of codes see https://spreadsheets.google.com/pub?key=p9pdwsai2hDMsLkXsoM05KQ&gid=1
@@ -151,21 +156,22 @@ class Phpgmaps {
 
     public function __construct($config = array())
     {
-        if (count($config) > 0)
-        {
+        if (count($config) > 0) {
             $this->initialize($config);
         }
     }
 
     public function initialize($config = array())
     {
-        foreach ($config as $key => $val)
-        {
-            if (isset($this->$key))
-            {
+        foreach ($config as $key => $val) {
+            if (isset($this->$key)) {
                 $this->$key = $val;
             }
         }
+
+        //if lat and long are provided, override center value
+        if(!empty($this->centerLat) && !empty($this->centerLng))
+            $this->center = $this->centerLat.','.$this->centerLng;
 
         if ($this->sensor) { $this->sensor = "true"; }else{ $this->sensor = "false"; }
 
@@ -177,6 +183,8 @@ class Phpgmaps {
         $this->markersInfo['marker_'.count($this->markers)] = array();
 
         $marker['position'] = '';								// The position (lat/long co-ordinate or address) at which the marker will appear
+        $marker['positionLat'] = '';                            // Position lat co-ordinate (default to position)
+        $marker['positionLng'] = '';                            // Position long co-ordinate (defaults to position)
         $marker['infowindow_content'] = '';						// If not blank, creates an infowindow (aka bubble) with the content provided. Can be plain text or HTML
         $marker['id'] = '';										// The unique identifier of the marker suffix (ie. marker_yourID). If blank, this will default to marker_X where X is an incremental number
         $marker['clickable'] = TRUE;							// Defines if the marker is clickable
@@ -209,18 +217,17 @@ class Phpgmaps {
         $marker_output = '';
 
         foreach ($params as $key => $value) {
-
             if (isset($marker[$key])) {
-
                 $marker[$key] = $value;
-
             }
-
         }
 
+        //if position lat and long co-ordinates are set, override position value
+        if(!empty($marker['positionLat'])&&!empty($marker['positionLng']))
+            $marker['position'] = $marker['positionLat'].','.$marker['positionLng'];
+
         $marker_id = count($this->markers);
-        if (trim($marker['id']) != "")
-        {
+        if (trim($marker['id']) != "") {
             $marker_id = $marker['id'];
         }
 
@@ -733,6 +740,8 @@ class Phpgmaps {
         $circle = array();
 
         $circle['center'] = '';									// The center position (latitude/longitude coordinate OR addresse) at which the circle will appear
+        $circle['centerLat'] = '';                              // Center position lat co-ordinate (defaults to center)
+        $circle['centerLng'] = '';                              // Center position long co-ordinate (defaults to center)
         $circle['clickable'] = TRUE;							// Defines if the circle is clickable
         $circle['radius'] = 0;									// The circle radius (in metres)
         $circle['strokeColor'] = '0.8';							// The hex value of the circles border color
@@ -753,17 +762,16 @@ class Phpgmaps {
         $circle_output = '';
 
         foreach ($params as $key => $value) {
-
             if (isset($circle[$key])) {
-
                 $circle[$key] = $value;
-
             }
-
         }
 
-        if ($circle['radius']>0 && $circle['center']!="") {
+        //if center lat and long co-ordinates are provided, override center value
+        if(!empty($circle['centerLat'])&&!empty($circle['centerLng']))
+            $circle['center'] = $circle['centerLat'].','.$circle['centerLng'];
 
+        if ($circle['radius']>0 && $circle['center']!="") {
             $lat_long_to_push = '';
             if ($this->is_lat_long($circle['center'])) {
                 $lat_long_to_push = $circle['center'];
@@ -1104,6 +1112,7 @@ class Phpgmaps {
         $this->output_js = '';
         $this->output_js_contents = '';
         $this->output_html = '';
+        $this->api = '';
 
         if ($this->maps_loaded == 0)
         {
@@ -1127,17 +1136,23 @@ class Phpgmaps {
             if ($this->drawing) { array_push($libraries, 'drawing'); }
             if (count($libraries)) { $apiLocation .= '&libraries='.implode(",", $libraries); }
 
-            if (!$this->loadAsynchronously)
-            {
-                $this->output_js .= '
-				<script type="text/javascript" src="'.$apiLocation.'"></script>';
+            if (!$this->loadAsynchronously) {
+                $this->api .= '
+                    <script type="text/javascript" src="'.$apiLocation.'"></script>
+                ';
+            }
+            if ($this->cluster) {
+                $this->api .= '
+                    <script type="text/javascript" src="' . ( ($this->https) ? 'https' : 'http' ) . '://google-maps-utility-library-v3.googlecode.com/svn/trunk/markerclusterer/src/markerclusterer_compiled.js"></script>
+                ';
             }
 
-            if ($this->cluster) { $this->output_js .= '
-			<script type="text/javascript" src="' . ( ($this->https) ? 'https' : 'http' ) . '://google-maps-utility-library-v3.googlecode.com/svn/trunk/markerclusterer/src/markerclusterer_compiled.js"></script>
-			'; }
+            if($this->jsWithHtmlTags) {
+                $this->output_js .= $this->api;
+            }
         }
-        if ($this->jsfile=="") {
+
+        if ($this->jsfile=="" && $this->jsWithHtmlTags) {
             $this->output_js .= '
 			<script type="text/javascript">
 			//<![CDATA[
@@ -2117,7 +2132,7 @@ class Phpgmaps {
 			';
             if($this->initializeOnLoad) {
                 $this->output_js_contents .= '
-                window.onload = loadScript_'.$this->map_name.';
+                window.onload = loadScript_'.$this->map_name.'();
 			    ';
             }
         }else{
@@ -2149,7 +2164,7 @@ class Phpgmaps {
             }
         }
 
-        if ($this->jsfile=="") {
+        if ($this->jsfile=="" && $this->jsWithHtmlTags) {
             $this->output_js .= '
 			//]]>
 			</script>';
@@ -2168,7 +2183,7 @@ class Phpgmaps {
 
         ++$this->maps_loaded;
 
-        return array('js'=>$this->output_js, 'html'=>$this->output_html, 'markers'=>$this->markersInfo);
+        return array('js'=>$this->output_js, 'html'=>$this->output_html, 'markers'=>$this->markersInfo, 'api'=>$this->api);
 
     }
 

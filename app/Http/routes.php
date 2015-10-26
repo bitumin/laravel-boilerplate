@@ -36,7 +36,10 @@ Route::get('/example/panels',['as'=>'example.panels','uses'=>'PublicController@e
 Route::get('/example/typography',['as'=>'example.typography','uses'=>'PublicController@exampleTypography']);
 Route::get('/example/change-language',['as'=>'example.change-language','uses'=>'PublicController@exampleChangeLanguage']);
 Route::post('/example/do-change-language',['as'=>'change-language','uses'=>'LocaleController@changeLanguage']);
-Route::get('/example/google-maps',['as'=>'example.gmaps','uses'=>'PublicController@exampleGoogleMaps']);
+Route::get('/example/google-maps-1',['as'=>'example.gmaps1','uses'=>'PublicController@exampleGoogleMaps1']);
+Route::get('/example/google-maps-2',['as'=>'example.gmaps2','uses'=>'PublicController@exampleGoogleMaps2']);
+Route::get('/example/google-maps-3',['as'=>'example.gmaps3','uses'=>'PublicController@exampleGoogleMaps3']);
+Route::get('/example/google-maps-4',['as'=>'example.gmaps4','uses'=>'PublicController@exampleGoogleMaps4']);
 
 // Dashboard routes
 Route::get('/dashboard',['as'=>'dashboard.home','uses'=>'DashboardController@getDashboard']);
@@ -64,7 +67,7 @@ Route::post('auth/reset',['as'=>'auth.postReset','uses'=>'Auth\AuthController@po
  * Social registration/login.
  *
  * Don't forget to fill the apps ID and SECRET fields in .env.
- * To register new apps, visit the following provider webs:
+ * To register new apps and obtain their ID/SECRET codes, visit their corresponding webs:
  * https://developers.facebook.com/apps
  * https://github.com/settings/applications/new
  * https://www.linkedin.com/developer/apps/new

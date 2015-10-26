@@ -224,36 +224,77 @@ class Geo
     }
 
     /**
-     * Returns the URL of a customized static GMaps image
+     * Returns the URL and dimensions of a google maps static image
      *
-     * @param int $width
-     * @param int $height
-     * @param float $lat
-     * @param float $lng
-     * @param int $zoom
-     * @param bool|false $marker
-     * @param string $markerURL
-     * @param bool|false $circle
-     * @param int $radius
-     * @param string $fillColor
-     * @param string $borderColor
-     * @return string
+     * @param array $params
+     * @return array
      */
-    public static function getGoogleMapsStaticImageURL($width, $height, //image size
-                                                       $lat, $lng, $zoom = 7, //location
-                                                       $marker = false, $markerURL = '', //center marker
-                                                       $circle = false, $radius = 25, //print circle over the map
-                                                       $fillColor = 'd65441', $borderColor = 'd22f1a')
+    public static function getGoogleMapsStaticImageURL($params = array())
     {
-        $MapAPI = self::$GMapsProviderURL.'/maps/api/staticmap?';
-        $EncString = self::encodeCircleOverMap($lat, $lng, $radius);
-        $imgURL = $MapAPI.'center='.$lat.','.$lng.'&zoom='.$zoom.
-            '&size='.$width.'x'.$height.
-            '&markers=icon:'.$marker.'|'.$lat.','.$lng.
-            '&path=fillcolor:0x'.$fillColor.'33%7Ccolor:0x'.$borderColor.'00%7Cenc:'.$EncString.
-            '&sensor=false';
+        $staticImg = array();
 
-        return $imgURL;
+        //defaults
+        $staticImg['width'] = 640;                      //image width (640px max)
+        $staticImg['height'] = 400;                     //image height (400px max)
+        $staticImg['lat'] = 42.5451;                    //center lat co-ordinate
+        $staticImg['lng'] = 1.1242;                     //center long co-ordinate
+        $staticImg['zoom'] = 7;                         //map zoom (1,12)
+        $staticImg['addMarker'] = false;             //customize center marker?
+        $staticImg['markerURL'] = '';
+        $staticImg['addCircle'] = false;                //add circle?
+        $staticImg['radius'] = 25;                      //circle radius (km)
+        $staticImg['circleFillColor'] = 'd20500';
+        $staticImg['circleBorderColor'] = 'd20500';
+        $staticImg['customLandscape'] = false;          //customize land color?
+        $staticImg['landSaturation'] = 0;               //land color saturation (-100,100)
+        $staticImg['landInvertLightness'] = false;      //land color lightness inverted
+        $staticImg['customWater'] = false;              //customize water color?
+        $staticImg['waterSaturation'] = 0;              //water color saturation (-100,100)
+        $staticImg['waterInvertLightness'] = false;     //water color lightness inverted
+        $staticImg['showRoads'] = true;                 //roads visibility
+        $staticImg['showLabels'] = true;                //labels, names visibility
+        $staticImg['showStroke'] = true;                //frontiers visibility
+
+        //override defaults
+        foreach ($params as $key => $value)
+            if (isset($staticImg[$key]))
+                $staticImg[$key] = $value;
+
+        $MapAPI = self::$GMapsProviderURL.'/maps/api/staticmap?';
+        $imgURL = $MapAPI . 'center=' . $staticImg['lat'] . ',' . $staticImg['lng'] .
+            '&zoom=' . $staticImg['zoom'] .
+            '&size=' . $staticImg['width'] . 'x' . $staticImg['height'];
+        if($staticImg['addMarker'])
+            $imgURL .= '&markers=icon:' . $staticImg['markerURL'] . '|' . $staticImg['lat'] . ',' . $staticImg['lng'];
+        if($staticImg['addCircle']) {
+            $EncString = self::encodeCircleOverMap($staticImg['lat'], $staticImg['lng'], $staticImg['radius']);
+            $imgURL .= '&path=fillcolor:0x' . $staticImg['circleFillColor'] .
+                '33%7Ccolor:0x' . $staticImg['circleBorderColor'] .
+                '00%7Cenc:' . $EncString;
+        }
+        if($staticImg['customLandscape']) {
+            $imgURL .= '&style=feature:landscape|saturation:' . $staticImg['landSaturation'];
+            if($staticImg['landInvertLightness'])
+                $imgURL .= '|invert_lightness:true';
+        }
+        if($staticImg['customWater']) {
+            $imgURL .= '&style=feature:water|saturation:'.$staticImg['waterSaturation'];
+            if($staticImg['waterInvertLightness'])
+                $imgURL .= '|invert_lightness:true';
+        }
+        if(!$staticImg['showRoads'])
+            $imgURL .= '&style=feature:road|visibility:off';
+        if(!$staticImg['showLabels'])
+            $imgURL .= '&style=element:labels|visibility:off';
+        if(!$staticImg['showStroke'])
+            $imgURL .= '&style=element:geometry.stroke|visibility:off';
+        $imgURL .= '&sensor=false';
+
+        return [
+            'url'       => $imgURL,
+            'width'     => $staticImg['width'],
+            'height'    => $staticImg['height']
+        ];
     }
 
 }
