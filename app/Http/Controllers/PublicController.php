@@ -104,9 +104,30 @@ class PublicController extends Controller
         return view('examples.gmaps4');
     }
 
-    public function getTemplateSbCreative()
+    public function getTemplateSbCreativeIndex()
     {
-        return view('templates.sb-creative');
+        return view('templates.sb-creative.index');
     }
+
+   public function getTemplateCleanBlogIndex()
+    {
+        return view('templates.clean-blog.index');
+    }
+
+    public function getTemplateCleanBlogPost()
+    {
+        return view('templates.clean-blog.post');
+    }
+
+    public function getTemplateCleanBlogAbout()
+    {
+        return view('templates.clean-blog.about');
+    }
+
+    public function getTemplateCleanBlogContact()
+    {
+        return view('templates.clean-blog.contact');
+    }
+
 
 }

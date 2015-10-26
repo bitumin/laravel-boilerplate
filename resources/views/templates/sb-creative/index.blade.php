@@ -1,4 +1,4 @@
-@extends('templates.sb-creative-layout')
+@extends('templates.sb-creative.layout')
 
 @section('title')
     <title>Creative - Start Bootstrap Theme</title>
