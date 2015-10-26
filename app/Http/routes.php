@@ -88,3 +88,6 @@ Route::get('auth/github',['as'=>'github.provider','uses'=>'Auth\AuthController@g
 Route::get('auth/github/callback',['as'=>'github.callback','uses'=>'Auth\AuthController@githubHandleProviderCallback']);
 Route::get('auth/bitbucket',['as'=>'bitbucket.provider','uses'=>'Auth\AuthController@bitbucketRedirectToProvider']);
 Route::get('auth/bitbucket/callback',['as'=>'bitbucket.callback','uses'=>'Auth\AuthController@bitbucketHandleProviderCallback']);
+
+// Templates
+Route::get('template/sb-creative',['as'=>'template.sb-creative','uses'=>'PublicController@getTemplateSbCreative']);

@@ -104,4 +104,9 @@ class PublicController extends Controller
         return view('examples.gmaps4');
     }
 
+    public function getTemplateSbCreative()
+    {
+        return view('templates.sb-creative');
+    }
+
 }
