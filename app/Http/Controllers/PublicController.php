@@ -129,5 +129,10 @@ class PublicController extends Controller
         return view('templates.clean-blog.contact');
     }
 
+    public function getTemplateAgencyIndex()
+    {
+        return view('templates.agency.index');
+    }
+
 
 }

@@ -95,3 +95,4 @@ Route::get('template/clean-blog/index',['as'=>'template.clean-blog.index','uses'
 Route::get('template/clean-blog/post',['as'=>'template.clean-blog.post','uses'=>'PublicController@getTemplateCleanBlogPost']);
 Route::get('template/clean-blog/about',['as'=>'template.clean-blog.about','uses'=>'PublicController@getTemplateCleanBlogAbout']);
 Route::get('template/clean-blog/contact',['as'=>'template.clean-blog.contact','uses'=>'PublicController@getTemplateCleanBlogContact']);
+Route::get('template/agency/index',['as'=>'template.agency.index','uses'=>'PublicController@getTemplateAgencyIndex']);
