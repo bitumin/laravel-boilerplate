@@ -135,9 +135,9 @@ class PublicController extends Controller
         return Response::json($results,200);
     }
 
-    public function getTemplateSbCreative()
+    public function getTemplateSbCreativeIndex()
     {
-        return view('templates.sb-creative');
+        return view('templates.sb-creative.index');
     }
 
     public function exampleToastr()
@@ -156,4 +156,28 @@ class PublicController extends Controller
         return view('examples.cookies_alert');
     }
 
+   public function getTemplateCleanBlogIndex()
+    {
+        return view('templates.clean-blog.index');
+    }
+
+    public function getTemplateCleanBlogPost()
+    {
+        return view('templates.clean-blog.post');
+    }
+
+    public function getTemplateCleanBlogAbout()
+    {
+        return view('templates.clean-blog.about');
+    }
+
+    public function getTemplateCleanBlogContact()
+    {
+        return view('templates.clean-blog.contact');
+    }
+
+    public function getTemplateAgencyIndex()
+    {
+        return view('templates.agency.index');
+    }
 }
