@@ -13,7 +13,7 @@
     <div class="container">
         <div class="row">
             <div class="col-lg-offset-4 col-lg-4 text-center">
-                <form class="form-horizontal" method="POST" action="{{ route('change-language') }}" role="form">
+                <form class="form-horizontal" method="POST" action="{{ route('post.change-language') }}" role="form">
                     {!! csrf_field() !!}
                     <div class="form-inline">
                         <label for="locale">@lang('example.change-language')</label>

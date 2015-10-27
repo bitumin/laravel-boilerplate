@@ -161,6 +161,7 @@ return [
         Caffeinated\Shinobi\ShinobiServiceProvider::class,
         Laravel\Socialite\SocialiteServiceProvider::class,
         Cviebrock\EloquentSluggable\SluggableServiceProvider::class,
+        Barryvdh\LaravelIdeHelper\IdeHelperServiceProvider::class,
     ],
 
     /*

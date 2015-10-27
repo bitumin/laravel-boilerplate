@@ -2,6 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\Request;
+use App\Lib\Geo;
+use App\Location;
+use Illuminate\Support\Facades\Input;
+use Illuminate\Support\Facades\Response;
+use Illuminate\Support\Facades\Validator;
+
 class PublicController extends Controller
 {
     public function getHome()
@@ -81,7 +88,7 @@ class PublicController extends Controller
 
     public function exampleChangeLanguage()
     {
-        return view('examples.change-language');
+        return view('examples.change_language');
     }
 
     public function exampleGoogleMaps1()
@@ -104,9 +111,49 @@ class PublicController extends Controller
         return view('examples.gmaps4');
     }
 
+    public function exampleGeolocatedSearch()
+    {
+        return view('examples.geolocated-search');
+    }
+
+    public function postGeolocatedSearch()
+    {
+        $validator =  Validator::make($input = Input::all(), [
+            'address' => 'required|string',
+            'minDistance' => 'required|numeric|min:0|max:1000',
+            'maxDistance' => 'required|numeric|min:0|max:1000',
+        ]);
+        if($validator->fails())
+            return Response::json([],500);
+
+        $geocoded = Geo::geocodeAddress($input['address']);
+        if(!$geocoded)
+            return Response::json([],500);
+
+        $results = Geo::filterRowsByDistance($geocoded['lat'], $geocoded['lng'], 'locations', $input['minDistance'], $input['maxDistance']);
+
+        return Response::json($results,200);
+    }
+
     public function getTemplateSbCreative()
     {
         return view('templates.sb-creative');
+    }
+
+    public function exampleToastr()
+    {
+        session(['status' => 'You look good today!']);
+        session(['info' => 'Once upon a time...']);
+        session(['success' => 'Fuck yeah!']);
+        session(['warning' => 'Take care you fool!']);
+        session(['error' => 'Something went wrong!']);
+
+        return view('examples.toastr');
+    }
+
+    public function exampleCookiesAlert()
+    {
+        return view('examples.cookies_alert');
     }
 
 }

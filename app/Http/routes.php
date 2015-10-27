@@ -35,11 +35,15 @@ Route::get('/example/notifications',['as'=>'example.notifications','uses'=>'Publ
 Route::get('/example/panels',['as'=>'example.panels','uses'=>'PublicController@examplePanels']);
 Route::get('/example/typography',['as'=>'example.typography','uses'=>'PublicController@exampleTypography']);
 Route::get('/example/change-language',['as'=>'example.change-language','uses'=>'PublicController@exampleChangeLanguage']);
-Route::post('/example/do-change-language',['as'=>'change-language','uses'=>'LocaleController@changeLanguage']);
+Route::post('/example/change-language',['as'=>'post.change-language','uses'=>'LocaleController@changeLanguage']);
 Route::get('/example/google-maps-1',['as'=>'example.gmaps1','uses'=>'PublicController@exampleGoogleMaps1']);
 Route::get('/example/google-maps-2',['as'=>'example.gmaps2','uses'=>'PublicController@exampleGoogleMaps2']);
 Route::get('/example/google-maps-3',['as'=>'example.gmaps3','uses'=>'PublicController@exampleGoogleMaps3']);
 Route::get('/example/google-maps-4',['as'=>'example.gmaps4','uses'=>'PublicController@exampleGoogleMaps4']);
+Route::get('/example/geolocated-search',['as'=>'example.geosearch','uses'=>'PublicController@exampleGeolocatedSearch']);
+Route::post('/example/geolocated-search',['as'=>'example.geosearch.post','uses'=>'PublicController@postGeolocatedSearch']);
+Route::get('/example/toastr',['as'=>'example.toastr','uses'=>'PublicController@exampleToastr']);
+Route::get('/example/cookies-alert',['as'=>'example.cookies-alert','uses'=>'PublicController@exampleCookiesAlert']);
 
 // Dashboard routes
 Route::get('/dashboard',['as'=>'dashboard.home','uses'=>'DashboardController@getDashboard']);

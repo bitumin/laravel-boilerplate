@@ -69,7 +69,6 @@ class Geo
         return false;
     }
 
-
     /**
      * Function to provide randomly geolocated addresses in Catalonia.
      * Useful for seeding databases or provide fake search results, for example!
@@ -79,7 +78,7 @@ class Geo
     public static function getRandomCatAddress()
     {
         $location = [];
-        $address = '';
+        //$address = '';
         $catStreets = [
             'Major','Catalunya','Doctor','Pau Casals','Jacint Verdaguer'
         ];
@@ -102,7 +101,7 @@ class Geo
             $address = $catStreets[array_rand($catStreets)].', '.mt_rand(1,50).', '.$catTowns[array_rand($catTowns)].', España';
             $location = self::geocodeAddress($address);
         }
-        $location['raw'] = $address;
+        //$location['raw'] = $address;
         return $location;
     }
 
@@ -184,7 +183,7 @@ class Geo
             ->where('lat','<=',$max_lat)
             ->where('lng','>=',$min_lon)
             ->where('lng','<=',$max_lon)
-            ->having('distance','=>',$minDistance)
+            ->having('distance','>=',$minDistance)
             ->having('distance','<=',$maxDistance)
             ->orderBy('distance',$order)
             ->take($maxResults)

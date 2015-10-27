@@ -7,7 +7,7 @@ use \App\Role;
 use \App\User;
 use \App\Invitation;
 
-class UserTableSeeder extends Seeder
+class ExampleUserTableSeeder extends Seeder
 {
     /**
      * Run the database seeds.
