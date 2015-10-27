@@ -100,3 +100,6 @@ Route::get('template/clean-blog/post',['as'=>'template.clean-blog.post','uses'=>
 Route::get('template/clean-blog/about',['as'=>'template.clean-blog.about','uses'=>'ExamplesController@getTemplateCleanBlogAbout']);
 Route::get('template/clean-blog/contact',['as'=>'template.clean-blog.contact','uses'=>'ExamplesController@getTemplateCleanBlogContact']);
 Route::get('template/agency/index',['as'=>'template.agency.index','uses'=>'ExamplesController@getTemplateAgencyIndex']);
+Route::get('template/freelancer/index',['as'=>'template.freelancer.index','uses'=>'ExamplesController@getTemplateFreelancerIndex']);
+Route::get('template/shop/index',['as'=>'template.shop.index','uses'=>'ExamplesController@getTemplateShopIndex']);
+Route::get('template/shop/item',['as'=>'template.shop.item','uses'=>'ExamplesController@getTemplateShopItem']);

@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\Response;
 use Illuminate\Support\Facades\Validator;
 
-class PublicController extends Controller
+class ExamplesController extends Controller
 {
     public function getHome()
     {
@@ -179,5 +179,20 @@ class PublicController extends Controller
     public function getTemplateAgencyIndex()
     {
         return view('templates.agency.index');
+    }
+
+    public function getTemplateFreelancerIndex()
+    {
+        return view('templates.freelancer.index');
+    }
+
+    public function getTemplateShopIndex()
+    {
+        return view('templates.shop.index');
+    }
+
+    public function getTemplateShopItem()
+    {
+        return view('templates.shop.item');
     }
 }
