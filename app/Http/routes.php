@@ -17,33 +17,33 @@
  */
 
 // Public routes
-Route::get('/',['as'=>'public.home','uses'=>'PublicController@getHome']);
+Route::get('/',['as'=>'public.home','uses'=>'ExamplesController@getHome']);
 
 // View examples
-Route::get('/example/basic',['as'=>'example.basic','uses'=>'PublicController@exampleBasic']);
-Route::get('/example/code',['as'=>'example.code','uses'=>'PublicController@exampleCode']);
-Route::get('/example/flot-charts',['as'=>'example.flot','uses'=>'PublicController@exampleFlotCharts']);
-Route::get('/example/morris-charts',['as'=>'example.morris','uses'=>'PublicController@exampleMorrisCharts']);
-Route::get('/example/timeline',['as'=>'example.timeline','uses'=>'PublicController@exampleTimeline']);
-Route::get('/example/tables',['as'=>'example.tables','uses'=>'PublicController@exampleTables']);
-Route::get('/example/dashboard',['as'=>'example.dashboard','uses'=>'PublicController@exampleDashboard']);
-Route::get('/example/forms',['as'=>'example.forms','uses'=>'PublicController@exampleForms']);
-Route::get('/example/buttons',['as'=>'example.buttons','uses'=>'PublicController@exampleButtons']);
-Route::get('/example/grid',['as'=>'example.grid','uses'=>'PublicController@exampleGrid']);
-Route::get('/example/icons',['as'=>'example.icons','uses'=>'PublicController@exampleIcons']);
-Route::get('/example/notifications',['as'=>'example.notifications','uses'=>'PublicController@exampleNotifications']);
-Route::get('/example/panels',['as'=>'example.panels','uses'=>'PublicController@examplePanels']);
-Route::get('/example/typography',['as'=>'example.typography','uses'=>'PublicController@exampleTypography']);
-Route::get('/example/change-language',['as'=>'example.change-language','uses'=>'PublicController@exampleChangeLanguage']);
+Route::get('/example/basic',['as'=>'example.basic','uses'=>'ExamplesController@exampleBasic']);
+Route::get('/example/code',['as'=>'example.code','uses'=>'ExamplesController@exampleCode']);
+Route::get('/example/flot-charts',['as'=>'example.flot','uses'=>'ExamplesController@exampleFlotCharts']);
+Route::get('/example/morris-charts',['as'=>'example.morris','uses'=>'ExamplesController@exampleMorrisCharts']);
+Route::get('/example/timeline',['as'=>'example.timeline','uses'=>'ExamplesController@exampleTimeline']);
+Route::get('/example/tables',['as'=>'example.tables','uses'=>'ExamplesController@exampleTables']);
+Route::get('/example/dashboard',['as'=>'example.dashboard','uses'=>'ExamplesController@exampleDashboard']);
+Route::get('/example/forms',['as'=>'example.forms','uses'=>'ExamplesController@exampleForms']);
+Route::get('/example/buttons',['as'=>'example.buttons','uses'=>'ExamplesController@exampleButtons']);
+Route::get('/example/grid',['as'=>'example.grid','uses'=>'ExamplesController@exampleGrid']);
+Route::get('/example/icons',['as'=>'example.icons','uses'=>'ExamplesController@exampleIcons']);
+Route::get('/example/notifications',['as'=>'example.notifications','uses'=>'ExamplesController@exampleNotifications']);
+Route::get('/example/panels',['as'=>'example.panels','uses'=>'ExamplesController@examplePanels']);
+Route::get('/example/typography',['as'=>'example.typography','uses'=>'ExamplesController@exampleTypography']);
+Route::get('/example/change-language',['as'=>'example.change-language','uses'=>'ExamplesController@exampleChangeLanguage']);
 Route::post('/example/change-language',['as'=>'post.change-language','uses'=>'LocaleController@changeLanguage']);
-Route::get('/example/google-maps-1',['as'=>'example.gmaps1','uses'=>'PublicController@exampleGoogleMaps1']);
-Route::get('/example/google-maps-2',['as'=>'example.gmaps2','uses'=>'PublicController@exampleGoogleMaps2']);
-Route::get('/example/google-maps-3',['as'=>'example.gmaps3','uses'=>'PublicController@exampleGoogleMaps3']);
-Route::get('/example/google-maps-4',['as'=>'example.gmaps4','uses'=>'PublicController@exampleGoogleMaps4']);
-Route::get('/example/geolocated-search',['as'=>'example.geosearch','uses'=>'PublicController@exampleGeolocatedSearch']);
-Route::post('/example/geolocated-search',['as'=>'example.geosearch.post','uses'=>'PublicController@postGeolocatedSearch']);
-Route::get('/example/toastr',['as'=>'example.toastr','uses'=>'PublicController@exampleToastr']);
-Route::get('/example/cookies-alert',['as'=>'example.cookies-alert','uses'=>'PublicController@exampleCookiesAlert']);
+Route::get('/example/google-maps-1',['as'=>'example.gmaps1','uses'=>'ExamplesController@exampleGoogleMaps1']);
+Route::get('/example/google-maps-2',['as'=>'example.gmaps2','uses'=>'ExamplesController@exampleGoogleMaps2']);
+Route::get('/example/google-maps-3',['as'=>'example.gmaps3','uses'=>'ExamplesController@exampleGoogleMaps3']);
+Route::get('/example/google-maps-4',['as'=>'example.gmaps4','uses'=>'ExamplesController@exampleGoogleMaps4']);
+Route::get('/example/geolocated-search',['as'=>'example.geosearch','uses'=>'ExamplesController@exampleGeolocatedSearch']);
+Route::post('/example/geolocated-search',['as'=>'example.geosearch.post','uses'=>'ExamplesController@postGeolocatedSearch']);
+Route::get('/example/toastr',['as'=>'example.toastr','uses'=>'ExamplesController@exampleToastr']);
+Route::get('/example/cookies-alert',['as'=>'example.cookies-alert','uses'=>'ExamplesController@exampleCookiesAlert']);
 
 // Dashboard routes
 Route::get('/dashboard',['as'=>'dashboard.home','uses'=>'DashboardController@getDashboard']);
@@ -94,9 +94,9 @@ Route::get('auth/bitbucket',['as'=>'bitbucket.provider','uses'=>'Auth\AuthContro
 Route::get('auth/bitbucket/callback',['as'=>'bitbucket.callback','uses'=>'Auth\AuthController@bitbucketHandleProviderCallback']);
 
 // Templates
-Route::get('template/sb-creative/index',['as'=>'template.sb-creative.index','uses'=>'PublicController@getTemplateSbCreativeIndex']);
-Route::get('template/clean-blog/index',['as'=>'template.clean-blog.index','uses'=>'PublicController@getTemplateCleanBlogIndex']);
-Route::get('template/clean-blog/post',['as'=>'template.clean-blog.post','uses'=>'PublicController@getTemplateCleanBlogPost']);
-Route::get('template/clean-blog/about',['as'=>'template.clean-blog.about','uses'=>'PublicController@getTemplateCleanBlogAbout']);
-Route::get('template/clean-blog/contact',['as'=>'template.clean-blog.contact','uses'=>'PublicController@getTemplateCleanBlogContact']);
-Route::get('template/agency/index',['as'=>'template.agency.index','uses'=>'PublicController@getTemplateAgencyIndex']);
+Route::get('template/sb-creative/index',['as'=>'template.sb-creative.index','uses'=>'ExamplesController@getTemplateSbCreativeIndex']);
+Route::get('template/clean-blog/index',['as'=>'template.clean-blog.index','uses'=>'ExamplesController@getTemplateCleanBlogIndex']);
+Route::get('template/clean-blog/post',['as'=>'template.clean-blog.post','uses'=>'ExamplesController@getTemplateCleanBlogPost']);
+Route::get('template/clean-blog/about',['as'=>'template.clean-blog.about','uses'=>'ExamplesController@getTemplateCleanBlogAbout']);
+Route::get('template/clean-blog/contact',['as'=>'template.clean-blog.contact','uses'=>'ExamplesController@getTemplateCleanBlogContact']);
+Route::get('template/agency/index',['as'=>'template.agency.index','uses'=>'ExamplesController@getTemplateAgencyIndex']);
