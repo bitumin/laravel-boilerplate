@@ -14,12 +14,12 @@
 
     <!-- Bootstrap Core CSS -->
     <link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" rel="stylesheet">
+    <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
 
     <!-- Custom CSS -->
     <link href="{{ asset('css/agency.css') }}" rel="stylesheet">
 
     <!-- Custom Fonts -->
-    <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
     <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet" type="text/css">
     <link href='https://fonts.googleapis.com/css?family=Kaushan+Script' rel='stylesheet' type='text/css'>
     <link href='https://fonts.googleapis.com/css?family=Droid+Serif:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
@@ -33,7 +33,6 @@
     <script src="//oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
     <script src="//oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
-
 </head>
 
 <body id="page-top" class="index">
@@ -110,23 +109,16 @@
     </div>
 </footer>
 
-
-
 <script src="//code.jquery.com/jquery-2.1.4.min.js"></script>
-
-
 <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
-
 <script src="//cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.3/jquery.easing.min.js"></script>
 <script src="//cdnjs.cloudflare.com/ajax/libs/classie/1.0.1/classie.min.js"></script>
-<script src="{{ asset('js/cbpAnimatedHeader.js') }}"></script>
+<script src="{{ asset('js/plugins/cbpAnimatedHeader.js') }}"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/jqBootstrapValidation/1.3.7/jqBootstrapValidation.min.js"></script>
 
-
-<script src="cdnjs.cloudflare.com/ajax/libs/jqBootstrapValidation/1.3.7/jqBootstrapValidation.min.js"></script>
 <script src="{{ asset('js/agency.js') }}"></script>
 
 @yield('js')
 
 </body>
-
 </html>

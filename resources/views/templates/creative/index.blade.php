@@ -1,4 +1,4 @@
-@extends('templates.sb-creative.layout')
+@extends('templates.creative.layout')
 
 @section('title')
     <title>Creative - Start Bootstrap Theme</title>
@@ -81,7 +81,7 @@
             <div class="row no-gutter">
                 <div class="col-lg-4 col-sm-6">
                     <a href="#" class="portfolio-box">
-                        <img src="{{ asset('img/sb-creative/portfolio/1.jpg') }}" class="img-responsive" alt="">
+                        <img src="{{ asset('img/creative/portfolio/1.jpg') }}" class="img-responsive" alt="">
                         <div class="portfolio-box-caption">
                             <div class="portfolio-box-caption-content">
                                 <div class="project-category text-faded">
@@ -96,7 +96,7 @@
                 </div>
                 <div class="col-lg-4 col-sm-6">
                     <a href="#" class="portfolio-box">
-                        <img src="{{ asset('img/sb-creative/portfolio/2.jpg') }}" class="img-responsive" alt="">
+                        <img src="{{ asset('img/creative/portfolio/2.jpg') }}" class="img-responsive" alt="">
                         <div class="portfolio-box-caption">
                             <div class="portfolio-box-caption-content">
                                 <div class="project-category text-faded">
@@ -111,7 +111,7 @@
                 </div>
                 <div class="col-lg-4 col-sm-6">
                     <a href="#" class="portfolio-box">
-                        <img src="{{ asset('img/sb-creative/portfolio/3.jpg') }}" class="img-responsive" alt="">
+                        <img src="{{ asset('img/creative/portfolio/3.jpg') }}" class="img-responsive" alt="">
                         <div class="portfolio-box-caption">
                             <div class="portfolio-box-caption-content">
                                 <div class="project-category text-faded">
@@ -126,7 +126,7 @@
                 </div>
                 <div class="col-lg-4 col-sm-6">
                     <a href="#" class="portfolio-box">
-                        <img src="{{ asset('img/sb-creative/portfolio/4.jpg') }}" class="img-responsive" alt="">
+                        <img src="{{ asset('img/creative/portfolio/4.jpg') }}" class="img-responsive" alt="">
                         <div class="portfolio-box-caption">
                             <div class="portfolio-box-caption-content">
                                 <div class="project-category text-faded">
@@ -141,7 +141,7 @@
                 </div>
                 <div class="col-lg-4 col-sm-6">
                     <a href="#" class="portfolio-box">
-                        <img src="{{ asset('img/sb-creative/portfolio/5.jpg') }}" class="img-responsive" alt="">
+                        <img src="{{ asset('img/creative/portfolio/5.jpg') }}" class="img-responsive" alt="">
                         <div class="portfolio-box-caption">
                             <div class="portfolio-box-caption-content">
                                 <div class="project-category text-faded">
@@ -156,7 +156,7 @@
                 </div>
                 <div class="col-lg-4 col-sm-6">
                     <a href="#" class="portfolio-box">
-                        <img src="{{ asset('img/sb-creative/portfolio/6.jpg') }}" class="img-responsive" alt="">
+                        <img src="{{ asset('img/creative/portfolio/6.jpg') }}" class="img-responsive" alt="">
                         <div class="portfolio-box-caption">
                             <div class="portfolio-box-caption-content">
                                 <div class="project-category text-faded">

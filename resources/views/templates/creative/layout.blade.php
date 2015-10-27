@@ -16,7 +16,8 @@
     <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" type="text/css">
     <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css" type="text/css">
     <link rel="stylesheet" href="//cdn.jsdelivr.net/animatecss/3.4.0/animate.min.css" type="text/css">
-    <link rel="stylesheet" href="{{ asset('css/template-sb-creative.css') }}" type="text/css">
+
+    <link rel="stylesheet" href="{{ asset('css/creative.css') }}" type="text/css">
 
     @yield('css')
 
@@ -66,7 +67,7 @@
     <script src="//cdnjs.cloudflare.com/ajax/libs/FitText.js/1.2.0/jquery.fittext.min.js"></script>
     <script src="//cdnjs.cloudflare.com/ajax/libs/wow/1.1.2/wow.min.js"></script>
 
-    <script src="{{ asset('js/template-sb-creative.js') }}"></script>
+    <script src="{{ asset('js/creative.js') }}"></script>
 
     @yield('js')
 </body>

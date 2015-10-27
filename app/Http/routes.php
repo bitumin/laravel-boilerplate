@@ -94,7 +94,7 @@ Route::get('auth/bitbucket',['as'=>'bitbucket.provider','uses'=>'Auth\AuthContro
 Route::get('auth/bitbucket/callback',['as'=>'bitbucket.callback','uses'=>'Auth\AuthController@bitbucketHandleProviderCallback']);
 
 // Templates
-Route::get('template/sb-creative/index',['as'=>'template.sb-creative.index','uses'=>'ExamplesController@getTemplateSbCreativeIndex']);
+Route::get('template/creative/index',['as'=>'template.creative.index','uses'=>'ExamplesController@getTemplateCreativeIndex']);
 Route::get('template/clean-blog/index',['as'=>'template.clean-blog.index','uses'=>'ExamplesController@getTemplateCleanBlogIndex']);
 Route::get('template/clean-blog/post',['as'=>'template.clean-blog.post','uses'=>'ExamplesController@getTemplateCleanBlogPost']);
 Route::get('template/clean-blog/about',['as'=>'template.clean-blog.about','uses'=>'ExamplesController@getTemplateCleanBlogAbout']);

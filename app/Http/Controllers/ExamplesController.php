@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\Response;
 use Illuminate\Support\Facades\Validator;
 
-class PublicController extends Controller
+class ExamplesController extends Controller
 {
     public function getHome()
     {
@@ -130,14 +130,16 @@ class PublicController extends Controller
         if(!$geocoded)
             return Response::json([],500);
 
-        $results = Geo::filterRowsByDistance($geocoded['lat'], $geocoded['lng'], 'locations', $input['minDistance'], $input['maxDistance']);
+        $results = Geo::filterRowsByDistance(
+            $geocoded['lat'], $geocoded['lng'], 'locations', $input['minDistance'], $input['maxDistance']
+        );
 
         return Response::json($results,200);
     }
 
     public function getTemplateSbCreativeIndex()
     {
-        return view('templates.sb-creative.index');
+        return view('templates.creative.index');
     }
 
     public function exampleToastr()

@@ -4,14 +4,16 @@
     {{--View specific title--}}
     @yield('title')
 
-    {{--Common CSS--}}
+    {{--Plugins CSS--}}
     <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
     <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap-theme.min.css">
     <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/metisMenu/2.2.0/metisMenu.min.css">
-    <link rel="stylesheet" href="{{ asset('css/dashboard.min.css') }}">
 
-    {{--View specific CSS--}}
+    {{--Custom dashboard template CSS--}}
+    <link rel="stylesheet" href="{{ asset('css/dashboard.css') }}">
+
+    {{--Page specific CSS--}}
     @yield('css')
 
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
