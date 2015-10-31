@@ -16,8 +16,11 @@
  * Route::post('',['as'=>'','uses'=>'']);
  */
 
-// Public routes
-Route::get('/',['as'=>'public.home','uses'=>'ExamplesController@getHome']);
+// Main routes
+Route::get('/',['as'=>'public.home','uses'=>'PublicController@getHome']);
+Route::get('/portfolio',['as'=>'public.portfolio','uses'=>'PublicController@getPortfolio']);
+Route::get('/examples',['as'=>'public.examples','uses'=>'PublicController@getExamples']);
+Route::get('/templates',['as'=>'public.templates','uses'=>'PublicController@getTemplates']);
 
 // View examples
 Route::get('/example/basic',['as'=>'example.basic','uses'=>'ExamplesController@exampleBasic']);
@@ -46,7 +49,7 @@ Route::get('/example/toastr',['as'=>'example.toastr','uses'=>'ExamplesController
 Route::get('/example/cookies-alert',['as'=>'example.cookies-alert','uses'=>'ExamplesController@exampleCookiesAlert']);
 
 // Dashboard routes
-Route::get('/dashboard',['as'=>'dashboard.home','uses'=>'DashboardController@getDashboard']);
+Route::get('/dashboard',['as'=>'dashboard','uses'=>'DashboardController@getDashboard']);
 Route::get('/dashboard/profile',['as'=>'dashboard.profile','uses'=>'DashboardController@getProfile']);
 Route::get('/dashboard/settings',['as'=>'dashboard.settings','uses'=>'DashboardController@getSettings']);
 Route::get('/dashboard/users',['as'=>'dashboard.users','uses'=>'DashboardController@getUsers']);
@@ -66,6 +69,9 @@ Route::get('auth/email',['as'=>'auth.getEmail','uses'=>'Auth\AuthController@getE
 Route::post('auth/email',['as'=>'auth.postEmail','uses'=>'Auth\AuthController@postEmail']);
 Route::get('auth/reset/{token}',['as'=>'auth.getReset','uses'=>'Auth\AuthController@getReset']);
 Route::post('auth/reset',['as'=>'auth.postReset','uses'=>'Auth\AuthController@postReset']);
+
+//Route override to change locale from the administrator package (backend admin interface)
+Route::get('switch_locale/{locale}',['as'=>'admin_switch_locale','uses'=>'LocaleController@switchLocale']);
 
 /*
  * Social registration/login.

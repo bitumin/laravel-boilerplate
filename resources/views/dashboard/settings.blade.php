@@ -1,7 +1,7 @@
 @extends('layouts.dashboard')
 
 @section('title')
-    <title>Dashboard | Users management</title>
+    <title>Dashboard | Settings</title>
 @endsection
 
 @section('css')

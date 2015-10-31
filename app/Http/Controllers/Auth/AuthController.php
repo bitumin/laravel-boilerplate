@@ -188,7 +188,7 @@ class AuthController extends Controller
                 $newUser = User::create([
                     'name' => $data['name'],
                     'email' => $data['email'],
-                    'password' => bcrypt($data['password']),
+                    'password' => $data['password'],
                 ]);
                 $invitation = Invitation::where('email',$data['email'])->first();
                 $newUser->assignRole($invitation->id);
@@ -204,7 +204,7 @@ class AuthController extends Controller
                 return User::create([
                     'name' => $data['name'],
                     'email' => $data['email'],
-                    'password' => bcrypt($data['password']),
+                    'password' => $data['password'],
                     'confirmation_code' => $confirmationCode,
                 ]);
                 break;
@@ -216,7 +216,7 @@ class AuthController extends Controller
                 $newUser = User::create([
                     'name' => $data['name'],
                     'email' => $data['email'],
-                    'password' => bcrypt($data['password']),
+                    'password' => $data['password'],
                     'confirmation_code' => $confirmationCode,
                 ]);
                 $newUser->assignRole(Role::where('slug',$this->getDefaultRole())->first()->id);
@@ -226,7 +226,7 @@ class AuthController extends Controller
                 $newUser = User::create([
                     'name' => $data['name'],
                     'email' => $data['email'],
-                    'password' => bcrypt($data['password']),
+                    'password' => $data['password'],
                 ]);
                 $newUser->assignRole(Role::where('slug',$this->getDefaultRole())->first()->id);
                 return $newUser;
@@ -235,7 +235,7 @@ class AuthController extends Controller
                 return User::create([
                     'name' => $data['name'],
                     'email' => $data['email'],
-                    'password' => bcrypt($data['password']),
+                    'password' => $data['password'],
                 ]);
                 break;
         }
@@ -365,7 +365,7 @@ class AuthController extends Controller
      */
     protected function resetPassword($user, $password)
     {
-        $user->password = bcrypt($password);
+        $user->password = $password;
         $user->save();
 
         Auth::login($user);

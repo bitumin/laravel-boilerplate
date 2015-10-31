@@ -21,7 +21,7 @@ class CreateUsersTable extends Migration
             $table->boolean('confirmed')->default(0);
             $table->string('confirmation_code')->nullable();
             $table->string('provider')->nullable(); //social login provider
-            $table->string('provider_id')->nullabler(); //social login provider ID
+            $table->string('provider_id')->nullable(); //social login provider ID
             $table->rememberToken();
             $table->timestamps();
         });

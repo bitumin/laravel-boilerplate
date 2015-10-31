@@ -28,4 +28,21 @@ class LocaleController extends Controller
 
         return redirect()->back();
     }
+
+    /**
+     * Change language/app locale from the backend administrator interface.
+     * Overrides the administrator controller function with the same name.
+     *
+     * @param Request $request
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function switchLocale($newLocale)
+    {
+        if(in_array($newLocale, config('administrator.locales'))) {
+            $changeLocale = new ChangeLocale($newLocale);
+            $this->dispatch($changeLocale);
+        }
+
+        return redirect()->back();
+    }
 }

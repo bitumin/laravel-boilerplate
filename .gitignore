@@ -48,3 +48,9 @@ $RECYCLE.BIN/
 Homestead.yaml
 Homestead.json
 .env
+
+# IDE helper
+_ide_helper.php
+
+# Packages resources
+public/packages

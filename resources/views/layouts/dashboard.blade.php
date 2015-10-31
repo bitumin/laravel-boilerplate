@@ -257,11 +257,12 @@
                             </div><!-- /input-group -->
                         </li>
                         <li>
-                            <a href="{{ route('dashboard.home') }}"><i class="fa fa-dashboard fa-fw"></i> Dashboard</a>
+                            <a href="{{ route('dashboard') }}"><i class="fa fa-dashboard fa-fw"></i> Dashboard</a>
                         </li>
-                        @if(\Illuminate\Support\Facades\Auth::user()->may('manage-users'))
+                        @if(\Illuminate\Support\Facades\Auth::user()->may('manage-users') ||
+                        \Illuminate\Support\Facades\Auth::user()->may('manage-calculator-backend'))
                         <li>
-                            <a href="{{ route('dashboard.users') }}"><i class="fa fa-users fa-fw"></i> Manage users</a>
+                            <a href="/admin"><i class="fa fa-database fa-fw"></i> Manage database</a>
                         </li>
                         @endif
                         <li>

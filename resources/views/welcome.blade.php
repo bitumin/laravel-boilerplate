@@ -1,45 +1,76 @@
-<!DOCTYPE html>
-<html>
-    <head>
-        <title>Laravel</title>
+@extends('layouts.basic')
 
-        <link href="https://fonts.googleapis.com/css?family=Lato:100" rel="stylesheet" type="text/css">
+@section('title')
+    <title>Welcome!</title>
+@endsection
 
-        <style>
-            html, body {
-                height: 100%;
-            }
+@section('css')
+    <style>
+        @font-face {
+            font-family: hobitton;
+            src: url(../fonts/hobbitonbrushhand.ttf);
+        }
 
-            body {
-                margin: 0;
-                padding: 0;
-                width: 100%;
-                display: table;
-                font-weight: 100;
-                font-family: 'Lato',serif;
-            }
+        body {
+            font-size: 26px;
+        }
 
-            .container {
-                text-align: center;
-                display: table-cell;
-                vertical-align: middle;
-            }
+        .lotr {
+            font-family: hobitton, serif;
+        }
 
-            .content {
-                text-align: center;
-                display: inline-block;
-            }
+        a.lotr, a.lotr:hover, a.lotr:active, a.lotr:focus {
+            text-decoration: none;
+            color: #333;
+        }
 
-            .title {
-                font-size: 96px;
-            }
-        </style>
-    </head>
-    <body>
-        <div class="container">
-            <div class="content">
-                <div class="title">Welcome</div>
+        .well {
+            height: 200px;
+            width: 100%;
+            display: table;
+            text-align: center;
+        }
+
+        wrapper {
+            display: table-cell;
+            vertical-align: middle;
+            position: relative;
+        }
+    </style>
+@endsection
+
+@section('content')
+    <div class="container">
+        <div class="content">
+            <div class="row">
+                <div class="col-lg-12 text-center" style="padding:50px 0;">
+                    <img src="{{ asset('img/logo-verde.png') }}">
+                </div>
+                <div class="col-lg-6">
+                    <div class="well well-lg text-center">
+                        <wrapper>
+                            I'm a customer,<br>
+                            show me what you've got!<br>
+                        </wrapper>
+                    </div>
+                    <a class="btn btn-lg btn-block btn-primary" href="{{ route('public.portfolio') }}">Portfolio</a>
+                </div>
+                <div class="col-lg-6">
+                    <div class="well well-lg text-center">
+                        <wrapper>
+                            I'm a developer,<br>
+                            <a class="lotr" href="{{ route('dashboard') }}">speak friend and enter</a><br>
+                            (credentials may help too)<br>
+                        </wrapper>
+                    </div>
+                    <a class="btn btn-lg btn-block btn-success" href="{{ route('public.examples') }}">Boilerplate</a>
+                    <a class="btn btn-lg btn-block btn-warning" href="{{ route('public.templates') }}">Templates</a>
+                </div>
             </div>
         </div>
-    </body>
-</html>
+    </div>
+@endsection
+
+@section('js')
+
+@endsection

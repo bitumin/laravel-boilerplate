@@ -33,6 +33,10 @@ class ExampleUserTableSeeder extends Seeder
             'name' => 'Manage settings',
             'description' => 'Manage settings. Access settings manager view in dashboard.',
         ]);
+        $manageAdminInterfaces = Permission::create([
+            'name' => 'Manage administrator interfaces',
+            'description' => 'Use, manage and create administrator interfaces for laravel models'
+        ]);
 
         // Exmaple roles
         $admin = Role::create([
@@ -53,28 +57,30 @@ class ExampleUserTableSeeder extends Seeder
         $admin->assignPermission($manageProfile->id);
         $admin->assignPermission($manageSettings->id);
         $admin->assignPermission($debugging->id);
+        $admin->assignPermission($manageAdminInterfaces->id);
+
         $user->assignPermission($manageProfile->id);
         $user->assignPermission($manageSettings->id);
 
         if(\App::environment() == 'local')
         {
-            // Register admin users
+            // Register admin users (password field is hashed automatically via model mutator)
             $testAdmin = User::create([
                 'name'      => 'Test Administrator',
                 'email'     => 'admin@email.com',
-                'password'  => bcrypt('admin'),
+                'password'  => 'admin',
                 'confirmed' => true,
             ]);
             $testUser = User::create([
                 'name'      => 'Test User',
                 'email'     => 'user@email.com',
-                'password'  => bcrypt('user'),
+                'password'  => 'user',
                 'confirmed' => true,
             ]);
             $testGuest = User::create([
                 'name'      => 'Test Guest',
                 'email'     => 'guest@email.com',
-                'password'  => bcrypt('guest'),
+                'password'  => 'guest',
                 'confirmed' => true,
             ]);
 

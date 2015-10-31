@@ -11,11 +11,6 @@ use Illuminate\Support\Facades\Validator;
 
 class ExamplesController extends Controller
 {
-    public function getHome()
-    {
-        return view('welcome');
-    }
-
     public function exampleBasic()
     {
         return view('examples.basic');
