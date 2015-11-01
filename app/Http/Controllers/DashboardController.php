@@ -20,9 +20,12 @@ class DashboardController extends Controller
 
     public function getProfile()
     {
-        if(Auth::user()->may('manage-profile'))
-            return view('dashboard.profile');
-        return redirect($this->redirectPath);
+        if(!Auth::user()->may('manage-profile'))
+            return redirect($this->redirectPath);
+
+        $me = Auth::user();
+
+        return view('dashboard.profile',compact('me'));
     }
 
     public function getSettings()
@@ -32,10 +35,21 @@ class DashboardController extends Controller
         return redirect($this->redirectPath);
     }
 
-    public function getUsers()
+    public function getProjectCalculator()
     {
-        if(Auth::user()->may('manage-users'))
-            return view('dashboard.users');
+        if(Auth::user()->may('access-project-calculator'))
+            return view('dashboard.calculator');
         return redirect($this->redirectPath);
     }
+
+    public function postProfileUpdateInfo()
+    {
+
+    }
+
+    public function postProfileUpdatePassword()
+    {
+
+    }
+
 }

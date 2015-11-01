@@ -235,8 +235,8 @@
                         <li>
                             <a href="{{ route('dashboard.settings') }}"><i class="fa fa-gear fa-fw"></i> Settings</a>
                         </li>
-                        @endif
                         <li class="divider"></li>
+                        @endif
                         <li>
                             <a href="{{ route('auth.getLogout') }}"><i class="fa fa-sign-out fa-fw"></i> Logout</a>
                         </li>
@@ -259,6 +259,11 @@
                         <li>
                             <a href="{{ route('dashboard') }}"><i class="fa fa-dashboard fa-fw"></i> Dashboard</a>
                         </li>
+                        @if(\Illuminate\Support\Facades\Auth::user()->may('access-project-calculator'))
+                        <li>
+                            <a href="{{ route('dashboard.calculator') }}"><i class="fa fa-calculator fa-fw"></i> Project calculator</a>
+                        </li>
+                        @endif
                         @if(\Illuminate\Support\Facades\Auth::user()->may('manage-users') ||
                         \Illuminate\Support\Facades\Auth::user()->may('manage-calculator-backend'))
                         <li>
@@ -297,9 +302,9 @@
                 </div><!-- /.sidebar-collapse -->
             </div><!-- /.navbar-static-side -->
         </nav>
-
-        @yield('content')
-
+        <div id="page-wrapper">
+            @yield('content')
+        </div><!-- /#page-wrapper -->
     </div>
     {{--Common JS--}}
     <script src="//code.jquery.com/jquery-2.1.4.min.js"></script>

@@ -171,10 +171,13 @@ class ProjectCalculatorTableSeeder extends Seeder
         ClientType::create(['name' => 'XL', 'description' => '100+ employees', 'profit_margin' => 35]);
 
         //Task types
-        TaskType::create(['name' => 'Test', 'hourly_wage' => 9]);
-        TaskType::create(['name' => 'PMO', 'hourly_wage' => 10]);
-        TaskType::create(['name' => 'Build', 'hourly_wage' => 10]);
-        TaskType::create(['name' => 'Analysis', 'hourly_wage' => 15]);
-        TaskType::create(['name' => 'Design', 'hourly_wage' => 18]);
+        TaskType::create(['name' => 'Beta tester', 'hourly_wage' => 9]);
+        TaskType::create(['name' => 'Consultant (senior)', 'hourly_wage' => 24.7]);
+        TaskType::create(['name' => 'Project manager', 'hourly_wage' => 27.44]);
+        TaskType::create(['name' => 'Developer (senior)', 'hourly_wage' => 19.21]);
+        TaskType::create(['name' => 'Designer', 'hourly_wage' => 21.1]);
+        TaskType::create(['name' => 'Analyst', 'hourly_wage' => 13.72]);
+        TaskType::create(['name' => 'Developer (junior)', 'hourly_wage' => 16.46]);
+        TaskType::create(['name' => 'Consultant (junior)', 'hourly_wage' => 21.95]);
     }
 }

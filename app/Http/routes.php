@@ -12,47 +12,49 @@
 */
 
 /*
- * Route::get('',['as'=>'','uses'=>'']);
- * Route::post('',['as'=>'','uses'=>'']);
+ * Route::get('uri',['as'=>'route','uses'=>'controller']);
+ * Route::post('uri',['as'=>'route','uses'=>'controller']);
  */
 
 // Main routes
 Route::get('/',['as'=>'public.home','uses'=>'PublicController@getHome']);
-Route::get('/portfolio',['as'=>'public.portfolio','uses'=>'PublicController@getPortfolio']);
-Route::get('/examples',['as'=>'public.examples','uses'=>'PublicController@getExamples']);
-Route::get('/templates',['as'=>'public.templates','uses'=>'PublicController@getTemplates']);
+Route::get('portfolio',['as'=>'public.portfolio','uses'=>'PublicController@getPortfolio']);
+Route::get('examples',['as'=>'public.examples','uses'=>'PublicController@getExamples']);
+Route::get('templates',['as'=>'public.templates','uses'=>'PublicController@getTemplates']);
 
 // View examples
-Route::get('/example/basic',['as'=>'example.basic','uses'=>'ExamplesController@exampleBasic']);
-Route::get('/example/code',['as'=>'example.code','uses'=>'ExamplesController@exampleCode']);
-Route::get('/example/flot-charts',['as'=>'example.flot','uses'=>'ExamplesController@exampleFlotCharts']);
-Route::get('/example/morris-charts',['as'=>'example.morris','uses'=>'ExamplesController@exampleMorrisCharts']);
-Route::get('/example/timeline',['as'=>'example.timeline','uses'=>'ExamplesController@exampleTimeline']);
-Route::get('/example/tables',['as'=>'example.tables','uses'=>'ExamplesController@exampleTables']);
-Route::get('/example/dashboard',['as'=>'example.dashboard','uses'=>'ExamplesController@exampleDashboard']);
-Route::get('/example/forms',['as'=>'example.forms','uses'=>'ExamplesController@exampleForms']);
-Route::get('/example/buttons',['as'=>'example.buttons','uses'=>'ExamplesController@exampleButtons']);
-Route::get('/example/grid',['as'=>'example.grid','uses'=>'ExamplesController@exampleGrid']);
-Route::get('/example/icons',['as'=>'example.icons','uses'=>'ExamplesController@exampleIcons']);
-Route::get('/example/notifications',['as'=>'example.notifications','uses'=>'ExamplesController@exampleNotifications']);
-Route::get('/example/panels',['as'=>'example.panels','uses'=>'ExamplesController@examplePanels']);
-Route::get('/example/typography',['as'=>'example.typography','uses'=>'ExamplesController@exampleTypography']);
-Route::get('/example/change-language',['as'=>'example.change-language','uses'=>'ExamplesController@exampleChangeLanguage']);
-Route::post('/example/change-language',['as'=>'post.change-language','uses'=>'LocaleController@changeLanguage']);
-Route::get('/example/google-maps-1',['as'=>'example.gmaps1','uses'=>'ExamplesController@exampleGoogleMaps1']);
-Route::get('/example/google-maps-2',['as'=>'example.gmaps2','uses'=>'ExamplesController@exampleGoogleMaps2']);
-Route::get('/example/google-maps-3',['as'=>'example.gmaps3','uses'=>'ExamplesController@exampleGoogleMaps3']);
-Route::get('/example/google-maps-4',['as'=>'example.gmaps4','uses'=>'ExamplesController@exampleGoogleMaps4']);
-Route::get('/example/geolocated-search',['as'=>'example.geosearch','uses'=>'ExamplesController@exampleGeolocatedSearch']);
-Route::post('/example/geolocated-search',['as'=>'example.geosearch.post','uses'=>'ExamplesController@postGeolocatedSearch']);
-Route::get('/example/toastr',['as'=>'example.toastr','uses'=>'ExamplesController@exampleToastr']);
-Route::get('/example/cookies-alert',['as'=>'example.cookies-alert','uses'=>'ExamplesController@exampleCookiesAlert']);
+Route::get('example/basic',['as'=>'example.basic','uses'=>'ExamplesController@exampleBasic']);
+Route::get('example/code',['as'=>'example.code','uses'=>'ExamplesController@exampleCode']);
+Route::get('example/flot-charts',['as'=>'example.flot','uses'=>'ExamplesController@exampleFlotCharts']);
+Route::get('example/morris-charts',['as'=>'example.morris','uses'=>'ExamplesController@exampleMorrisCharts']);
+Route::get('example/timeline',['as'=>'example.timeline','uses'=>'ExamplesController@exampleTimeline']);
+Route::get('example/tables',['as'=>'example.tables','uses'=>'ExamplesController@exampleTables']);
+Route::get('example/dashboard',['as'=>'example.dashboard','uses'=>'ExamplesController@exampleDashboard']);
+Route::get('example/forms',['as'=>'example.forms','uses'=>'ExamplesController@exampleForms']);
+Route::get('example/buttons',['as'=>'example.buttons','uses'=>'ExamplesController@exampleButtons']);
+Route::get('example/grid',['as'=>'example.grid','uses'=>'ExamplesController@exampleGrid']);
+Route::get('example/icons',['as'=>'example.icons','uses'=>'ExamplesController@exampleIcons']);
+Route::get('example/notifications',['as'=>'example.notifications','uses'=>'ExamplesController@exampleNotifications']);
+Route::get('example/panels',['as'=>'example.panels','uses'=>'ExamplesController@examplePanels']);
+Route::get('example/typography',['as'=>'example.typography','uses'=>'ExamplesController@exampleTypography']);
+Route::get('example/change-language',['as'=>'example.change-language','uses'=>'ExamplesController@exampleChangeLanguage']);
+Route::post('example/change-language',['as'=>'post.change-language','uses'=>'LocaleController@changeLanguage']);
+Route::get('example/google-maps-1',['as'=>'example.gmaps1','uses'=>'ExamplesController@exampleGoogleMaps1']);
+Route::get('example/google-maps-2',['as'=>'example.gmaps2','uses'=>'ExamplesController@exampleGoogleMaps2']);
+Route::get('example/google-maps-3',['as'=>'example.gmaps3','uses'=>'ExamplesController@exampleGoogleMaps3']);
+Route::get('example/google-maps-4',['as'=>'example.gmaps4','uses'=>'ExamplesController@exampleGoogleMaps4']);
+Route::get('example/geolocated-search',['as'=>'example.geosearch','uses'=>'ExamplesController@exampleGeolocatedSearch']);
+Route::post('example/geolocated-search',['as'=>'example.geosearch.post','uses'=>'ExamplesController@postGeolocatedSearch']);
+Route::get('example/toastr',['as'=>'example.toastr','uses'=>'ExamplesController@exampleToastr']);
+Route::get('example/cookies-alert',['as'=>'example.cookies-alert','uses'=>'ExamplesController@exampleCookiesAlert']);
 
 // Dashboard routes
-Route::get('/dashboard',['as'=>'dashboard','uses'=>'DashboardController@getDashboard']);
-Route::get('/dashboard/profile',['as'=>'dashboard.profile','uses'=>'DashboardController@getProfile']);
-Route::get('/dashboard/settings',['as'=>'dashboard.settings','uses'=>'DashboardController@getSettings']);
-Route::get('/dashboard/users',['as'=>'dashboard.users','uses'=>'DashboardController@getUsers']);
+Route::get('dashboard',['as'=>'dashboard','uses'=>'DashboardController@getDashboard']);
+Route::get('dashboard/calculator',['as'=>'dashboard.calculator','uses'=>'DashboardController@getProjectCalculator']);
+Route::get('dashboard/profile',['as'=>'dashboard.profile','uses'=>'DashboardController@getProfile']);
+Route::post('dashboard/profile/update-info',['as'=>'dashboard.profile.update.info','uses'=>'DashboardController@postProfileUpdateInfo']);
+Route::post('dashboard/profile/update-password',['as'=>'dashboard.profile.update.password','uses'=>'DashboardController@postProfileUpdatePassword']);
+Route::get('dashboard/settings',['as'=>'dashboard.settings','uses'=>'DashboardController@getSettings']);
 
 // Authentication
 Route::get('auth/login',['as'=>'auth.getLogin','uses'=>'Auth\AuthController@getLogin']);
