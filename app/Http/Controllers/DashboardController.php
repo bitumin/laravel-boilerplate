@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Validator;
 
 class DashboardController extends Controller
 {
@@ -44,12 +45,35 @@ class DashboardController extends Controller
 
     public function postProfileUpdateInfo()
     {
+        $input = \Request::all();
+        $rules = ['name' => 'required|max:255', 'email' => 'sometimes|email|max:255'];
+        $validator = Validator::make($input,$rules);
+        if($validator->fails())
+            return \Response::json([],400);
 
+        $me = Auth::user();
+        $me->name = $input['name'];
+        $me->email = $input['email'];
+
+        if($me->save())
+            return \Response::json([],200);
+        return \Response::json([],400);
     }
 
     public function postProfileUpdatePassword()
     {
+        $input = \Request::all();
+        $rules = ['password' => 'required|confirmed|min:6'];
+        $validator = Validator::make($input,$rules);
+        if($validator->fails())
+            return \Response::json([],400);
 
+        $me = Auth::user();
+        $me->password = $input['password'];
+
+        if($me->save())
+            return \Response::json([],200);
+        return \Response::json([],400);
     }
 
 }
