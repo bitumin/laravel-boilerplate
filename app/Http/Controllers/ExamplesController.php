@@ -177,4 +177,19 @@ class ExamplesController extends Controller
     {
         return view('templates.agency.index');
     }
+
+    public function getTemplateFreelancerIndex()
+    {
+        return view('templates.freelancer.index');
+    }
+
+    public function getTemplateShopIndex()
+    {
+        return view('templates.shop.index');
+    }
+
+    public function getTemplateShopItem()
+    {
+        return view('templates.shop.item');
+    }
 }
