@@ -257,20 +257,25 @@
                             </div><!-- /input-group -->
                         </li>
                         <li>
-                            <a href="{{ route('dashboard') }}"><i class="fa fa-dashboard fa-fw"></i> Dashboard</a>
+                            <a href="{{ route('dashboard') }}" @if(Request::is('dashboard')) class="active" @endif>
+                                <i class="fa fa-dashboard fa-fw"></i> Dashboard
+                            </a>
                         </li>
-                        @if(\Illuminate\Support\Facades\Auth::user()->may('access-project-calculator'))
+                        @if(Auth::user()->may('access-project-calculator'))
                         <li>
-                            <a href="{{ route('dashboard.calculator') }}"><i class="fa fa-calculator fa-fw"></i> Project calculator</a>
-                        </li>
-                        @endif
-                        @if(\Illuminate\Support\Facades\Auth::user()->may('manage-users') ||
-                        \Illuminate\Support\Facades\Auth::user()->may('manage-calculator-backend'))
-                        <li>
-                            <a href="/admin"><i class="fa fa-database fa-fw"></i> Manage database</a>
+                            <a href="{{ route('dashboard.calculator') }}" @if(Request::is('dashboard/calculator')) class="active" @endif>
+                                <i class="fa fa-calculator fa-fw"></i> Project calculator
+                            </a>
                         </li>
                         @endif
+                        @if(Auth::user()->may('manage-users') || Auth::user()->may('manage-calculator-backend'))
                         <li>
+                            <a href="/admin" @if(Request::is('admin')) class="active" @endif >
+                                <i class="fa fa-database fa-fw"></i> Manage database
+                            </a>
+                        </li>
+                        @endif
+                        <li class="hidden">
                             <a href="javascript:"><i class="fa fa-sitemap fa-fw"></i> Multi-Level Dropdown<span class="fa arrow"></span></a>
                             <ul class="nav nav-second-level">
                                 <li>
