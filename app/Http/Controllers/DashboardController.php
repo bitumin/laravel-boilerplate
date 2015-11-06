@@ -2,9 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Budget;
 use App\ClientType;
 use App\ProjectCommission;
+use App\Report;
 use App\User;
+use Carbon\Carbon;
+use Barryvdh\DomPDF\Facade as PDF;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 
@@ -48,6 +52,40 @@ class DashboardController extends Controller
 
     public function ProjectCalculatorPreviewResults()
     {
+//    Example 1:
+//    ----------
+//    $pdf = App::make('dompdf.wrapper');                 //passing a view (without the facade)
+//    $pdf->loadHTML('<h1>Test</h1>');                    //passing html code
+//    return $pdf->stream();                              //PDF to stream (browser) example
+//
+//    Example 2:
+//    ----------
+//    $pdf = PDF::loadView('pdf.invoice', $data);         //passing a view and data into it (with the facade)
+//    return $pdf->download('invoice.pdf');               //PDF to file (download) example:
+//
+//    Example 3:
+//    ----------
+//    return PDF::loadFile(public_path().'/myfile.html')  //passing a file
+//      ->save('/path-to/my_stored_file.pdf')             //PDF to file (store as file)
+//      ->stream('download.pdf');
+//
+//    Example 4:
+//    ----------
+//    PDF::loadHTML($html)                                //passing an html file
+//        ->setPaper('a4')                                //set paper size
+//        ->setOrientation('landscape')                   //set page orientation
+//        ->setWarnings(false)                            //disable warnings
+//        ->save('myfile.pdf')
+//
+//    How to make a page break for the pdf
+//    ------------------------------------
+//    <style>
+//        .page-break {
+//                page-break-after: always;
+//        }
+//    </style>
+//    <div class="page-break"></div>
+
         $input = \Request::all();
 
         $tasks = [];
@@ -151,6 +189,7 @@ class DashboardController extends Controller
             $workersWages[$workerId]['wageOutput'] = number_format($data['wage'],2,',','.').' '.$input['currencyUnit'];
 
         return \Response::json([
+            'clientName'        => $input['clientName'],
             'tasks'             => $tasks,
             'totalTasks'        => number_format($totalTasksCost,2,',','.').' '.$input['currencyUnit'],
             'wages'             => $workersWages,
@@ -161,7 +200,7 @@ class DashboardController extends Controller
             'surcharge'         => number_format($surcharge,2,',','.').' %',
             'commission'        => number_format($commission,2,',','.').' '.$input['currencyUnit'],
             'profit'            => number_format($profit,2,',','.').' '.$input['currencyUnit'],
-            'taxBase'           => number_format($taxBase,2,',','.').' %',
+            'taxBase'           => number_format($taxBase,2,',','.').' '.$input['currencyUnit'],
             'irpf'              => number_format($irpf*100,2,',','.').' %',
             'taxes'             => number_format($taxes,2,',','.').' '.$input['currencyUnit'],
             'price'             => number_format($price,2,',','.').' '.$input['currencyUnit'],
@@ -170,15 +209,38 @@ class DashboardController extends Controller
     }
 
     public function ProjectCalculatorGenerateReport() {
-        $resultsJson = $this->ProjectCalculatorPreviewResults();
+        $data = json_decode(json_encode($this->ProjectCalculatorPreviewResults()->getData()), true); //json response to array
 
-        return var_dump($resultsJson->getData());
+        $today = Carbon::today()->toDateString();
+
+        //assign new report id
+        $report = Report::create();
+        $reportId = sprintf('%07d', $report->id);
+
+        //pass report id and today's date to data array
+        $data['reportId'] = $reportId;
+        $data['today'] = $today;
+
+        return PDF::loadView('pdfTemplates.internalReport', $data)
+            ->stream('report_'.$reportId.'_'.$today.'.pdf');
     }
 
     public function ProjectCalculatorGenerateBudget() {
-        $resultsJson = $this->ProjectCalculatorPreviewResults();
 
-        return var_dump($resultsJson->getData());
+        $data = json_decode(json_encode($this->ProjectCalculatorPreviewResults()->getData()), true); //json response to array
+
+        $today = Carbon::today()->toDateString();
+
+        //assign new budget id
+        $budget = Budget::create();
+        $budgetId = sprintf('%07d', $budget->id);
+
+        //pass budget id and today's date to data array
+        $data['budgetId'] = $budgetId;
+        $data['today'] = $today;
+
+        return PDF::loadView('pdfTemplates.budget', $data)
+            ->stream('budget_'.$budgetId.'_'.$today.'.pdf');
     }
 
     public function postProfileUpdateInfo()

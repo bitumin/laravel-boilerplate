@@ -163,6 +163,7 @@ return [
         Cviebrock\EloquentSluggable\SluggableServiceProvider::class,
         Barryvdh\LaravelIdeHelper\IdeHelperServiceProvider::class,
         Frozennode\Administrator\AdministratorServiceProvider::class,
+        Barryvdh\DomPDF\ServiceProvider::class,
 
     ],
 
@@ -213,6 +214,7 @@ return [
         'Validator' => Illuminate\Support\Facades\Validator::class,
         'View'      => Illuminate\Support\Facades\View::class,
         'Socialite' => Laravel\Socialite\Facades\Socialite::class,
+        'PDF'       => Barryvdh\DomPDF\Facade::class,
 
     ],
 

@@ -12,7 +12,8 @@
         "caffeinated/shinobi": "~2.0",
         "laravel/socialite": "^2.0",
         "cviebrock/eloquent-sluggable": "^3.1",
-        "frozennode/administrator": " 5.*"
+        "frozennode/administrator": " 5.*",
+        "barryvdh/laravel-dompdf": "0.6.*"
     },
     "require-dev": {
         "fzaninotto/faker": "~1.4",

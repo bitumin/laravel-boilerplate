@@ -150,7 +150,7 @@
                             <tr>
                                 <th>Product or service</th>
                                 <th width="180">Price</th>
-                                <th width="130">% Price Margin</th>
+                                <th width="130">% Margin</th>
                                 <th width="185">Actions</th>
                             </tr>
                             </thead>
