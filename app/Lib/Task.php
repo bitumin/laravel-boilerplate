@@ -7,14 +7,16 @@ use App\TaskType;
 class Task
 {
     //input
-    var $taskWorkerId           = 0;
+    var $taskWorkerId       = 0;
     var $taskTypeId         = 0;
     var $taskDescription    = '';
-    var $taskHours          = 0;    //h
+    var $taskHours          = 0;        //h
 
     //obtained
-    var $taskHourlyWage     = 0.00;    //€/h
-    var $taskCost           = 0;    //€
+    var $taskHourlyWage     = 0.00;     //€/h
+    var $taskCost           = 0;        //€
+    var $taskCostOutput     = '';
+    var $currencyUnit       = '€';
 
     public function __construct()
     {
@@ -34,6 +36,9 @@ class Task
             TaskType::where('id',$this->taskTypeId)->pluck('hourly_wage')
         );
 
-        return $this->taskCost = $this->taskHours * $this->taskHourlyWage;
+        $this->taskCost = $this->taskHours * $this->taskHourlyWage;
+        $this->taskCostOutput = number_format($this->taskCost,2,',','.').' '.$this->currencyUnit;
+
+        return $this->taskCost;
     }
 }

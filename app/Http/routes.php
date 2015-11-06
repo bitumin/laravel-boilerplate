@@ -51,7 +51,9 @@ Route::get('example/cookies-alert',['as'=>'example.cookies-alert','uses'=>'Examp
 // Dashboard routes
 Route::get('dashboard',['as'=>'dashboard','uses'=>'DashboardController@getDashboard']);
 Route::get('dashboard/calculator',['as'=>'dashboard.calculator','uses'=>'DashboardController@getProjectCalculator']);
-Route::post('dashboard/calculator/calculate',['as'=>'dashboard.calculator.calculate','uses'=>'DashboardController@ProjectCalculatorCalculate']);
+Route::post('dashboard/calculator/previewResults',['as'=>'dashboard.calculator.previewResults','uses'=>'DashboardController@ProjectCalculatorPreviewResults']);
+Route::get('dashboard/calculator/report',['as'=>'dashboard.calculator.generateReport','uses'=>'DashboardController@ProjectCalculatorGenerateReport']);
+Route::get('dashboard/calculator/budget',['as'=>'dashboard.calculator.generateBudget','uses'=>'DashboardController@ProjectCalculatorGenerateBudget']);
 Route::get('dashboard/profile',['as'=>'dashboard.profile','uses'=>'DashboardController@getProfile']);
 Route::post('dashboard/profile/update-info',['as'=>'dashboard.profile.update.info','uses'=>'DashboardController@postProfileUpdateInfo']);
 Route::post('dashboard/profile/update-password',['as'=>'dashboard.profile.update.password','uses'=>'DashboardController@postProfileUpdatePassword']);

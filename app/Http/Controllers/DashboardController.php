@@ -46,53 +46,61 @@ class DashboardController extends Controller
         return redirect($this->redirectPath);
     }
 
-    public function ProjectCalculatorCalculate()
+    public function ProjectCalculatorPreviewResults()
     {
         $input = \Request::all();
 
         $tasks = [];
         $products = [];
 
-        //gather the tasks and products/services info and calculate its costs
+        //gather the tasks and products/services data
         foreach($input as $key => $value) {
             $explodedKey = explode('-', $key);
+            if(empty($explodedKey[1])) //filter the row models with empty data
+                continue;
 
-            if($explodedKey[0] === 'taskWorkerId')
+            if($explodedKey[0] === 'taskWorkerId') {
                 $newTask = new \App\Lib\Task();
+                $newTask->set(['currencyUnit'=>$input['currencyUnit']]);
+            }
             if(isset($newTask))
                 $newTask->set([$explodedKey[0]=>$value]);
-            if($explodedKey[0] === 'taskHours') {
+            if($explodedKey[0] === 'taskHours')
                 array_push($tasks,$newTask);
-            }
 
-            if($explodedKey[0] === 'productDescription')
+            if($explodedKey[0] === 'productDescription') {
                 $newProduct = new \App\Lib\Product();
+                $newProduct->set(['currencyUnit'=>$input['currencyUnit']]);
+            }
             if(isset($newProduct))
                 $newProduct->set([$explodedKey[0]=>$value]);
-            if($explodedKey[0] === 'productPriceMargin') {
+            if($explodedKey[0] === 'productPriceMargin')
                 array_push($products,$newProduct);
-            }
         }
 
         //calculate total workers cost and total products cost
         $totalTasksCost = 0.00;
-        $totalProducstCost = 0.00;
+        $totalProductsCost = 0.00;
         $totalCost = 0.00;
 
         foreach($tasks as $task)
             $totalTasksCost += $task->cost();
         foreach($products as $product)
-            $totalProducstCost += $product->cost();
+            $totalProductsCost += $product->cost();
 
-        $totalCost = $totalTasksCost + $totalProducstCost;
+        $totalCost = $totalTasksCost + $totalProductsCost;
 
         //calculate each workers wage
         $workersWages = [];
 
         foreach($tasks as $task) {
-            if(!isset($workersWages[$task->taskWorkerId]))
-                $workersWages[$task->taskWorkerId] = 0.00;
-            $workersWages[$task->taskWorkerId] += $task->taskCost;
+            if(!isset($workersWages[$task->taskWorkerId])) {
+                $workersWages[$task->taskWorkerId] = [
+                    'name' => User::where('id',$task->taskWorkerId)->pluck('name'),
+                    'wage' => 0.00
+                ];
+            }
+            $workersWages[$task->taskWorkerId]['wage'] += $task->taskCost;
         }
 
         //assign % comercial commission and % surcharge (profit margin)
@@ -124,36 +132,53 @@ class DashboardController extends Controller
         //calculate number of associates (shareholders/founders) participating in the project
         $nAssociates = 0;
         foreach($workersWages as $workerId => $wage) {
-            $worker = User::where('id',$workerId);
+            $worker = User::where('id',$workerId)->first();
             if($worker->is('founder') || $worker->is('shareholder'))
                 ++$nAssociates;
         }
 
-        //re-calculate shareholders wage
+        //re-calculate shareholders wage and get the names of all the workers
         if(count($nAssociates)) {
-            foreach ($workersWages as $workerId => $wage) {
-                $worker = User::where('id', $workerId);
-                if ($worker->is('founder') || $worker->is('shareholder'))
-                    $workersWages[$workerId] = $wage + ($profit / $nAssociates);
+            foreach($workersWages as $workerId => $data) {
+                $worker = User::where('id', $workerId)->first();
+                if($worker->is('founder') || $worker->is('shareholder'))
+                    $workersWages[$workerId]['wage'] = $data['wage'] + ($profit / $nAssociates);
             }
         }
 
+        //output wages and products costs with numeric format
+        foreach($workersWages as $workerId => $data)
+            $workersWages[$workerId]['wageOutput'] = number_format($data['wage'],2,',','.').' '.$input['currencyUnit'];
+
         return \Response::json([
             'tasks'             => $tasks,
-            'products'          => $products,
-            'cost'              => $totalCost,
+            'totalTasks'        => number_format($totalTasksCost,2,',','.').' '.$input['currencyUnit'],
             'wages'             => $workersWages,
-            'commission_margin' => number_format($commissionMargin,2,',','.'),
-            'surcharge'         => number_format($surcharge,2,',','.'),
-            'commission'        => number_format($commission,2,',','.'),
-            'profit'            => number_format($profit,2,',','.'),
-            'taxBase'           => number_format($taxBase,2,',','.'),
-            'irpf'              => number_format($irpf,2,',','.'),
-            'taxes'             => number_format($taxes,2,',','.'),
-            'price'             => number_format($price,2,',','.'),
+            'products'          => $products,
+            'totalProducts'     => number_format($totalProductsCost,2,',','.').' '.$input['currencyUnit'],
+            'totalCost'         => number_format($totalCost,2,',','.').' '.$input['currencyUnit'],
+            'commission_margin' => number_format($commissionMargin,2,',','.').' %',
+            'surcharge'         => number_format($surcharge,2,',','.').' %',
+            'commission'        => number_format($commission,2,',','.').' '.$input['currencyUnit'],
+            'profit'            => number_format($profit,2,',','.').' '.$input['currencyUnit'],
+            'taxBase'           => number_format($taxBase,2,',','.').' %',
+            'irpf'              => number_format($irpf*100,2,',','.').' %',
+            'taxes'             => number_format($taxes,2,',','.').' '.$input['currencyUnit'],
+            'price'             => number_format($price,2,',','.').' '.$input['currencyUnit'],
             'associates'        => $nAssociates
         ],200);
+    }
 
+    public function ProjectCalculatorGenerateReport() {
+        $resultsJson = $this->ProjectCalculatorPreviewResults();
+
+        return var_dump($resultsJson->getData());
+    }
+
+    public function ProjectCalculatorGenerateBudget() {
+        $resultsJson = $this->ProjectCalculatorPreviewResults();
+
+        return var_dump($resultsJson->getData());
     }
 
     public function postProfileUpdateInfo()
