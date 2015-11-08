@@ -7,6 +7,31 @@
 @section('css')
     <link rel="stylesheet" href="{{ asset('css/jquery.bootstrap-touchspin.css') }}">
     <style>
+        .panel {
+            margin-bottom: 4px;
+            border-radius: 0;
+            -moz-border-radius: 0;
+            -webkit-border-radius: 0;
+        }
+        .panel-heading {
+            padding: 5px 15px;
+            border-radius: 0;
+            -moz-border-radius: 0;
+            -webkit-border-radius: 0;
+        }
+        .panel-footer {
+            padding: 0px 15px;
+            border-radius: 0;
+            -moz-border-radius: 0;
+            -webkit-border-radius: 0;
+        }
+        .table > tbody > tr > td {
+            padding: 0;
+        }
+        .table > thead > tr > th {
+            padding: 3px;
+        }
+
         .panel-body {
             padding: 0;
             overflow: hidden;
@@ -39,6 +64,8 @@
     <div class="row">
         <div class="col-lg-12">
             <h1>Project calculator</h1>
+        </div>
+        <div class="col-lg-8">
 
             <form id="calculatorForm" role="form" action="javascript:" target="_blank">
             {!! csrf_field() !!}
@@ -61,10 +88,10 @@
                             <tbody>
                             <tr>
                                 <td>
-                                    <input name="clientName" placeholder="Client name" class="form-control" type="text">
+                                    <input name="clientName" placeholder="Client name" class="form-control input-sm" type="text">
                                 </td>
                                 <td>
-                                    <select name="clientTypeId" class="form-control">
+                                    <select name="clientTypeId" class="form-control input-sm">
                                         @foreach(\App\ClientType::all() as $clientType)
                                             <option value="{{ $clientType->id }}">{{ $clientType->name }}
                                                 @if(!empty($clientType->description))
@@ -96,42 +123,41 @@
                                     <th>Worker</th>
                                     <th>Task</th>
                                     <th>Task type</th>
-                                    <th width="100">Hours</th>
-                                    <th width="185">Actions</th>
+                                    <th width="103">Hours</th>
+                                    <th width="136">Actions</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 <tr class="trModel hidden">
                                     <td>
-                                        <select name="taskWorkerId-" class="form-control">
+                                        <select name="taskWorkerId-" class="form-control input-sm">
                                             @foreach(\App\User::all() as $worker)
                                             <option value="{{ $worker->id }}">{{ $worker->name }}</option>
                                             @endforeach
                                         </select>
                                     </td>
                                     <td>
-                                        <input name="taskDescription-" placeholder="Task description" class="form-control" type="text">
+                                        <input name="taskDescription-" placeholder="Task description" class="form-control input-sm" type="text">
                                     </td>
                                     <td>
-                                        <select name="taskTypeId-" class="form-control">
+                                        <select name="taskTypeId-" class="form-control input-sm">
                                             @foreach(\App\TaskType::all() as $taskType)
                                             <option value="{{ $taskType->id }}">{{ $taskType->name }}</option>
                                             @endforeach
                                         </select>
                                     </td>
                                     <td>
-                                        <input name="taskHours-" class="form-control" type="text">
+                                        <input name="taskHours-" class="form-control input-sm" type="text">
                                     </td>
                                     <td>
-                                        <a href="javascript:" class="btn btn-success btnCopy"><i class="fa fa-files-o"></i> Copy</a>
-                                        <a href="javascript:" class="btn btn-warning btnDelete"><i class="fa fa-times"></i> Delete</a>
+                                        <a href="javascript:" class="btn btn-sm btn-success btnCopy"><i class="fa fa-files-o"></i> Copy</a><a href="javascript:" class="btn btn-sm btn-warning btnDelete"><i class="fa fa-times"></i> Delete</a>
                                     </td>
                                 </tr>
                             </tbody>
                         </table>
                     </div>
                     <div class="panel-footer">
-                        <a href="javascript:" class="btn btn-text btnAdd"><i class="fa fa-plus-circle"></i> Add</a>
+                        <a href="javascript:" class="btn btn-sm btn-text btnAdd"><i class="fa fa-plus-circle"></i> Add</a>
                     </div>
                 </div>
             </div>
@@ -151,30 +177,29 @@
                                 <th>Product or service</th>
                                 <th width="180">Price</th>
                                 <th width="130">% Margin</th>
-                                <th width="185">Actions</th>
+                                <th width="136">Actions</th>
                             </tr>
                             </thead>
                             <tbody>
                             <tr class="trModel hidden">
                                 <td>
-                                    <input name="productDescription-" placeholder="Product or service description" class="form-control" type="text">
+                                    <input name="productDescription-" placeholder="Product or service description" class="form-control input-sm" type="text">
                                 </td>
                                 <td>
-                                    <input name="productPrice-" class="form-control" type="text">
+                                    <input name="productPrice-" class="form-control input-sm" type="text">
                                 </td>
                                 <td>
-                                    <input name="productPriceMargin-" class="form-control" type="text">
+                                    <input name="productPriceMargin-" class="form-control input-sm" type="text">
                                 </td>
                                 <td>
-                                    <a href="javascript:" class="btn btn-success btnCopy"><i class="fa fa-files-o"></i> Copy</a>
-                                    <a href="javascript:" class="btn btn-warning btnDelete"><i class="fa fa-times"></i> Delete</a>
+                                    <a href="javascript:" class="btn btn-sm btn-success btnCopy"><i class="fa fa-files-o"></i> Copy</a><a href="javascript:" class="btn btn-sm btn-warning btnDelete"><i class="fa fa-times"></i> Delete</a>
                                 </td>
                             </tr>
                             </tbody>
                         </table>
                     </div>
                     <div class="panel-footer">
-                        <a href="javascript:" class="btn btn-text btnAdd"><i class="fa fa-plus-circle"></i> Add</a>
+                        <a href="javascript:" class="btn btn-sm btn-text btnAdd"><i class="fa fa-plus-circle"></i> Add</a>
                     </div>
                 </div>
             </div>
@@ -201,21 +226,21 @@
                                 <tbody>
                                 <tr>
                                     <td>
-                                        <select name="projectSourceId" class="form-control">
+                                        <select name="projectSourceId" class="form-control input-sm">
                                             @foreach(\App\ProjectSource::all() as $projectSource)
                                                 <option value="{{ $projectSource->id }}">{{ $projectSource->name }}</option>
                                             @endforeach
                                         </select>
                                     </td>
                                     <td>
-                                        <select name="projectTypeId" class="form-control">
+                                        <select name="projectTypeId" class="form-control input-sm">
                                             @foreach(\App\ProjectType::all() as $projectType)
                                                 <option value="{{ $projectType->id }}">{{ $projectType->name }}</option>
                                             @endforeach
                                         </select>
                                     </td>
                                     <td>
-                                        <select name="currencyUnit" class="form-control">
+                                        <select name="currencyUnit" class="form-control input-sm">
                                             <option value="€" selected="selected">Euro (EUR, €)</option>
                                             <option value="$">US Dollar (USD, $)</option>
                                         </select>
@@ -245,10 +270,10 @@
                                 <tbody>
                                 <tr>
                                     <td>
-                                        <input name="irpf-1" class="form-control" type="text">
+                                        <input name="irpf-1" class="form-control input-sm" type="text">
                                     </td>
                                     <td>
-                                        <input name="irpf-2" class="form-control" type="text">
+                                        <input name="irpf-2" class="form-control input-sm" type="text">
                                     </td>
                                 </tr>
                                 </tbody>
@@ -258,18 +283,18 @@
                 </div>
             </div>
 
-
-            <a id="previewResults" class="btn btn-primary">Preview results</a>
-            <a id="generateReport" class="btn btn-primary">Generate internal report</a>
-            <a id="generateBudget" class="btn btn-primary">Generate budget</a>
+            <br>
+            {{--<a id="previewResults" class="btn btn-sm btn-primary">Preview results</a>--}}
+            <a id="generateReport" class="btn btn-sm btn-primary">Generate internal report</a>
+            <a id="generateBudget" class="btn btn-sm btn-primary">Generate budget</a>
             <br><br>
 
             </form>
 
-            {{--RESULTS PREVIEW--}}
-            <h1>Results preview</h1>
+        </div>
+        <div class="col-lg-4">
 
-            <div class="panel panel-primary">
+            <div class="panel panel-default">
                 <div class="panel-heading">
                     Workers wages
                 </div>
@@ -288,7 +313,7 @@
                 </div>
             </div>
 
-            <div class="panel panel-primary">
+            <div class="panel panel-default">
                 <div class="panel-heading">
                     Tasks costs
                 </div>
@@ -312,7 +337,7 @@
                 </div>
             </div>
 
-            <div class="panel panel-primary">
+            <div class="panel panel-default">
                 <div class="panel-heading">
                     Product/services costs
                 </div>
@@ -335,7 +360,7 @@
                 </div>
             </div>
 
-            <div class="panel panel-primary">
+            <div class="panel panel-default">
                 <div class="panel-heading">
                     Totals
                 </div>
@@ -418,9 +443,9 @@
                 });
             }
             function initTouchSpinners(obj) {
-                obj.find('input[name^=taskHours-]').TouchSpin({min: 0, max: 9999, decimals: 0, verticalbuttons: true});
-                obj.find('input[name^=productPrice-]').TouchSpin({min: 0, max: 9999999, decimals: 2, postfix: "€", verticalbuttons: true});
-                obj.find('input[name^=productPriceMargin-]').TouchSpin({min: 0, max: 100, decimals: 0, postfix: "%", verticalbuttons: true});
+                obj.find('input[name^=taskHours-]').TouchSpin({min: 0, max: 9999, decimals: 0});
+                obj.find('input[name^=productPrice-]').TouchSpin({min: 0, max: 9999999, decimals: 2, postfix: "€"});
+                obj.find('input[name^=productPriceMargin-]').TouchSpin({min: 0, max: 100, decimals: 0, postfix: "%"});
             }
             function redrawInputs(obj) {
                 obj.find('input, select').each(function() {
@@ -430,18 +455,10 @@
                 });
             }
 
-            $('input[name=irpf-1]').TouchSpin({min: 0, max: 100, decimals: 0, postfix: "%", verticalbuttons: true, initval: '21'});
-            $('input[name=irpf-2]').TouchSpin({min: 0, max: 100, decimals: 0, postfix: "%", verticalbuttons: true, initval: '15'});
+            $('input[name=irpf-1]').TouchSpin({min: 0, max: 100, decimals: 0, postfix: "%", initval: '21'});
+            $('input[name=irpf-2]').TouchSpin({min: 0, max: 100, decimals: 0, postfix: "%", initval: '15'});
 
-            $(document).on('click','#previewResults',function(){
-                $('#tbodyResultsTasks').empty();
-                $('#totalTasks').empty();
-                $('#tbodyResultsWages').empty();
-                $('#tbodyResultsProducts').empty();
-                $('#totalProducts').empty();
-                $('#tbodyResultsTotals').empty();
-                $('#totalBudget').empty();
-
+            $(document).on('change',':input',function(){
                 $.post('{{ route('dashboard.calculator.previewResults') }}', $("#calculatorForm").serialize(), function(data) {
                     //append tasks results
                     $.each(data['tasks'], function(key,val) {
@@ -451,7 +468,7 @@
                             '<td>'+val['taskCostOutput']+'</td>'+
                             '</tr>'
                         );
-                        $('#tbodyResultsTasks').append(tasksRow);
+                        $('#tbodyResultsTasks').empty().append(tasksRow);
                     });
                     $('#totalTasks').text(data['totalTasks']);
 
@@ -463,7 +480,7 @@
                             '<td>'+val['wageOutput']+'</td>'+
                             '</tr>'
                         );
-                        $('#tbodyResultsWages').append(wagesRow);
+                        $('#tbodyResultsWages').empty().append(wagesRow);
                     });
 
                     //append products results
@@ -474,7 +491,7 @@
                                 '<td>'+val['productCostOutput']+'</td>'+
                                 '</tr>'
                         );
-                        $('#tbodyResultsProducts').append(wagesRow);
+                        $('#tbodyResultsProducts').empty().append(wagesRow);
                     });
                     $('#totalProducts').text(data['totalProducts']);
 
@@ -495,7 +512,7 @@
                                 '<td>'+val+'</td>'+
                                 '</tr>'
                         );
-                        $('#tbodyResultsTotals').append(wagesRow);
+                        $('#tbodyResultsTotals').empty().append(wagesRow);
                     });
                     $('#totalBudget').text('Presupuesto: '+data['price']);
 
