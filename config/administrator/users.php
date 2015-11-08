@@ -226,7 +226,7 @@ return [
     * @type array
     */
     'rules' => [
-        'password' => 'sometimes|min:6',
+        'password' => 'sometimes|required|min:6',
     ],
 
 //    /**
