@@ -459,8 +459,10 @@
             $('input[name=irpf-2]').TouchSpin({min: 0, max: 100, decimals: 0, postfix: "%", initval: '15'});
 
             $(document).on('change',':input',function(){
+                console.log($("#calculatorForm").serialize());
                 $.post('{{ route('dashboard.calculator.previewResults') }}', $("#calculatorForm").serialize(), function(data) {
                     //append tasks results
+                    $('#tbodyResultsTasks').empty();
                     $.each(data['tasks'], function(key,val) {
                         var tasksRow = $(
                             '<tr>'+
@@ -468,11 +470,12 @@
                             '<td>'+val['taskCostOutput']+'</td>'+
                             '</tr>'
                         );
-                        $('#tbodyResultsTasks').empty().append(tasksRow);
+                        $('#tbodyResultsTasks').append(tasksRow);
                     });
                     $('#totalTasks').text(data['totalTasks']);
 
                     //append wages results
+                    $('#tbodyResultsWages').empty();
                     $.each(data['wages'], function(key,val) {
                         var wagesRow = $(
                             '<tr>'+
@@ -480,22 +483,24 @@
                             '<td>'+val['wageOutput']+'</td>'+
                             '</tr>'
                         );
-                        $('#tbodyResultsWages').empty().append(wagesRow);
+                        $('#tbodyResultsWages').append(wagesRow);
                     });
 
                     //append products results
+                    $('#tbodyResultsProducts').empty();
                     $.each(data['products'], function(key,val) {
-                        var wagesRow = $(
+                        var productsRow = $(
                                 '<tr>'+
                                 '<td>'+val['productDescription']+'</td>'+
                                 '<td>'+val['productCostOutput']+'</td>'+
                                 '</tr>'
                         );
-                        $('#tbodyResultsProducts').empty().append(wagesRow);
+                        $('#tbodyResultsProducts').append(productsRow);
                     });
                     $('#totalProducts').text(data['totalProducts']);
 
                     //append totals
+                    $('#tbodyResultsTotals').empty();
                     $.each({
                         "Coste total": data['totalCost'],
                         "Margen comisión": data['commission_margin'],
@@ -506,13 +511,13 @@
                         "IRPF ponderado": data['irpf'],
                         "Reserva impuestos": data['taxes']
                     }, function(key,val) {
-                        var wagesRow = $(
+                        var totalsRow = $(
                                 '<tr>'+
                                 '<td>'+key+'</td>'+
                                 '<td>'+val+'</td>'+
                                 '</tr>'
                         );
-                        $('#tbodyResultsTotals').empty().append(wagesRow);
+                        $('#tbodyResultsTotals').append(totalsRow);
                     });
                     $('#totalBudget').text('Presupuesto: '+data['price']);
 
