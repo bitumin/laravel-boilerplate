@@ -131,9 +131,9 @@ class AuthController extends Controller
             case 'social_role':
                 return Validator::make($data, [
                     'name' => 'required|max:255',
-                    'email' => 'sometimes|email|max:255|unique:users',
-                    'provider' => 'required|in:facebook,google,twitter,bitbucket,github,linkedin',
-                    'provider_id' => 'required',
+                    'email' => 'required_unless:provider_id|email|max:255|unique:users',
+                    'provider' => 'required_unless:email|in:facebook,google,twitter,bitbucket,github,linkedin',
+                    'provider_id' => 'required_unless:email',
                 ]);
                 break;
             default: //for default, default_role, confirm and confirm_role registration methods
