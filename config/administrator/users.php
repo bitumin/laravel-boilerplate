@@ -85,10 +85,11 @@ return [
             'title' => 'Email',
             'type' => 'text'
         ],
-        'password' => [
-            'title' => 'Password',
-            'type' => 'password',
-        ],
+//TODO: CORRECT BUG! model mutator hashing hashes the password BEFORE the app validation occurs, making the validation rules completely useless!!!
+//        'password' => [
+//            'title' => 'Password',
+//            'type' => 'password',
+//        ],
         'roles' => [
             'title' => 'Roles',
             'type' => 'relationship',
