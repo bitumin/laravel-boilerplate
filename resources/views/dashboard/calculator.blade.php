@@ -40,7 +40,7 @@
         <div class="col-lg-12">
             <h1>Project calculator</h1>
 
-            <form id="calculatorForm" role="form" action="javascript:">
+            <form id="calculatorForm" role="form" action="javascript:" target="_blank">
             {!! csrf_field() !!}
 
             <div class="panel panel-primary">
