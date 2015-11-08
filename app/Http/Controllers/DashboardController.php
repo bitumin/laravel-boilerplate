@@ -269,7 +269,7 @@ class DashboardController extends Controller
             return \Response::json([],400);
 
         $me = Auth::user();
-        $me->password = $input['password'];
+        $me->password = bcrypt($input['password']);
 
         if($me->save())
             return \Response::json([],200);

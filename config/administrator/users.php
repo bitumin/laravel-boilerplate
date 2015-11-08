@@ -85,11 +85,10 @@ return [
             'title' => 'Email',
             'type' => 'text'
         ],
-//TODO: CORRECT BUG! model mutator hashing hashes the password BEFORE the app validation occurs, making the validation rules completely useless!!!
-//        'password' => [
-//            'title' => 'Password',
-//            'type' => 'password',
-//        ],
+        'password' => [
+            'title' => 'Password',
+            'type' => 'password',
+        ],
         'roles' => [
             'title' => 'Roles',
             'type' => 'relationship',
@@ -128,18 +127,30 @@ return [
         ],
     ],
 
-//    /**
-//    * The query filter option lets you modify the query parameters before Administrator begins to construct the query. For example, if you want
-//    * to have one page show only deleted items and another page show all of the items that aren't deleted, you can use the query filter to do
-//    * that.
-//    *
-//    * @type closure
-//    */
-//    'query_filter'=> function($query) {
+    /**
+    * The query filter option lets you modify the query parameters before Administrator begins to construct the query. For example, if you want
+    * to have one page show only deleted items and another page show all of the items that aren't deleted, you can use the query filter to do
+    * that.
+    *
+    * @type closure
+    */
+    'query_filter'=> function($query) {
 //        if (!Auth::user()->hasRole('super_admin')) {
 //            $query->whereDeleted(false);
 //        }
-//    },
+
+        //hacky fix to hash non-hashed passwords of today's newly created users
+        $todayStart = \Carbon\Carbon::today()->startOfDay();
+        $todayEnd = \Carbon\Carbon::today()->endOfDay();
+        $users = \App\User::whereBetween('updated_at',[$todayStart,$todayEnd])->get();
+
+        foreach($users as $user) {
+            if(\Illuminate\Support\Facades\Hash::needsRehash($user->password)) {
+                $user->password = bcrypt($user->password);
+                $user->save();
+            }
+        }
+    },
 
     /**
      * The permission option is the per-model authentication check that lets you define a closure that should return true if the current user

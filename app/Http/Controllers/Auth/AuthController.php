@@ -132,6 +132,7 @@ class AuthController extends Controller
                 return Validator::make($data, [
                     'name' => 'required|max:255',
                     'email' => 'required_without:provider_id|email|max:255|unique:users',
+                    'password' => 'required_without:provider,provider_id|confirmed|min:6',
                     'provider' => 'required_without:email|in:facebook,google,twitter,bitbucket,github,linkedin',
                     'provider_id' => 'required_without:email',
                 ]);
@@ -188,7 +189,7 @@ class AuthController extends Controller
                 $newUser = User::create([
                     'name' => $data['name'],
                     'email' => $data['email'],
-                    'password' => $data['password'],
+                    'password' => bcrypt($data['password']),
                 ]);
                 $invitation = Invitation::where('email',$data['email'])->first();
                 $newUser->assignRole($invitation->id);
@@ -204,7 +205,7 @@ class AuthController extends Controller
                 return User::create([
                     'name' => $data['name'],
                     'email' => $data['email'],
-                    'password' => $data['password'],
+                    'password' => bcrypt($data['password']),
                     'confirmation_code' => $confirmationCode,
                 ]);
                 break;
@@ -216,7 +217,7 @@ class AuthController extends Controller
                 $newUser = User::create([
                     'name' => $data['name'],
                     'email' => $data['email'],
-                    'password' => $data['password'],
+                    'password' => bcrypt($data['password']),
                     'confirmation_code' => $confirmationCode,
                 ]);
                 $newUser->assignRole(Role::where('slug',$this->getDefaultRole())->first()->id);
@@ -226,7 +227,7 @@ class AuthController extends Controller
                 $newUser = User::create([
                     'name' => $data['name'],
                     'email' => $data['email'],
-                    'password' => $data['password'],
+                    'password' => bcrypt($data['password']),
                 ]);
                 $newUser->assignRole(Role::where('slug',$this->getDefaultRole())->first()->id);
                 return $newUser;
@@ -235,7 +236,7 @@ class AuthController extends Controller
                 return User::create([
                     'name' => $data['name'],
                     'email' => $data['email'],
-                    'password' => $data['password'],
+                    'password' => bcrypt($data['password']),
                 ]);
                 break;
         }
@@ -365,7 +366,7 @@ class AuthController extends Controller
      */
     protected function resetPassword($user, $password)
     {
-        $user->password = $password;
+        $user->password = bcrypt($password);
         $user->save();
 
         Auth::login($user);

@@ -97,37 +97,37 @@ class ProjectCalculatorTableSeeder extends Seeder
         $testAnalyst = User::create([
             'name'      => 'Test analyst',
             'email'     => 'analyst@email.com',
-            'password'  => 'analyst',
+            'password'  => bcrypt('analyst'),
             'confirmed' => true,
         ]);
         $testConsultant = User::create([
             'name'      => 'Test consultant',
             'email'     => 'consultant@email.com',
-            'password'  => 'consultant',
+            'password'  => bcrypt('consultant'),
             'confirmed' => true,
         ]);
         $testManager = User::create([
             'name'      => 'Test manager',
             'email'     => 'manager@email.com',
-            'password'  => 'manager',
+            'password'  => bcrypt('manager'),
             'confirmed' => true,
         ]);
         $testSeniorManager = User::create([
             'name'      => 'Test senior manager',
             'email'     => 'seniormanager@email.com',
-            'password'  => 'seniormanager',
+            'password'  => bcrypt('seniormanager'),
             'confirmed' => true,
         ]);
         $testShareholder = User::create([
             'name'      => 'Test shareholder',
             'email'     => 'shareholder@email.com',
-            'password'  => 'shareholder',
+            'password'  => bcrypt('shareholder'),
             'confirmed' => true,
         ]);
         $testFounder = User::create([
             'name'      => 'Test founder',
             'email'     => 'founder@email.com',
-            'password'  => 'founder',
+            'password'  => bcrypt('founder'),
             'confirmed' => true,
         ]);
 
