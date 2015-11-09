@@ -1,7 +1,7 @@
 @extends('layouts.dashboard')
 
 @section('title')
-    <title>Dashboard | Users management</title>
+    <title>Dashboard | Project calculator</title>
 @endsection
 
 @section('css')
@@ -124,7 +124,7 @@
                                     <th>Task</th>
                                     <th>Task type</th>
                                     <th width="103">Hours</th>
-                                    <th width="136">Actions</th>
+                                    <th width="138">Actions</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -177,7 +177,7 @@
                                 <th>Product or service</th>
                                 <th width="180">Price</th>
                                 <th width="130">% Margin</th>
-                                <th width="136">Actions</th>
+                                <th width="138">Actions</th>
                             </tr>
                             </thead>
                             <tbody>
@@ -459,7 +459,6 @@
             $('input[name=irpf-2]').TouchSpin({min: 0, max: 100, decimals: 0, postfix: "%", initval: '15'});
 
             $(document).on('change',':input',function(){
-                console.log($("#calculatorForm").serialize());
                 $.post('{{ route('dashboard.calculator.previewResults') }}', $("#calculatorForm").serialize(), function(data) {
                     //append tasks results
                     $('#tbodyResultsTasks').empty();
@@ -520,7 +519,6 @@
                         $('#tbodyResultsTotals').append(totalsRow);
                     });
                     $('#totalBudget').text('Presupuesto: '+data['price']);
-
                 });
             });
 
