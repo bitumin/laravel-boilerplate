@@ -195,4 +195,86 @@ class ExamplesController extends Controller
     {
         return view('templates.shop.item');
     }
+
+    public function getTemplateBusinessCasualIndex()
+    {
+        return view('templates.business-casual.index');
+    }
+
+    public function getTemplateBusinessCasualAbout()
+    {
+        return view('templates.business-casual.about');
+    }
+
+    public function getTemplateBusinessCasualBlog()
+    {
+        return view('templates.business-casual.blog');
+    }
+
+    public function getTemplateBusinessCasualContact()
+    {
+        return view('templates.business-casual.contact');
+    }
+
+    public function getTemplateStylishPortfolioIndex()
+    {
+        return view('templates.stylish-portfolio.index');
+    }
+
+    public function getTemplateDesignIndex()
+    {
+        return view('templates.design.index');
+    }
+
+    public function getTemplateArchitectIndex()
+    {
+        return view('templates.architect.index');
+    }
+
+    public function getTemplateArchitectProjects()
+    {
+        return view('templates.architect.projects');
+    }
+
+    public function getTemplateArchitectDetail()
+    {
+        return view('templates.architect.detail');
+    }
+
+    public function getTemplateArchitectMedia()
+    {
+        return view('templates.architect.media');
+    }
+
+    public function getTemplateArchitectAbout()
+    {
+        return view('templates.architect.about');
+    }
+
+    public function getTemplateArchitectContact()
+    {
+        return view('templates.architect.contact');
+    }
+
+    public function getTemplateStudioIndex()
+    {
+        return view('templates.studio.index');
+    }
+
+    public function getTemplateResumeIndex()
+    {
+        return view('templates.resume.index');
+    }
+
+    public function getTemplateResumeBlog()
+    {
+        return view('templates.resume.blog');
+    }
+
+    public function getTemplateResumeBlogdetail()
+    {
+        return view('templates.resume.blogdetail');
+    }
+
+
 }
