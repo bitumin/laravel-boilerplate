@@ -9,6 +9,7 @@ class Product
     //input
     var $productDescription     = '';
     var $productPrice           = 0.00;     //€
+    var $productUnits           = 1;
     var $productPriceMargin     = 0;        //%
 
     //calculated
@@ -31,7 +32,7 @@ class Product
     public function cost()
     {
         $extraCost = $this->productPrice * ($this->productPriceMargin/100);
-        $this->productCost = floatval($this->productPrice + $extraCost);
+        $this->productCost = floatval(($this->productPrice + $extraCost)*$this->productUnits);
         $this->productCostOutput = number_format($this->productCost,2,',','.').' '.$this->currencyUnit;
 
         return $this->productCost;

@@ -58,6 +58,7 @@ return [
             'roles',
         ],
         'Calculator' => [
+            'clients',
             'clientTypes',
             'projectCommissions',
             'projectSources',

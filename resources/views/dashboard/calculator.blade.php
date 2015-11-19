@@ -176,6 +176,7 @@
                             <tr>
                                 <th>Product or service</th>
                                 <th width="180">Price</th>
+                                <th width="103">Units</th>
                                 <th width="130">% Margin</th>
                                 <th width="138">Actions</th>
                             </tr>
@@ -187,6 +188,9 @@
                                 </td>
                                 <td>
                                     <input name="productPrice-" class="form-control input-sm" type="text">
+                                </td>
+                                <td>
+                                    <input name="productUnits-" class="form-control input-sm" type="text">
                                 </td>
                                 <td>
                                     <input name="productPriceMargin-" class="form-control input-sm" type="text">
@@ -444,7 +448,8 @@
             }
             function initTouchSpinners(obj) {
                 obj.find('input[name^=taskHours-]').TouchSpin({min: 0, max: 9999, decimals: 0});
-                obj.find('input[name^=productPrice-]').TouchSpin({min: 0, max: 9999999, decimals: 2, postfix: "€"});
+                obj.find('input[name^=productUnits-]').TouchSpin({min: 1, max: 9999, decimals: 0, initval: 1});
+                obj.find('input[name^=productPrice-]').TouchSpin({min: 0, max: 9999999, step: 0.01, decimals: 2, postfix: "€"});
                 obj.find('input[name^=productPriceMargin-]').TouchSpin({min: 0, max: 100, decimals: 0, postfix: "%"});
             }
             function redrawInputs(obj) {
@@ -458,7 +463,7 @@
             $('input[name=irpf-1]').TouchSpin({min: 0, max: 100, decimals: 0, postfix: "%", initval: '21'});
             $('input[name=irpf-2]').TouchSpin({min: 0, max: 100, decimals: 0, postfix: "%", initval: '15'});
 
-            $(document).on('change',':input',function(){
+            $(document).on('change',':input',function() {
                 $.post('{{ route('dashboard.calculator.previewResults') }}', $("#calculatorForm").serialize(), function(data) {
                     //append tasks results
                     $('#tbodyResultsTasks').empty();

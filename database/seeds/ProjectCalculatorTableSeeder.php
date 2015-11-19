@@ -11,6 +11,7 @@ use \App\ClientType;
 use \App\TaskType;
 use \App\ProjectSource;
 use \App\ProjectCommission;
+use \App\Client;
 
 class ProjectCalculatorTableSeeder extends Seeder
 {
@@ -179,5 +180,17 @@ class ProjectCalculatorTableSeeder extends Seeder
         TaskType::create(['name' => 'Analyst', 'hourly_wage' => 13.72]);
         TaskType::create(['name' => 'Developer (junior)', 'hourly_wage' => 16.46]);
         TaskType::create(['name' => 'Consultant (junior)', 'hourly_wage' => 21.95]);
+
+        //Test client
+        Client::create([
+            'name'              => 'Test Client SA',
+            'client_type_id'    => 1,
+            'contact_name'      => 'Nombre de la persona de contacto',
+            'email'             => 'email@client.com',
+            'telephone'         => '(+34) 666 55 44 33',
+            'fax'               => '(+34) 999 88 77 66',
+            'notes'             => 'Comentarios, observaciones o anotaciones significativas sobre este cliente.',
+            'raw_address'       => 'Pintor Joan Miro 49, Sant Andreu de la Barca, España'
+        ]);
     }
 }

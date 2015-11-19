@@ -167,7 +167,7 @@ class DashboardController extends Controller
         //calculate final price
         $price = $taxBase + $taxes;
 
-        //calculate number of associates (shareholders/founders) participating in the project
+        //caltculate number of associates (shareholders/founders) participating in the projec
         $nAssociates = 0;
         foreach($workersWages as $workerId => $wage) {
             $worker = User::where('id',$workerId)->first();

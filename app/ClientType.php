@@ -27,4 +27,8 @@ class ClientType extends Model
      */
     protected $hidden = [];
 
+    public function clients()
+    {
+        return $this->hasMany('App\Client');
+    }
 }
