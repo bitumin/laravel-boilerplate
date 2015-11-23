@@ -4,21 +4,21 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class ClientType extends Model
+class Expense extends Model
 {
     /**
      * The database table used by the model.
      *
      * @var string
      */
-    protected $table = 'client_types';
+    protected $table = 'expenses';
 
     /**
      * The attributes that are mass assignable.
      *
      * @var array
      */
-    protected $fillable = ['name', 'description', 'profit_margin'];
+    protected $fillable = ['name', 'description', 'price', 'margin', 'units'];
 
     /**
      * The attributes excluded from the model's JSON form.
@@ -27,9 +27,10 @@ class ClientType extends Model
      */
     protected $hidden = [];
 
-    //1:many
-    public function clients()
+    //1:many(inverse)
+    public function project()
     {
-        return $this->hasMany('App\Client');
+        return $this->belongsTo('App\Project');
     }
+
 }

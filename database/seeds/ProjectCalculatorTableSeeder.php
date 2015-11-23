@@ -12,6 +12,7 @@ use \App\TaskType;
 use \App\ProjectSource;
 use \App\ProjectCommission;
 use \App\Client;
+use \App\Currency;
 
 class ProjectCalculatorTableSeeder extends Seeder
 {
@@ -192,5 +193,10 @@ class ProjectCalculatorTableSeeder extends Seeder
             'notes'             => 'Comentarios, observaciones o anotaciones significativas sobre este cliente.',
             'raw_address'       => 'Pintor Joan Miro 49, Sant Andreu de la Barca, España'
         ]);
+
+        //Currencies
+        Currency::create(['name' => 'EUR', 'symbol' => '€']);
+        Currency::create(['name' => 'USD', 'symbol' => '$']);
+
     }
 }

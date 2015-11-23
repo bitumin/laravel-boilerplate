@@ -3,7 +3,7 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateClientTypes extends Migration
+class CreateClientTypesTable extends Migration
 {
     /**
      * Run the migrations.

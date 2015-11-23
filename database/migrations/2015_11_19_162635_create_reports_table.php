@@ -3,7 +3,7 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateBudgetIndex extends Migration
+class CreateReportsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -12,11 +12,14 @@ class CreateBudgetIndex extends Migration
      */
     public function up()
     {
-        Schema::create('budgets', function(Blueprint $table) {
+        Schema::create('reports', function(Blueprint $table) {
             $table->increments('id');
+
+            $table->integer('project_id')->unsigned()->index();
+            $table->foreign('project_id')->references('id')->on('projects')->onDelete('restrict')->onUpdate('cascade');
+
             $table->timestamps();
         });
-        DB::unprepared("ALTER TABLE budgets AUTO_INCREMENT = 13567;");
     }
 
     /**
@@ -26,6 +29,6 @@ class CreateBudgetIndex extends Migration
      */
     public function down()
     {
-        Schema::drop('budgets');
+        Schema::drop('reports');
     }
 }

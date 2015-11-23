@@ -4,21 +4,21 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Report extends Model
+class Task extends Model
 {
     /**
      * The database table used by the model.
      *
      * @var string
      */
-    protected $table = 'reports';
+    protected $table = 'tasks';
 
     /**
      * The attributes that are mass assignable.
      *
      * @var array
      */
-    protected $fillable = [];
+    protected $fillable = ['name', 'description', 'hours'];
 
     /**
      * The attributes excluded from the model's JSON form.
@@ -27,10 +27,21 @@ class Report extends Model
      */
     protected $hidden = [];
 
-    //1:1/1:many (inverse)
-    public function project()
+    //1:many(inverse)
+    public function projects()
     {
         return $this->belongsTo('App\Project');
+    }
+
+    //1:1(inverse)
+    public function worker()
+    {
+        return $this->belongsTo('App\User');
+    }
+
+    public function task_type()
+    {
+        return $this->belongsTo('App\TaskType');
     }
 
 }

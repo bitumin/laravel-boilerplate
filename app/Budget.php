@@ -27,4 +27,10 @@ class Budget extends Model
      */
     protected $hidden = [];
 
+    //1:1/1:many (inverse)
+    public function project()
+    {
+        return $this->belongsTo('App\Project');
+    }
+
 }

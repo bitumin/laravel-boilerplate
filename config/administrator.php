@@ -52,18 +52,19 @@ return [
 	 *	)
 	 */
 	'menu' => [
-        'Users' => [
-            'users',
-            'permissions',
-            'roles',
-        ],
-        'Calculator' => [
+        'Projects' => [
             'clients',
             'clientTypes',
+            'currencies',
             'projectCommissions',
             'projectSources',
             'projectTypes',
             'taskTypes',
+        ],
+        'Users' => [
+            'users',
+            'permissions',
+            'roles',
         ],
     ],
 

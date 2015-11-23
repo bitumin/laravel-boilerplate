@@ -62,4 +62,16 @@ class User extends Model implements AuthenticatableContract,
     {
         return $this->belongsToMany('App\Role');
     }
+
+    //1:many
+    public function wages()
+    {
+        return $this->hasMany('App\Wage');
+    }
+
+    public function tasks()
+    {
+        return $this->hasMany('App\Task');
+    }
+
 }

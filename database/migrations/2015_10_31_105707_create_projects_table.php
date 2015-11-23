@@ -14,11 +14,17 @@ class CreateProjectsTable extends Migration
     {
         Schema::create('projects', function(Blueprint $table) {
             $table->increments('id');
-            //associated tasks (input), many:1(this)
-            //associated expenses (input), many:1(this)
-            //associated wages (calculated), many:1(this)
 
-            //saved inputs
+            //has many
+            //associated tasks (input)
+            //associated expenses (input)
+            //associated wages (calculated)
+
+            //has one (or has many)
+            //budget
+            //report
+
+            //1:1 - inputs
             $table->integer('currency_id')->unsigned()->index();
             $table->foreign('currency_id')->references('id')->on('currencies')->onDelete('restrict')->onUpdate('cascade');
             $table->integer('client_id')->unsigned()->index();
@@ -39,13 +45,6 @@ class CreateProjectsTable extends Migration
             $table->float('irpf_minus');
             $table->float('taxes');
             $table->integer('n_associates');
-
-
-            //associated budget and report
-            $table->integer('budget_id')->unsigned()->index();
-            $table->foreign('budget_id')->references('id')->on('clients')->onDelete('restrict')->onUpdate('cascade');
-            $table->integer('client_id')->unsigned()->index();
-            $table->foreign('client_id')->references('id')->on('clients')->onDelete('restrict')->onUpdate('cascade');
 
             $table->timestamps();
         });

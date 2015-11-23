@@ -2,8 +2,6 @@
 
 namespace App\Lib;
 
-use App\TaskType;
-
 class Product
 {
     //input
@@ -11,11 +9,13 @@ class Product
     var $productPrice           = 0.00;     //€
     var $productUnits           = 1;
     var $productPriceMargin     = 0;        //%
+    var $currencyUnit           = '€';
 
     //calculated
     var $productCost            = 0.00;     //€
+
+    //output
     var $productCostOutput      = '';
-    var $currencyUnit           = '€';
 
     public function __construct()
     {

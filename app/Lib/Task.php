@@ -11,12 +11,14 @@ class Task
     var $taskTypeId         = 0;
     var $taskDescription    = '';
     var $taskHours          = 0;        //h
-
-    //obtained
-    var $taskHourlyWage     = 0.00;     //€/h
-    var $taskCost           = 0;        //€
-    var $taskCostOutput     = '';
     var $currencyUnit       = '€';
+
+    //calculated
+    var $taskHourlyWage     = 0.00;     //€/h
+    var $taskCost           = 0.00;     //€
+
+    //output
+    var $taskCostOutput     = '';
 
     public function __construct()
     {

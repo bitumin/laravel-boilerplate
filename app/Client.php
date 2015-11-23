@@ -28,9 +28,16 @@ class Client extends Model
      */
     protected $hidden = [];
 
+    //1:many(inverse)
     public function clientType()
     {
         return $this->belongsTo('App\ClientType');
+    }
+
+    //1:many
+    public function projects()
+    {
+        return $this->hasMany('App\Project');
     }
 
     /**

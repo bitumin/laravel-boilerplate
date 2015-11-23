@@ -3,7 +3,7 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateReportIndex extends Migration
+class CreateProjectSourcesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -12,11 +12,11 @@ class CreateReportIndex extends Migration
      */
     public function up()
     {
-        Schema::create('reports', function(Blueprint $table) {
+        Schema::create('project_sources', function(Blueprint $table) {
             $table->increments('id');
+            $table->string('name');
             $table->timestamps();
         });
-        DB::unprepared("ALTER TABLE reports AUTO_INCREMENT = 13567;");
     }
 
     /**
@@ -26,6 +26,6 @@ class CreateReportIndex extends Migration
      */
     public function down()
     {
-        Schema::drop('reports');
+        Schema::drop('project_sources');
     }
 }
