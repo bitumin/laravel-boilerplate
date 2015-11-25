@@ -17,19 +17,11 @@ class CreateWagesTable extends Migration
             $table->integer('project_id')->unsigned()->index();
             $table->foreign('project_id')->references('id')->on('projects')->onDelete('restrict')->onUpdate('cascade');
 
-            /*
-             * INPUT
-             */
-            //task worker
-            $table->integer('user_id')->unsigned()->index();
-            $table->foreign('user_id')->references('id')->on('users')->onDelete('restrict')->onUpdate('cascade');
 
-            $table->boolean('is_associate')->default(false);
-
-            /*
-             * CALCULATED
-             */
+            $table->string('worker');
+            $table->boolean('is_associate');
             $table->float('wage');
+            $table->string('currency');
 
             $table->timestamps();
         });

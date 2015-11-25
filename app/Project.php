@@ -27,6 +27,7 @@ class Project extends Model
      */
     protected $hidden = [];
 
+    //Relations
     //1:many
     public function tasks()
     {
@@ -42,23 +43,7 @@ class Project extends Model
     {
         return $this->hasMany('App\Wage');
     }
-
-    //1:many (inverse)
-    public function client()
-    {
-        return $this->belongsTo('App\Client');
-    }
-
-    public function currency()
-    {
-        return $this->belongsTo('App\Currency');
-    }
-
-    public function project_source()
-    {
-        return $this->belongsTo('App\ProjectSource');
-    }
-
+    
     //1:1 (?)
     public function budget()
     {
@@ -79,5 +64,30 @@ class Project extends Model
     public function reports()
     {
         return $this->hasMany('App\Report');
+    }
+
+    //Functions
+    public function formattedData()
+    {
+        return [
+            'id'                => sprintf('%07d', $this->id),
+            'currency'          => $this->currency,
+            'client'            => $this->client,
+            'commission_rate'   => number_format($this->commission_rate,2,',','.').' %',
+            'commission'        => number_format($this->commission,2,',','.').' '.$this->currency,
+            'margin_rate'       => number_format($this->margin_rate,2,',','.').' %',
+            'margin'            => number_format($this->margin,2,',','.').' '.$this->currency,
+            'tasks_cost'        => number_format($this->tasks_costs,2,',','.').' '.$this->currency,
+            'expenses_cost'     => number_format($this->expenses_cost,2,',','.').' '.$this->currency,
+            'total_cost'        => number_format($this->total_cost,2,',','.').' '.$this->currency,
+            'income_tax'        => number_format($this->income_tax,2,',','.').' %',
+            'vat'               => number_format($this->vat,2,',','.').' %',
+            'taxes'             => number_format($this->taxes,2,',','.').' '.$this->currency,
+            'tax_base'          => number_format($this->tax_base,2,',','.').' '.$this->currency,
+            'price'             => number_format($price,2,',','.').' '.$this->currency,
+            'associates'        => $this->associates,
+            'created_at'        => \Carbon\Carbon::createFromFormat('Y-m-d H:i:s', $this->created_at)->format('d/m/Y'),
+            'updated_at'        => \Carbon\Carbon::createFromFormat('Y-m-d H:i:s', $this->updated_at)->format('d/m/Y'),
+        ];
     }
 }

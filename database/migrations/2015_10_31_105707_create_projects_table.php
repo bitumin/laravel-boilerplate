@@ -15,36 +15,38 @@ class CreateProjectsTable extends Migration
         Schema::create('projects', function(Blueprint $table) {
             $table->increments('id');
 
-            //has many
+            //has many:
             //associated tasks (input)
             //associated expenses (input)
             //associated wages (calculated)
 
-            //has one (or has many)
-            //budget
-            //report
+            //has one (or many):
+            //budget/s
+            //report/s
 
-            //1:1 - inputs
-            $table->integer('currency_id')->unsigned()->index();
-            $table->foreign('currency_id')->references('id')->on('currencies')->onDelete('restrict')->onUpdate('cascade');
-            $table->integer('client_id')->unsigned()->index();
-            $table->foreign('client_id')->references('id')->on('clients')->onDelete('restrict')->onUpdate('cascade');
-            $table->integer('project_source_id')->unsigned()->index();
-            $table->foreign('project_source_id')->references('id')->on('project_sources')->onDelete('restrict')->onUpdate('cascade');
+            //stored values (historical)
+            $table->string('client');
+            $table->string('currency');
 
-            //stored/calculated values
             $table->float('tasks_cost');
             $table->float('expenses_cost');
             $table->float('total_cost');
             $table->float('commission_rate');
-            $table->float('commission');
+            $table->float('commmission');
+            $table->float('total_cost_w_commission');
+
             $table->float('margin_rate');
-            $table->float('margin');
+            $table->float('income_tax'); //IRPF
+            $table->float('gross_utility');
+            $table->float('income_tax_deduction');
+            $table->float('net_utility');
             $table->float('tax_base');
-            $table->float('irpf_plus');
-            $table->float('irpf_minus');
-            $table->float('taxes');
-            $table->integer('n_associates');
+
+            $table->float('vat'); //IVA
+            $table->float('vat_deduction');
+            $table->float('budget');
+
+            $table->integer('associates');
 
             $table->timestamps();
         });

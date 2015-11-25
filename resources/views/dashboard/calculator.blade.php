@@ -54,7 +54,7 @@
         .panel-heading .accordion-toggle.collapsed:after {
             content: "\e080";
         }
-        #totalBudget, #totalProducts, #totalTasks, #totalWages {
+        #totalBudget, #totalExpenses, #totalTasks, #totalWages {
             font-weight: bold;
         }
     </style>
@@ -73,7 +73,7 @@
             <div class="panel panel-primary">
                 <div class="panel-heading">
                     <a class="accordion-toggle" data-toggle="collapse" data-target="#collapse3" href="javascript:">
-                        Client information
+                        Client
                     </a>
                 </div>
                 <div id="collapse3" class="collapse in">
@@ -108,11 +108,11 @@
                 </div>
             </div>
 
-            {{--TASKS COSTS--}}
+            {{--TASKS--}}
             <div class="panel panel-primary">
                 <div class="panel-heading">
                     <a class="accordion-toggle" data-toggle="collapse" data-target="#collapse1" href="javascript:">
-                        Tasks costs
+                        Tasks
                     </a>
                 </div>
                 <div id="collapse1" class="collapse in">
@@ -121,8 +121,8 @@
                             <thead>
                                 <tr>
                                     <th>Worker</th>
-                                    <th>Task</th>
-                                    <th>Task type</th>
+                                    <th>Name</th>
+                                    <th>Description</th>
                                     <th width="103">Hours</th>
                                     <th width="138">Actions</th>
                                 </tr>
@@ -137,14 +137,14 @@
                                         </select>
                                     </td>
                                     <td>
-                                        <input name="taskDescription-" placeholder="Task description" class="form-control input-sm" type="text">
-                                    </td>
-                                    <td>
                                         <select name="taskTypeId-" class="form-control input-sm">
                                             @foreach(\App\TaskType::all() as $taskType)
-                                            <option value="{{ $taskType->id }}">{{ $taskType->name }}</option>
+                                                <option value="{{ $taskType->id }}">{{ $taskType->name }}</option>
                                             @endforeach
                                         </select>
+                                    </td>
+                                    <td>
+                                        <input name="taskDescription-" placeholder="Task description" class="form-control input-sm" type="text">
                                     </td>
                                     <td>
                                         <input name="taskHours-" class="form-control input-sm" type="text">
@@ -166,7 +166,7 @@
             <div class="panel panel-primary">
                 <div class="panel-heading">
                     <a class="accordion-toggle" data-toggle="collapse" data-target="#collapse2" href="javascript:">
-                        Products/services costs
+                        Expenses
                     </a>
                 </div>
                 <div id="collapse2" class="collapse in">
@@ -174,9 +174,10 @@
                         <table class="table table-bordered">
                             <thead>
                             <tr>
-                                <th>Product or service</th>
-                                <th width="180">Price</th>
-                                <th width="103">Units</th>
+                                <th>Name</th>
+                                <th>Description</th>
+                                <th width="120">Price</th>
+                                <th width="50">Units</th>
                                 <th width="130">% Margin</th>
                                 <th width="138">Actions</th>
                             </tr>
@@ -184,16 +185,19 @@
                             <tbody>
                             <tr class="trModel hidden">
                                 <td>
-                                    <input name="productDescription-" placeholder="Product or service description" class="form-control input-sm" type="text">
+                                    <input name="expenseName-" placeholder="Name" class="form-control input-sm" type="text">
                                 </td>
                                 <td>
-                                    <input name="productPrice-" class="form-control input-sm" type="text">
+                                    <input name="expenseDescription-" placeholder="Description" class="form-control input-sm" type="text">
                                 </td>
                                 <td>
-                                    <input name="productUnits-" class="form-control input-sm" type="text">
+                                    <input name="expensePrice-" class="form-control input-sm" type="text">
                                 </td>
                                 <td>
-                                    <input name="productPriceMargin-" class="form-control input-sm" type="text">
+                                    <input name="expenseUnits-" class="form-control input-sm" type="text">
+                                </td>
+                                <td>
+                                    <input name="expenseMarginRate-" class="form-control input-sm" type="text">
                                 </td>
                                 <td>
                                     <a href="javascript:" class="btn btn-sm btn-success btnCopy"><i class="fa fa-files-o"></i> Copy</a><a href="javascript:" class="btn btn-sm btn-warning btnDelete"><i class="fa fa-times"></i> Delete</a>
@@ -244,7 +248,7 @@
                                         </select>
                                     </td>
                                     <td>
-                                        <select name="currencyUnit" class="form-control input-sm">
+                                        <select name="projectCurrency" class="form-control input-sm">
                                             <option value="€" selected="selected">Euro (EUR, €)</option>
                                             <option value="$">US Dollar (USD, $)</option>
                                         </select>
@@ -260,24 +264,24 @@
                     <div class="panel panel-primary">
                         <div class="panel-heading">
                             <a class="accordion-toggle" data-toggle="collapse" data-target="#collapse5" href="javascript:">
-                                IRPF
+                                Taxes
                             </a>
                         </div>
                         <div id="collapse5" class="panel-body collapse in">
                             <table class="table table-bordered">
                                 <thead>
                                 <tr>
-                                    <th>IRPF (+)</th>
-                                    <th>IRPF (-)</th>
+                                    <th>Income tax (IRPF)</th>
+                                    <th>VAT (IVA)</th>
                                 </tr>
                                 </thead>
                                 <tbody>
                                 <tr>
                                     <td>
-                                        <input name="irpf-1" class="form-control input-sm" type="text">
+                                        <input name="income_tax" class="form-control input-sm" type="text">
                                     </td>
                                     <td>
-                                        <input name="irpf-2" class="form-control input-sm" type="text">
+                                        <input name="vat" class="form-control input-sm" type="text">
                                     </td>
                                 </tr>
                                 </tbody>
@@ -289,10 +293,12 @@
 
             <br>
             {{--<a id="previewResults" class="btn btn-sm btn-primary">Preview results</a>--}}
-            <a id="generateReport" class="btn btn-sm btn-primary">Generate internal report</a>
-            <a id="generateBudget" class="btn btn-sm btn-primary">Generate budget</a>
+            <a id="generateReport" class="btn btn-sm btn-primary">TEST internal report</a>
+            <a id="generateBudget" class="btn btn-sm btn-primary">TEST budget</a>
             <br><br>
-
+            <a id="saveProject" class="btn btn-sm btn-success">Save project in DB</a>
+            <a id="saveProject" class="btn btn-sm btn-warning disabled">Open internal report</a>
+            <a id="saveProject" class="btn btn-sm btn-warning disabled">Open budget</a>
             </form>
 
         </div>
@@ -343,7 +349,7 @@
 
             <div class="panel panel-default">
                 <div class="panel-heading">
-                    Product/services costs
+                    Expenses
                 </div>
                 <div class="panel-body">
                     <table class="table table-bordered">
@@ -353,12 +359,12 @@
                             <th>Total</th>
                         </tr>
                         </thead>
-                        <tbody id="tbodyResultsProducts">
+                        <tbody id="tbodyResultsExpenses">
                         </tbody>
                     </table>
                 </div>
                 <div class="panel-footer text-right">
-                    <span id="totalProducts">
+                    <span id="totalExpenses">
 
                     </span>
                 </div>
@@ -366,7 +372,7 @@
 
             <div class="panel panel-default">
                 <div class="panel-heading">
-                    Totals
+                    Results
                 </div>
                 <div class="panel-body">
                     <table class="table table-bordered">
@@ -448,9 +454,9 @@
             }
             function initTouchSpinners(obj) {
                 obj.find('input[name^=taskHours-]').TouchSpin({min: 0, max: 9999, decimals: 0});
-                obj.find('input[name^=productUnits-]').TouchSpin({min: 1, max: 9999, decimals: 0, initval: 1});
-                obj.find('input[name^=productPrice-]').TouchSpin({min: 0, max: 9999999, step: 0.01, decimals: 2, postfix: "€"});
-                obj.find('input[name^=productPriceMargin-]').TouchSpin({min: 0, max: 100, decimals: 0, postfix: "%"});
+                obj.find('input[name^=expenseUnits-]').TouchSpin({min: 1, max: 9999, decimals: 0, initval: 1, buttondown_class: "hidden", buttonup_class: "hidden"});
+                obj.find('input[name^=expensePrice-]').TouchSpin({min: 0, max: 9999999, step: 0.01, decimals: 2, postfix: "€", buttondown_class: "hidden", buttonup_class: "hidden"});
+                obj.find('input[name^=expenseMarginRate-]').TouchSpin({min: 0, max: 100, decimals: 0, postfix: "%"});
             }
             function redrawInputs(obj) {
                 obj.find('input, select').each(function() {
@@ -460,60 +466,64 @@
                 });
             }
 
-            $('input[name=irpf-1]').TouchSpin({min: 0, max: 100, decimals: 0, postfix: "%", initval: '21'});
-            $('input[name=irpf-2]').TouchSpin({min: 0, max: 100, decimals: 0, postfix: "%", initval: '15'});
+            $('input[name=income_tax]').TouchSpin({min: 0, max: 100, decimals: 0, postfix: "%", initval: '30'});
+            $('input[name=vat]').TouchSpin({min: 0, max: 100, decimals: 0, postfix: "%", initval: '21'});
 
             $(document).on('change',':input',function() {
-                $.post('{{ route('dashboard.calculator.previewResults') }}', $("#calculatorForm").serialize(), function(data) {
+                $.get('{{ route('dashboard.calculator.previewResults') }}', $("#calculatorForm").serialize(), function(data) {
                     //append tasks results
                     $('#tbodyResultsTasks').empty();
                     $.each(data['tasks'], function(key,val) {
                         var tasksRow = $(
                             '<tr>'+
-                            '<td>'+val['taskDescription']+'</td>'+
-                            '<td>'+val['taskCostOutput']+'</td>'+
+                            '<td>'+val['name']+'</td>'+
+                            '<td>'+val['cost']+'</td>'+
                             '</tr>'
                         );
                         $('#tbodyResultsTasks').append(tasksRow);
                     });
-                    $('#totalTasks').text(data['totalTasks']);
+                    $('#totalTasks').text(data['tasks_cost']);
 
                     //append wages results
                     $('#tbodyResultsWages').empty();
                     $.each(data['wages'], function(key,val) {
                         var wagesRow = $(
                             '<tr>'+
-                            '<td>'+val['name']+'</td>'+
-                            '<td>'+val['wageOutput']+'</td>'+
+                            '<td>'+val['worker']+'</td>'+
+                            '<td>'+val['wage']+'</td>'+
                             '</tr>'
                         );
                         $('#tbodyResultsWages').append(wagesRow);
                     });
 
-                    //append products results
-                    $('#tbodyResultsProducts').empty();
-                    $.each(data['products'], function(key,val) {
-                        var productsRow = $(
+                    //append expenses results
+                    $('#tbodyResultsExpenses').empty();
+                    $.each(data['expenses'], function(key,val) {
+                        var expensesRow = $(
                                 '<tr>'+
-                                '<td>'+val['productDescription']+'</td>'+
-                                '<td>'+val['productCostOutput']+'</td>'+
+                                '<td>'+val['name']+'</td>'+
+                                '<td>'+val['cost']+'</td>'+
                                 '</tr>'
                         );
-                        $('#tbodyResultsProducts').append(productsRow);
+                        $('#tbodyResultsExpenses').append(expensesRow);
                     });
-                    $('#totalProducts').text(data['totalProducts']);
+                    $('#totalExpenses').text(data['expenses_cost']);
 
                     //append totals
                     $('#tbodyResultsTotals').empty();
                     $.each({
-                        "Coste total": data['totalCost'],
-                        "Margen comisión": data['commission_margin'],
+                        "Costes": data['total_cost'],
+                        "% Comisión": data['commission_rate'],
                         "Comisión": data['commission'],
-                        "Margen beneficio": data['surcharge'],
-                        "Beneficio": data['profit'],
-                        "Base imponible": data['taxBase'],
-                        "IRPF ponderado": data['irpf'],
-                        "Reserva impuestos": data['taxes']
+                        "Costes+comisión": data['total_cost_w_commission'],
+                        "% Margen": data['margin_rate'],
+                        "IRPF": data['income_tax'],
+                        "Utilidad bruta": data['gross_utility'],
+                        "Deducción IRPF": data['income_tax_deduction'],
+                        "Utilidad neta": data['net_utility'],
+                        "Base imponible": data['tax_base'],
+                        "IVA": data['vat'],
+                        "Deducción IVA": data['vat_deduction']
                     }, function(key,val) {
                         var totalsRow = $(
                                 '<tr>'+
@@ -523,16 +533,16 @@
                         );
                         $('#tbodyResultsTotals').append(totalsRow);
                     });
-                    $('#totalBudget').text('Presupuesto: '+data['price']);
+                    $('#totalBudget').text('Presupuesto: '+data['budget']);
                 });
             });
 
             $(document).on('click','#generateReport', function() {
-                $('#calculatorForm').attr('action', "{{ route('dashboard.calculator.generateReport') }}").submit();
+                $('#calculatorForm').attr('action', "{{ route('dashboard.calculator.testReport') }}").submit();
             });
 
             $(document).on('click','#generateBudget', function() {
-                $('#calculatorForm').attr('action', "{{ route('dashboard.calculator.generateBudget') }}").submit();
+                $('#calculatorForm').attr('action', "{{ route('dashboard.calculator.testBudget') }}").submit();
             });
 
         });

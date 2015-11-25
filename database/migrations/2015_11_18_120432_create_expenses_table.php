@@ -17,19 +17,15 @@ class CreateExpensesTable extends Migration
             $table->integer('project_id')->unsigned()->index();
             $table->foreign('project_id')->references('id')->on('projects')->onDelete('restrict')->onUpdate('cascade');
 
-            /*
-             * INPUT
-             */
+            //stored values (historical)
             $table->string('name');
             $table->string('description',1020);
             $table->float('price');
-            $table->integer('margin',false,true);
             $table->integer('units',false,true);
-
-            /*
-             * CALCULATED
-             */
+            $table->float('margin_rate');
+            $table->float('margin');
             $table->float('cost');
+            $table->string('currency');
 
             $table->timestamps();
         });

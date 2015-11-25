@@ -130,22 +130,22 @@
         </tr>
         <tr>
             <td class="tdClientInfo">
-                <span class="title">PREPARED FOR:</span><br>
-                <span class="clientName">{{ $clientName }}</span>
+                <span class="title">PREPARADO PARA:</span><br>
+                <span class="clientName">{{ $client }}</span>
             </td>
             <td class="tdBudgetSummary-wrapper">
                 <table align="right" cellspacing="0" class="tableBudgetSummary">
                     <tr>
-                        <td>Budget #</td>
-                        <td align="right">{{ $budgetId }}</td>
+                        <td>Presupuesto #</td>
+                        <td align="right">{{ $id }}</td>
                     </tr>
                     <tr>
-                        <td>Budget date</td>
-                        <td align="right">{{ \Carbon\Carbon::createFromFormat('Y-m-d',$today)->format('d/m/Y') }}</td>
+                        <td>Fecha del presupuesto</td>
+                        <td align="right">{{ $today }}</td>
                     </tr>
                     <tr class="trBudgetSummaryTotal">
-                        <td>Budget total</td>
-                        <td align="right">{{ $price }}</td>
+                        <td>Presupuesto total</td>
+                        <td align="right">{{ $budget }}</td>
                     </tr>
                 </table>
             </td>
@@ -156,88 +156,64 @@
             </td>
         </tr>
     </table>
-
     <table class="tableItems" cellspacing="0">
         <tr class="trItemsHeader">
             <td>ITEM</td>
-            <td>DESCRIPTION</td>
-            <td align="right">UNIT COST</td>
-            <td align="right">QUANTITY</td>
-            <td align="right">LINE TOTAL</td>
+            <td>DESCRIPCIÓN</td>
+            <td align="right">PRECIO</td>
+            <td align="right">CANTIDAD</td>
+            <td align="right">TOTAL LÍNEA</td>
         </tr>
+        @if(count($tasks)>0)
         @foreach($tasks as $task)
+        <tr class="trItem">
+            <td class="colItem">{{ $task['name'] }}</td>
+            <td>{{ $task['description'] }}</td>
+            <td align="right">{{ $task['public_hourly_wage'] }}</td>
+            <td align="right">{{ $task['hours'] }} h</td>
+            <td align="right">{{ $task['public_cost'] }}</td>
+        </tr>
+        @endforeach
+        <tr class="trItem">
+            <td colspan="4" align="right">SUBTOTAL TAREAS</td>
+            <td align="right">{{ $public_tasks_cost }}</td>
+        </tr>
+        @endif
+        @if(count($expenses)>0)
+        @foreach($expenses as $expense)
             <tr class="trItem">
-                <td class="colItem">{{ \App\TaskType::where('id',$task['taskTypeId'])->pluck('name') }}</td>
-                <td>{{ $task['taskDescription'] }}</td>
-                <td align="right">{{ number_format($task['taskHourlyWage'],2,'.',',') }} €</td>
-                <td align="right">{{ $task['taskHours'] }} h</td>
-                <td align="right">{{ $task['taskCostOutput'] }}</td>
+                <td class="colItem">{{ $expense['name'] }}</td>
+                <td>{{ $expense['description'] }}</td>
+                <td align="right">{{ $expense['public_price'] }}</td>
+                <td align="right">{{ $expense['units'] }}</td>
+                <td align="right">{{ $expense['public_cost'] }}</td>
             </tr>
         @endforeach
         <tr class="trItem">
-            <td class="colItem"></td>
-            <td></td>
-            <td align="right"></td>
-            <td align="right">SUBTOTAL</td>
-            <td align="right">{{ $totalTasks }}</td>
+            <td colspan="4" align="right">SUBTOTAL OTROS</td>
+            <td align="right">{{ $public_expenses_cost }}</td>
         </tr>
-
-        @foreach($products as $product)
-            <tr class="trItem">
-                <td class="colItem">PRODUCT</td>
-                <td>{{ $product['productDescription'] }}</td>
-                <td align="right">{{ $product['productCostOutput'] }}</td>
-                <td align="right">1 u</td>
-                <td align="right">{{ $product['productCostOutput'] }}</td>
-            </tr>
-        @endforeach
+        @endif
         <tr class="trItem">
-            <td class="colItem"></td>
-            <td></td>
-            <td align="right"></td>
-            <td align="right">SUBTOTAL</td>
-            <td align="right">{{ $totalProducts }}</td>
-        </tr>
-
-        <tr class="trItem">
-            <td class="colItem"></td>
-            <td></td>
-            <td align="right"></td>
-            <td align="right">COMISIÓN COMERCIAL</td>
-            <td align="right">{{ $commission }}</td>
+            <td colspan="4" align="right">BASE IMPONIBLE</td>
+            <td align="right">{{ $tax_base  }}</td>
         </tr>
         <tr class="trItem">
-            <td class="colItem"></td>
-            <td></td>
-            <td align="right"></td>
-            <td align="right">BENEFICIO GESTORA</td>
-            <td align="right">{{ $profit }}</td>
+            <td colspan="4" align="right">TIPO IVA</td>
+            <td align="right">{{ $vat }}</td>
         </tr>
         <tr class="trItem">
-            <td class="colItem"></td>
-            <td></td>
-            <td align="right"></td>
-            <td align="right">BASE IMPONIBLE</td>
-            <td align="right">{{ $taxBase  }}</td>
+            <td colspan="4" align="right">IVA</td>
+            <td align="right">{{ $vat_deduction }}</td>
         </tr>
-
-        <tr class="trItem">
-            <td class="colItem"></td>
-            <td></td>
-            <td align="right"></td>
-            <td align="right">TIPO IMPOSITIVO</td>
-            <td align="right">{{ $irpf }}</td>
-        </tr>
-
-        <tr class="trItemsSpacing">
-            <td colspan="5">
-                <img src="{{ public_path('img/spacing.gif') }}" height="10" width="1">
-            </td>
-        </tr>
+        {{--<tr class="trItemsSpacing">--}}
+            {{--<td colspan="5">--}}
+                {{--<img src="{{ public_path('img/spacing.gif') }}" height="10" width="1">--}}
+            {{--</td>--}}
+        {{--</tr>--}}
         <tr class="trItemsTotal">
-            <td colspan="2"></td>
-            <td align="right" class="tdTotalHightlight">BUDGET TOTAL</td>
-            <td align="right" colspan="2" class="tdTotalHightlight">{{ $price }}</td>
+            <td colspan="4" align="right" class="tdTotalHightlight">PRESUPUESTO TOTAL</td>
+            <td align="right" class="tdTotalHightlight">{{ $budget }}</td>
         </tr>
     </table>
 </body>

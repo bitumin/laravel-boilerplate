@@ -18,7 +18,7 @@ class CreateProjectCommissionsTable extends Migration
             $table->foreign('project_source_id')->references('id')->on('project_sources')->onDelete('cascade');
             $table->integer('project_type_id')->unsigned()->index();
             $table->foreign('project_type_id')->references('id')->on('project_types')->onDelete('cascade');
-            $table->float('commission');
+            $table->float('commission'); //%
             $table->timestamps();
         });
     }
