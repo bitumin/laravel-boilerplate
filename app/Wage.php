@@ -4,7 +4,7 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Expense extends Model
+class Wage extends Model
 {
     /**
      * The database table used by the model.
@@ -18,7 +18,9 @@ class Expense extends Model
      *
      * @var array
      */
-    protected $fillable = ['is_associate'];
+    protected $fillable = [
+        'worker','is_associate','wage','currency','project_id'
+    ];
 
     /**
      * The attributes excluded from the model's JSON form.

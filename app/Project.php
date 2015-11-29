@@ -18,7 +18,13 @@ class Project extends Model
      *
      * @var array
      */
-    protected $fillable = [];
+    protected $fillable = [
+        'client','currency','tasks_cost','expenses_cost',
+        'total_cost','commission_rate','commission','total_cost_w_commission',
+        'margin_rate','income_tax','gross_utility','income_tax_deduction',
+        'net_utility','tax_base','vat','vat_deduction','budget','associates',
+        'public_tasks_cost','public_expenses_cost'
+    ];
 
     /**
      * The attributes excluded from the model's JSON form.

@@ -60,6 +60,16 @@ class DashboardController extends Controller
         return \Response::json($results,200);
     }
 
+    public function projectCalculatorSaveProject()
+    {
+        $input = \Request::all();
+        $project = new Project($input);
+
+        if($newProjectId = $project->saveProject())
+            return \Response::json(['id'=>$newProjectId],200);
+        return \Response::json([],400);
+    }
+
     public function projectCalculatorTestReport() {
         $input = \Request::all();
         $project = new Project($input);
@@ -68,6 +78,7 @@ class DashboardController extends Controller
         $today = Carbon::today();
         $todayStr = $today->format('Ymdhis');
         $data['today'] = $today->format('d/m/Y');
+        $data['id'] = sprintf('%07d', 'test');
 
         return PDF::loadView('pdfTemplates.internalReport', $data)
             ->stream('report_'.$data['id'].'_'.$todayStr.'.pdf');
@@ -81,6 +92,7 @@ class DashboardController extends Controller
         $today = Carbon::today();
         $todayStr = $today->format('Ymdhis');
         $data['today'] = $today->format('d/m/Y');
+        $data['id'] = sprintf('%07d', 'test');
 
         return PDF::loadView('pdfTemplates.budget', $data)
             ->stream('budget_'.$data['id'].'_'.$todayStr.'.pdf');

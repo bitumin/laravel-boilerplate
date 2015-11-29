@@ -18,7 +18,10 @@ class Expense extends Model
      *
      * @var array
      */
-    protected $fillable = ['name', 'description', 'price', 'margin', 'units'];
+    protected $fillable = [
+        'name', 'description', 'price', 'public_price','units',
+        'margin_rate','margin','cost','public_cost','currency','project_id'
+    ];
 
     /**
      * The attributes excluded from the model's JSON form.

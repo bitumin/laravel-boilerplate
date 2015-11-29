@@ -5,10 +5,15 @@ namespace App\Lib\ProjectManager;
 use App\ClientType;
 use App\ProjectCommission;
 use App\User;
+use App\Lib\ProjectManager\Task as Task;
+use App\Lib\ProjectManager\Expense as Expense;
+use App\Lib\ProjectManager\Wage as Wage;
+use App\Task as TaskModel;
+use App\Wage as WageModel;
+use App\Expense as ExpenseModel;
 
 class Project
 {
-    var $id                         = 0;
     var $currency                   = '€';
     var $client                     = '';
 
@@ -42,6 +47,7 @@ class Project
     public function __construct($input)
     {
         $this->currency = $input['projectCurrency'];
+        $this->client = $input['clientName'];
 
         //Gather the tasks and expenses data
         foreach($input as $key => $value) {
@@ -141,7 +147,7 @@ class Project
             }
         }
 
-        //Prepare data for budget/public disclosure (hide income taxes surcharge, commissions, utility...)
+        //Prepare data for budget/public disclosure (hide income taxes, commissions, utility, etc. related surcharges)
         $items = count($this->tasks) + count($this->expenses);
         $surcharge = ($this->tax_base - $this->total_cost_w_commission)/$items;
         foreach($this->tasks as $task) {
@@ -170,7 +176,6 @@ class Project
             array_push($wagesOutput,$wage->outputFormatted());
 
         return [
-            'id'                        => sprintf('%07d', $this->id),
             'client'                    => $this->client,
             'currency'                  => $this->currency,
             
@@ -201,5 +206,32 @@ class Project
             'public_tasks_cost'         => number_format((float) $this->public_tasks_cost,2,',','.').' '.$this->currency,
             'public_expenses_cost'      => number_format((float) $this->public_expenses_cost,2,',','.').' '.$this->currency,
         ];
+    }
+
+    public function saveProject()
+    {
+        $results = $this->outputFormatted();
+
+        $newProject = \App\Project::create($results);
+        if(empty($newProject->id))
+            return false;
+
+        foreach($results['tasks'] as $taskResults)
+        {
+            $taskResults['project_id'] = $newProject->id;
+            TaskModel::create($taskResults);
+        }
+        foreach($results['expenses'] as $expenseResults)
+        {
+            $expenseResults['project_id'] = $newProject->id;
+            ExpenseModel::create($expenseResults);
+        }
+        foreach($results['wages'] as $wageResults)
+        {
+            $wageResults['project_id'] = $newProject->id;
+            WageModel::create($wageResults);
+        }
+
+        return $newProject->id;
     }
 }

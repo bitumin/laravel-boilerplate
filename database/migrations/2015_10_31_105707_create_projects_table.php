@@ -28,25 +28,28 @@ class CreateProjectsTable extends Migration
             $table->string('client');
             $table->string('currency');
 
-            $table->float('tasks_cost');
-            $table->float('expenses_cost');
-            $table->float('total_cost');
-            $table->float('commission_rate');
-            $table->float('commmission');
-            $table->float('total_cost_w_commission');
+            $table->string('tasks_cost');
+            $table->string('expenses_cost');
+            $table->string('total_cost');
+            $table->string('commission_rate');
+            $table->string('commission');
+            $table->string('total_cost_w_commission');
 
-            $table->float('margin_rate');
-            $table->float('income_tax'); //IRPF
-            $table->float('gross_utility');
-            $table->float('income_tax_deduction');
-            $table->float('net_utility');
-            $table->float('tax_base');
+            $table->string('margin_rate');
+            $table->string('income_tax'); //IRPF
+            $table->string('gross_utility');
+            $table->string('income_tax_deduction');
+            $table->string('net_utility');
+            $table->string('tax_base');
 
-            $table->float('vat'); //IVA
-            $table->float('vat_deduction');
-            $table->float('budget');
+            $table->string('vat'); //IVA
+            $table->string('vat_deduction');
+            $table->string('budget');
 
             $table->integer('associates');
+
+            $table->string('public_tasks_cost');
+            $table->string('public_expenses_cost');
 
             $table->timestamps();
         });

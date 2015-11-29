@@ -292,13 +292,12 @@
             </div>
 
             <br>
-            {{--<a id="previewResults" class="btn btn-sm btn-primary">Preview results</a>--}}
             <a id="generateReport" class="btn btn-sm btn-primary">TEST internal report</a>
             <a id="generateBudget" class="btn btn-sm btn-primary">TEST budget</a>
             <br><br>
             <a id="saveProject" class="btn btn-sm btn-success">Save project in DB</a>
-            <a id="saveProject" class="btn btn-sm btn-warning disabled">Open internal report</a>
-            <a id="saveProject" class="btn btn-sm btn-warning disabled">Open budget</a>
+            <a id="openReport" class="btn btn-sm btn-warning disabled">Open internal report</a>
+            <a id="openBudget" class="btn btn-sm btn-warning disabled">Open budget</a>
             </form>
 
         </div>
@@ -543,6 +542,22 @@
 
             $(document).on('click','#generateBudget', function() {
                 $('#calculatorForm').attr('action', "{{ route('dashboard.calculator.testBudget') }}").submit();
+            });
+
+            $(document).on('click','#saveProject', function() {
+                $.post('{{ route('dashboard.calculator.saveProject') }}', $("#calculatorForm").serialize(), function(data) {
+                    alert(data['id']);
+                }).fail(function() {
+                    alert('error saving');
+                });
+            });
+
+            $(document).on('click','#openReport', function() {
+                $('#calculatorForm').attr('action', "{{ route('dashboard.calculator.openReport') }}").submit();
+            });
+
+            $(document).on('click','#openBudget', function() {
+                $('#calculatorForm').attr('action', "{{ route('dashboard.calculator.openBudget') }}").submit();
             });
 
         });

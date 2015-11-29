@@ -62,8 +62,8 @@ Route::get('dashboard/calculator/previewResults',['as'=>'dashboard.calculator.pr
 Route::get('dashboard/calculator/testReport',['as'=>'dashboard.calculator.testReport','uses'=>'DashboardController@projectCalculatorTestReport']);
 Route::get('dashboard/calculator/testBudget',['as'=>'dashboard.calculator.testBudget','uses'=>'DashboardController@projectCalculatorTestBudget']);
 Route::post('dashboard/calculator/saveProject',['as'=>'dashboard.calculator.saveProject','uses'=>'DashboardController@projectCalculatorSaveProject']);
-Route::get('dashboard/calculator/report',['as'=>'dashboard.calculator.openReport','uses'=>'DashboardController@projectCalculatorOpenReport']);
-Route::get('dashboard/calculator/budget',['as'=>'dashboard.calculator.openBudget','uses'=>'DashboardController@projectCalculatorOpenBudget']);
+Route::get('dashboard/calculator/openReport',['as'=>'dashboard.calculator.openReport','uses'=>'DashboardController@projectCalculatorOpenReport']);
+Route::get('dashboard/calculator/openBudget',['as'=>'dashboard.calculator.openBudget','uses'=>'DashboardController@projectCalculatorOpenBudget']);
 
 // Authentication
 Route::get('auth/login',['as'=>'auth.getLogin','uses'=>'Auth\AuthController@getLogin']);

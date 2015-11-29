@@ -20,11 +20,13 @@ class CreateExpensesTable extends Migration
             //stored values (historical)
             $table->string('name');
             $table->string('description',1020);
-            $table->float('price');
+            $table->string('price');
+            $table->string('public_price');
             $table->integer('units',false,true);
-            $table->float('margin_rate');
-            $table->float('margin');
-            $table->float('cost');
+            $table->string('margin_rate');
+            $table->string('margin');
+            $table->string('cost');
+            $table->string('public_cost');
             $table->string('currency');
 
             $table->timestamps();
