@@ -149,7 +149,7 @@ class Project
 
         //Prepare data for budget/public disclosure (hide income taxes, commissions, utility, etc. related surcharges)
         $items = count($this->tasks) + count($this->expenses);
-        $surcharge = ($this->tax_base - $this->total_cost_w_commission)/$items;
+        $surcharge = ($items > 0) ? ($this->tax_base - $this->total_cost_w_commission)/$items : 0.00;
         foreach($this->tasks as $task) {
             $task->taskPublicCost = $task->taskCost + $surcharge;
             $this->public_tasks_cost += $task->taskPublicCost;

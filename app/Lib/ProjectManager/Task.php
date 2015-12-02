@@ -52,7 +52,8 @@ class Task
 
     public function calculatePublicPrice()
     {
-        $this->taskPublicHourlyWage = $this->taskPublicCost / $this->taskHours;
+	    if($this->taskHours > 0)
+            $this->taskPublicHourlyWage = $this->taskPublicCost / $this->taskHours;
     }
 
     public function outputFormatted()

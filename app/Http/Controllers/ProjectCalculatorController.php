@@ -72,7 +72,7 @@ class ProjectCalculatorController extends Controller
 	{
 		$input = \Request::all();
 		$projectId = $input['projectId'];
-		$project = ProjectModel::find($projectId)->first();
+		$project = ProjectModel::findOrFail($projectId);
 		$expenses = ExpenseModel::where('project_id',$projectId)->get();
 		$tasks = TaskModel::where('project_id',$projectId)->get();
 		$wages = WageModel::where('project_id',$projectId)->get();
@@ -101,7 +101,7 @@ class ProjectCalculatorController extends Controller
 	{
 		$input = \Request::all();
 		$projectId = $input['projectId'];
-		$project = ProjectModel::find($projectId)->first();
+		$project = ProjectModel::findOrFail($projectId);
 		$expenses = ExpenseModel::where('project_id',$projectId)->get();
 		$tasks = TaskModel::where('project_id',$projectId)->get();
 		
