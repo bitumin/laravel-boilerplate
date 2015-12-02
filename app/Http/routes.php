@@ -11,10 +11,9 @@
 |
 */
 
-/*
- * Route::get('uri',['as'=>'route','uses'=>'controller']);
- * Route::post('uri',['as'=>'route','uses'=>'controller']);
- */
+// Example routes:
+// Route::get('uri',['as'=>'route','uses'=>'controller']);
+// Route::post('uri',['as'=>'route','uses'=>'controller']);
 
 // Main routes
 Route::get('/',['as'=>'public.home','uses'=>'PublicController@getHome']);
@@ -22,7 +21,7 @@ Route::get('portfolio',['as'=>'public.portfolio','uses'=>'PublicController@getPo
 Route::get('examples',['as'=>'public.examples','uses'=>'PublicController@getExamples']);
 Route::get('templates',['as'=>'public.templates','uses'=>'PublicController@getTemplates']);
 
-// View examples
+// Development examples
 Route::get('example/basic',['as'=>'example.basic','uses'=>'ExamplesController@exampleBasic']);
 Route::get('example/code',['as'=>'example.code','uses'=>'ExamplesController@exampleCode']);
 Route::get('example/flot-charts',['as'=>'example.flot','uses'=>'ExamplesController@exampleFlotCharts']);
@@ -48,34 +47,40 @@ Route::post('example/geolocated-search',['as'=>'example.geosearch.post','uses'=>
 Route::get('example/toastr',['as'=>'example.toastr','uses'=>'ExamplesController@exampleToastr']);
 Route::get('example/cookies-alert',['as'=>'example.cookies-alert','uses'=>'ExamplesController@exampleCookiesAlert']);
 
-// Dashboard routes
+
+/*
+ * DASHBOARD ROUTES
+ */
 Route::get('dashboard',['as'=>'dashboard','uses'=>'DashboardController@getDashboard']);
 
+// User profile management
 Route::get('dashboard/profile',['as'=>'dashboard.profile','uses'=>'DashboardController@getProfile']);
 Route::post('dashboard/profile/update-info',['as'=>'dashboard.profile.update.info','uses'=>'DashboardController@postProfileUpdateInfo']);
 Route::post('dashboard/profile/update-password',['as'=>'dashboard.profile.update.password','uses'=>'DashboardController@postProfileUpdatePassword']);
+
+// User settings
 Route::get('dashboard/settings',['as'=>'dashboard.settings','uses'=>'DashboardController@getSettings']);
 
-// Calculator routes
-Route::get('dashboard/calculator',['as'=>'dashboard.calculator','uses'=>'DashboardController@getProjectCalculator']);
-Route::get('dashboard/calculator/previewResults',['as'=>'dashboard.calculator.previewResults','uses'=>'DashboardController@projectManagerCalculate']);
-Route::get('dashboard/calculator/testReport',['as'=>'dashboard.calculator.testReport','uses'=>'DashboardController@projectCalculatorTestReport']);
-Route::get('dashboard/calculator/testBudget',['as'=>'dashboard.calculator.testBudget','uses'=>'DashboardController@projectCalculatorTestBudget']);
-Route::post('dashboard/calculator/saveProject',['as'=>'dashboard.calculator.saveProject','uses'=>'DashboardController@projectCalculatorSaveProject']);
-Route::get('dashboard/calculator/openReport',['as'=>'dashboard.calculator.openReport','uses'=>'DashboardController@projectCalculatorOpenReport']);
-Route::get('dashboard/calculator/openBudget',['as'=>'dashboard.calculator.openBudget','uses'=>'DashboardController@projectCalculatorOpenBudget']);
+// Project calculator specific routes
+Route::get('dashboard/calculator',['as'=>'dashboard.calculator','uses'=>'ProjectCalculatorController@getView']);
+Route::get('dashboard/calculator/previewResults',['as'=>'dashboard.calculator.previewResults','uses'=>'ProjectCalculatorController@calculate']);
+Route::get('dashboard/calculator/testReport',['as'=>'dashboard.calculator.testReport','uses'=>'ProjectCalculatorController@generateTestReport']);
+Route::get('dashboard/calculator/testBudget',['as'=>'dashboard.calculator.testBudget','uses'=>'ProjectCalculatorController@generateTestBudget']);
+Route::post('dashboard/calculator/saveProject',['as'=>'dashboard.calculator.saveProject','uses'=>'ProjectCalculatorController@saveProject']);
+Route::get('dashboard/calculator/openReport',['as'=>'dashboard.calculator.openReport','uses'=>'ProjectCalculatorController@openReport']);
+Route::get('dashboard/calculator/openBudget',['as'=>'dashboard.calculator.openBudget','uses'=>'ProjectCalculatorController@openBudget']);
 
-// Authentication
+// Login/logout routes
 Route::get('auth/login',['as'=>'auth.getLogin','uses'=>'Auth\AuthController@getLogin']);
 Route::post('auth/login',['as'=>'auth.postLogin','uses'=>'Auth\AuthController@postLogin']);
 Route::get('auth/logout',['as'=>'auth.getLogout','uses'=>'Auth\AuthController@getLogout']);
 
-// Registration. Different registration methods can be set in config/auth.php
+// Registration routes. Different registration methods can be set in config/auth.php
 Route::get('auth/register',['as'=>'auth.getRegister','uses'=>'Auth\AuthController@getRegister']);
 Route::post('auth/register',['as'=>'auth.postRegister','uses'=>'Auth\AuthController@postRegister']);
 Route::get('auth/verify/{confirmationCode}',['as'=>'auth.verifyEmail','uses'=>'Auth\AuthController@verifyEmail']);
 
-// Reset password
+// Reset password routes
 Route::get('auth/email',['as'=>'auth.getEmail','uses'=>'Auth\AuthController@getEmail']);
 Route::post('auth/email',['as'=>'auth.postEmail','uses'=>'Auth\AuthController@postEmail']);
 Route::get('auth/reset/{token}',['as'=>'auth.getReset','uses'=>'Auth\AuthController@getReset']);
@@ -96,7 +101,6 @@ Route::get('switch_locale/{locale}',['as'=>'admin_switch_locale','uses'=>'Locale
  * https://console.developers.google.com/
  * https://bitbucket.org/account/user/bitumin/oauth-consumers/new
  */
-
 Route::get('auth/facebook',['as'=>'facebook.provider','uses'=>'Auth\AuthController@facebookRedirectToProvider']);
 Route::get('auth/facebook/callback',['as'=>'facebook.callback','uses'=>'Auth\AuthController@facebookHandleProviderCallback']);
 Route::get('auth/twitter',['as'=>'twitter.provider','uses'=>'Auth\AuthController@twitterRedirectToProvider']);
@@ -110,7 +114,7 @@ Route::get('auth/github/callback',['as'=>'github.callback','uses'=>'Auth\AuthCon
 Route::get('auth/bitbucket',['as'=>'bitbucket.provider','uses'=>'Auth\AuthController@bitbucketRedirectToProvider']);
 Route::get('auth/bitbucket/callback',['as'=>'bitbucket.callback','uses'=>'Auth\AuthController@bitbucketHandleProviderCallback']);
 
-// Templates
+// (Mostly)Bootstrap based templates
 Route::get('template/creative/index',['as'=>'template.creative.index','uses'=>'ExamplesController@getTemplateCreativeIndex']);
 Route::get('template/clean-blog/index',['as'=>'template.clean-blog.index','uses'=>'ExamplesController@getTemplateCleanBlogIndex']);
 Route::get('template/clean-blog/post',['as'=>'template.clean-blog.post','uses'=>'ExamplesController@getTemplateCleanBlogPost']);

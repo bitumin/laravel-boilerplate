@@ -23,6 +23,7 @@ class CreateTasksTable extends Migration
             $table->string('worker');
             $table->integer('hours',false,true);
             $table->string('hourly_wage');
+	        $table->string('public_hourly_wage');
             $table->string('cost');
             $table->string('public_cost');
             $table->string('currency');

@@ -20,7 +20,7 @@ class Task extends Model
      */
     protected $fillable = [
         'name', 'description', 'worker', 'hours', 'hourly_wage',
-        'cost','public_cost','currency','project_id'
+        'public_hourly_wage','cost','public_cost','currency','project_id'
     ];
 
     /**

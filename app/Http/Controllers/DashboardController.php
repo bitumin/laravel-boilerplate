@@ -10,8 +10,6 @@ use App\Report;
 use App\User;
 use Carbon\Carbon;
 use Barryvdh\DomPDF\Facade as PDF;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Validator;
 
 class DashboardController extends Controller
 {
@@ -27,16 +25,6 @@ class DashboardController extends Controller
         return view('dashboard');
     }
 
-    public function getProfile()
-    {
-        if(!Auth::user()->may('manage-profile'))
-            return redirect($this->redirectPath);
-
-        $me = Auth::user();
-
-        return view('dashboard.profile',compact('me'));
-    }
-
     public function getSettings()
     {
         if(Auth::user()->may('manage-settings'))
@@ -44,85 +32,15 @@ class DashboardController extends Controller
         return redirect($this->redirectPath);
     }
 
-    public function getProjectCalculator()
-    {
-        if(Auth::user()->may('access-project-calculator'))
-            return view('dashboard.calculator');
-        return redirect($this->redirectPath);
-    }
+	public function getProfile()
+	{
+		if(!Auth::user()->may('manage-profile'))
+			return redirect($this->redirectPath);
 
-    public function projectManagerCalculate()
-    {
-        $input = \Request::all();
-        $project = new Project($input);
-        $results = $project->outputFormatted();
+		$me = Auth::user();
 
-        return \Response::json($results,200);
-    }
-
-    public function projectCalculatorSaveProject()
-    {
-        $input = \Request::all();
-        $project = new Project($input);
-
-        if($newProjectId = $project->saveProject())
-            return \Response::json(['id'=>$newProjectId],200);
-        return \Response::json([],400);
-    }
-
-    public function projectCalculatorTestReport() {
-        $input = \Request::all();
-        $project = new Project($input);
-        $data = $project->outputFormatted();
-
-        $today = Carbon::today();
-        $todayStr = $today->format('Ymdhis');
-        $data['today'] = $today->format('d/m/Y');
-        $data['id'] = sprintf('%07d', 'test');
-
-        return PDF::loadView('pdfTemplates.internalReport', $data)
-            ->stream('report_'.$data['id'].'_'.$todayStr.'.pdf');
-    }
-
-    public function projectCalculatorTestBudget() {
-        $input = \Request::all();
-        $project = new Project($input);
-        $data = $project->outputFormatted();
-
-        $today = Carbon::today();
-        $todayStr = $today->format('Ymdhis');
-        $data['today'] = $today->format('d/m/Y');
-        $data['id'] = sprintf('%07d', 'test');
-
-        return PDF::loadView('pdfTemplates.budget', $data)
-            ->stream('budget_'.$data['id'].'_'.$todayStr.'.pdf');
-    }
-
-    public function projectCalculatorOpenReport() {
-        //get project id
-
-        //get associated report data
-
-        $today = Carbon::today();
-        $todayStr = $today->format('Ymdhis');
-        $data['today'] = $today->format('d/m/Y');
-
-        return PDF::loadView('pdfTemplates.internalReport', $data)
-            ->stream('report_'.$data['id'].'_'.$todayStr.'.pdf');
-    }
-
-    public function projectCalculatorOpenBudget() {
-        //get project id
-
-        //get associated budget data
-
-        $today = Carbon::today();
-        $todayStr = $today->format('Ymdhis');
-        $data['today'] = $today->format('d/m/Y');
-
-        return PDF::loadView('pdfTemplates.budget', $data)
-            ->stream('budget_'.$data['id'].'_'.$todayStr.'.pdf');
-    }
+		return view('dashboard.profile',compact('me'));
+	}
 
     public function postProfileUpdateInfo()
     {

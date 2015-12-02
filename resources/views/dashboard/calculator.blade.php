@@ -70,6 +70,8 @@
             <form id="calculatorForm" role="form" action="javascript:" target="_blank">
             {!! csrf_field() !!}
 
+            <input name="projectId" type="hidden" value="">
+
             <div class="panel panel-primary">
                 <div class="panel-heading">
                     <a class="accordion-toggle" data-toggle="collapse" data-target="#collapse3" href="javascript:">
@@ -546,18 +548,27 @@
 
             $(document).on('click','#saveProject', function() {
                 $.post('{{ route('dashboard.calculator.saveProject') }}', $("#calculatorForm").serialize(), function(data) {
-                    alert(data['id']);
+                    alert('Project succesfully saved with ID: '+data['id'])
+                    $('input[name=projectId]').val(data['id']);
+                    $('#openReport').removeClass('disabled');
+                    $('#openBudget').removeClass('disabled');
                 }).fail(function() {
-                    alert('error saving');
+                    console.log('Unknown server error: unable to save project.')
+                    if(! $('#openReport').hasClass('disabled'))
+                        $('#openReport').addClass('disabled');
+                    if(! $('#openBudget').hasClass('disabled'))
+                        $('#openBudget').addClass('disabled');
                 });
             });
 
             $(document).on('click','#openReport', function() {
-                $('#calculatorForm').attr('action', "{{ route('dashboard.calculator.openReport') }}").submit();
+                if($('input[name=projectId]').val() != '')
+                    $('#calculatorForm').attr('action', "{{ route('dashboard.calculator.openReport') }}").submit();
             });
 
             $(document).on('click','#openBudget', function() {
-                $('#calculatorForm').attr('action', "{{ route('dashboard.calculator.openBudget') }}").submit();
+                if($('input[name=projectId]').val() != '')
+                    $('#calculatorForm').attr('action', "{{ route('dashboard.calculator.openBudget') }}").submit();
             });
 
         });

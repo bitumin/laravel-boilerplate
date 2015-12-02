@@ -1,7 +1,7 @@
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
 <html>
 <head>
-    <title></title>
+    <title>Presupuesto {{ $id }}</title>
     <style type="text/css">
         body {
             font-family: sans-serif;
@@ -203,7 +203,7 @@
             <td align="right">{{ $vat }}</td>
         </tr>
         <tr class="trItem">
-            <td colspan="4" align="right">IVA</td>
+            <td colspan="4" align="right">TOTAL IVA</td>
             <td align="right">{{ $vat_deduction }}</td>
         </tr>
         {{--<tr class="trItemsSpacing">--}}
