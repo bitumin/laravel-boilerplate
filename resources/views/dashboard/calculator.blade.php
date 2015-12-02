@@ -300,7 +300,7 @@
             <a id="openReport" class="btn btn-sm btn-warning disabled">Open internal report</a>
             <a id="openBudget" class="btn btn-sm btn-warning disabled">Open budget</a>
             <br><br>
-            <a id="newProject" class="btn btn-sm btn-primary">New project</a>
+            <button type="reset" id="newProject" class="btn btn-sm btn-primary">New project</button>
             <br><br>
 
             </form>
@@ -552,9 +552,10 @@
             $(document).on('click','#saveProject', function() {
                 $.post('{{ route('dashboard.calculator.saveProject') }}', $("#calculatorForm").serialize(), function(data) {
                     alert('Project succesfully saved with ID: '+data['id']);
-                    $('input, select').addClass('disabled');
-                    $('#generateReport, #generateBudget, #saveProject').addClass('disabled');
                     $('input[name=projectId]').val(data['id']);
+                    $('input, select').not('input[type=hidden]').attr('disabled','disabled');
+                    $('#generateReport, #generateBudget, #saveProject').addClass('disabled');
+                    $('.btnAdd, .btnCopy, .btnDelete').addClass('disabled');
                     $('#openReport, #openBudget').removeClass('disabled');
                 }).fail(function() {
                     alert('Unknown server error: unable to save project.')
@@ -564,8 +565,8 @@
 
             $(document).on('click','#newProject', function() {
                 $('#tbodyTasks, #tbodyExpenses').find('tr').not('.trModel').remove();
-                $('ínput').val('').removeClass('disabled');
-                $('select').removeClass('disabled');
+                $('input, select').removeAttr('disabled');
+                $('.btnAdd, .btnCopy, .btnDelete').removeClass('disabled');
                 $('#generateReport, #generateBudget, #saveProject').removeClass('disabled');
                 $('#openReport, #openBudget').addClass('disabled');
             });
