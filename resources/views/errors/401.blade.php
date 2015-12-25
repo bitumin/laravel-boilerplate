@@ -11,7 +11,7 @@
 @section('content')
     <div class="container">
         <div class="content">
-            <div class="title">La autenticación ha fallado o no ha sido provista.</div>
+            <div class="title">La autenticaciÃ³n ha fallado o no ha sido provista.</div>
         </div>
     </div>
 @endsection

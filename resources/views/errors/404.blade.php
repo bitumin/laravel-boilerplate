@@ -11,7 +11,7 @@
 @section('content')
     <div class="container">
         <div class="content">
-            <div class="title">Recurso no encontrado. El servidor web no encuentra la p·gina o recurso solicitado.</div>
+            <div class="title">Recurso no encontrado. El servidor web no encuentra la p√°gina o recurso solicitado.</div>
         </div>
     </div>
 @endsection

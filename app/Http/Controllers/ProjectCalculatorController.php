@@ -50,7 +50,7 @@ class ProjectCalculatorController extends Controller
 		$data['today'] = $today->format('d/m/Y');
 		$data['id'] = sprintf('%07d', 'test');
 
-		return PDF::loadView('pdfTemplates.internalReport', $data)
+		return PDF::loadView('pdf-templates.internalReport', $data)
 		          ->stream('report_'.$data['id'].'_'.$today->format('YmdHis').'.pdf');
 	}
 
@@ -64,7 +64,7 @@ class ProjectCalculatorController extends Controller
 		$data['today'] = $today->format('d/m/Y');
 		$data['id'] = sprintf('%07d', 'test');
 
-		return PDF::loadView('pdfTemplates.budget', $data)
+		return PDF::loadView('pdf-templates.budget', $data)
 		          ->stream('budget_'.$data['id'].'_'.$today->format('YmdHis').'.pdf');
 	}
 
@@ -90,7 +90,7 @@ class ProjectCalculatorController extends Controller
 
 		$data['today'] = Carbon::createFromFormat('Y-m-d H:i:s',$data['created_at'])->format('d/m/Y');
 
-		return PDF::loadView('pdfTemplates.internalReport', $data)
+		return PDF::loadView('pdf-templates.internalReport', $data)
 		          ->stream(
 			          'report_' . $data['id'] . '_' .
 			          Carbon::createFromFormat('Y-m-d H:i:s',$data['created_at'])->format('Ymdhis') . '.pdf'
@@ -115,7 +115,7 @@ class ProjectCalculatorController extends Controller
 		
 		$data['today'] = Carbon::createFromFormat('Y-m-d H:i:s',$data['created_at'])->format('d/m/Y');
 
-		return PDF::loadView('pdfTemplates.budget', $data)
+		return PDF::loadView('pdf-templates.budget', $data)
 		          ->stream(
 			          'budget_' . $data['id'] . '_'.
 			          Carbon::createFromFormat('Y-m-d H:i:s',$data['created_at'])->format('Ymdhis') . '.pdf'

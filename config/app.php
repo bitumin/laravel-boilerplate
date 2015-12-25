@@ -164,6 +164,7 @@ return [
         Barryvdh\LaravelIdeHelper\IdeHelperServiceProvider::class,
         Frozennode\Administrator\AdministratorServiceProvider::class,
         Barryvdh\DomPDF\ServiceProvider::class,
+	    Barryvdh\Debugbar\ServiceProvider::class,
 
     ],
 
@@ -215,6 +216,7 @@ return [
         'View'      => Illuminate\Support\Facades\View::class,
         'Socialite' => Laravel\Socialite\Facades\Socialite::class,
         'PDF'       => Barryvdh\DomPDF\Facade::class,
+        'Debugbar' => Barryvdh\Debugbar\Facade::class,
 
     ],
 

@@ -11,7 +11,7 @@
 @section('content')
     <div class="container">
         <div class="content">
-            <div class="title">La solicitud contiene sintaxis errónea y no debería repetirse.</div>
+            <div class="title">La solicitud contiene sintaxis errÃ³nea y no deberÃ­a repetirse.</div>
         </div>
     </div>
 @endsection
