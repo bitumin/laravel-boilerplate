@@ -118,19 +118,13 @@
     </a>
 </div>
 
-
-
 <script src="//code.jquery.com/jquery-2.1.4.min.js"></script>
-
 <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
-
 <script src="//cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.3/jquery.easing.min.js"></script>
 <script src="//cdnjs.cloudflare.com/ajax/libs/classie/1.0.1/classie.min.js"></script>
 <script src="{{ asset('js/cbpAnimatedHeader.js') }}"></script>
-
-<script src="cdnjs.cloudflare.com/ajax/libs/jqBootstrapValidation/1.3.7/jqBootstrapValidation.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/jqBootstrapValidation/1.3.7/jqBootstrapValidation.min.js"></script>
 <script src="{{ asset('js/contact-me.js') }}"></script>
-
 <script src="{{ asset('js/freelancer.js') }}"></script>
 
 @yield('js')

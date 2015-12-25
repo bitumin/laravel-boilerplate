@@ -11,7 +11,6 @@
 
     @yield('title')
 
-
     <!-- Bootstrap Core CSS -->
     <link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" rel="stylesheet">
     <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
@@ -109,13 +108,21 @@
     </div>
 </footer>
 
+{{-- JS libraries --}}
+<!-- Jquery -->
 <script src="//code.jquery.com/jquery-2.1.4.min.js"></script>
+<!-- Bootstrap -->
 <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+<!-- Easing - scrolling -->
 <script src="//cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.3/jquery.easing.min.js"></script>
+<!-- Class helper functions -->
 <script src="//cdnjs.cloudflare.com/ajax/libs/classie/1.0.1/classie.min.js"></script>
-<script src="{{ asset('js/plugins/cbpAnimatedHeader.js') }}"></script>
+<!-- Animated header -->
+<script src="{{ asset('js/cbpAnimatedHeader.js') }}"></script>
+<!-- Bootstrap validation -->
 <script src="//cdnjs.cloudflare.com/ajax/libs/jqBootstrapValidation/1.3.7/jqBootstrapValidation.min.js"></script>
 
+<!-- Custom JS -->
 <script src="{{ asset('js/agency.js') }}"></script>
 
 @yield('js')

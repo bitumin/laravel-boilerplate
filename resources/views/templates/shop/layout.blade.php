@@ -60,6 +60,9 @@
 
 @yield('content')
 
+{{--Footer--}}
+<div class="container">
+    <hr>
     <footer>
         <div class="row">
             <div class="col-lg-12">
@@ -67,17 +70,14 @@
             </div>
         </div>
     </footer>
-
 </div>
 
 <!-- jQuery -->
 <script src="//code.jquery.com/jquery-2.1.4.min.js"></script>
-
 <!-- Bootstrap Core JavaScript -->
 <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
 
 @yield('js')
-
 
 </body>
 

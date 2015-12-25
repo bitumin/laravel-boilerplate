@@ -15,13 +15,16 @@
     <!-- Design Style -->
     <link rel="stylesheet" type="text/css" href="{{ asset('css/scroll.css') }}" />
     <link rel="stylesheet" type="text/css" href="{{ asset('css/resume.css') }}" />
-    <!-- Icon -->
+    <!-- Icons -->
     <link rel="stylesheet" type="text/css" href="//maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css" />
     <!-- Portfolio Thumbnail / Slider -->
     <link rel="stylesheet" type="text/css" href="{{ asset('css/resume-portfolio.css') }}" />
     <link rel="stylesheet" type="text/css" href="{{ asset('css/resume-carousel.css') }}">
     <!-- Responsive -->
     <link rel="stylesheet" type="text/css" href="{{ asset('css/resume-responsive.css') }}" />
+
+    @yield('css')
+
     <!-- Pie Chart / Skills -->
     <script type="text/javascript" src="//code.jquery.com/jquery-2.1.4.min.js"></script>
     <!-- Send Email -->
@@ -30,8 +33,6 @@
     <script type="text/javascript" src="{{ asset('js/resume-progressbar.js') }}"></script>
     <!-- Portfolio-->
     <script src="{{ asset('js/resume-modernizer.js') }}"></script>
-
-    @yield('css')
 
 </head>
 <body>
@@ -55,7 +56,6 @@
     <a href="#menu" class="totop-link">Go to the top</a>
 </div>
 
-
 @yield('content')
 
 <script type="text/javascript" src="//code.jquery.com/jquery-2.1.4.min.js"></script>
@@ -65,12 +65,10 @@
 <script type="text/javascript" src="{{ asset('js/resume-masonry.js') }}"></script>
 <script type="text/javascript" src="{{ asset('js/resume-helper.js') }}"></script>
 <script type="text/javascript" src="{{ asset('js/resume-grid.js') }}"></script>
-
 <!-- Portfolio Slider-->
 <script type="text/javascript"  src="{{ asset('js/resume-carousel.js') }}"></script>
 <script type="text/javascript" src="{{ asset('js/resume-easypie.js') }}"></script>
 <script type="text/javascript" src="{{ asset('js/resume-rotator.js') }}"></script>
-
 <!-- Fit Video -->
 <script type="text/javascript"  src="//cdn.jsdelivr.net/fitvids/1.1.0/jquery.fitvids.js"></script>
 <!-- All Javascript Component-->

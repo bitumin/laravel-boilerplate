@@ -185,9 +185,6 @@
     </div>
     <!-- /.container -->
 
-    <div class="container">
-
-        <hr>
 @endsection
 
 @section('js')

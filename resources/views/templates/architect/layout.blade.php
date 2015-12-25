@@ -1,8 +1,13 @@
-
 <!DOCTYPE html>
-<!--[if lte IE 8]>              <html class="ie8 no-js" lang="en">     <![endif]-->
-<!--[if IE 9]>					<html class="ie9 no-js" lang="en-US">  <![endif]-->
-<!--[if (gte IE 9)|!(IE)]><!--> <html class="not-ie no-js" lang="en">  <!--<![endif]-->
+<!--[if lte IE 8]>
+<html class="ie8 no-js" lang="en">
+<![endif]-->
+<!--[if IE 9]>
+<html class="ie9 no-js" lang="en-US">
+<![endif]-->
+<!--[if (gte IE 9)|!(IE)]><!-->
+<html class="not-ie no-js" lang="en">
+<!--<![endif]-->
 <head>
     @yield('title')
     <!-- Google Web Fonts
@@ -40,7 +45,6 @@
     <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" />
     <link rel="stylesheet" href="{{ asset('css/architect-media.css') }}" />
     <link rel="stylesheet" href="{{ asset('css/fontello.css') }}" />
-
     <link rel="stylesheet" href="{{ asset('css/sequence.css') }}" />
 
     <!-- HTML5 Shiv
@@ -225,7 +229,7 @@
 
 <script src="{{ asset('js/browser-selector.js') }}"></script>
 <script src="{{ asset('js/sequence.js') }}"></script>
-<script src="{{ asset('tweet.js') }}"></script>
+<script src="{{ asset('js/tweet.js') }}"></script>
 <script src="{{ asset('js/smoothstate.js') }}"></script>
 <script src="{{ asset('js/resize.js') }}"></script>
 <script src="{{ asset('js/architect-config.js') }}"></script>
@@ -234,4 +238,5 @@
 @yield('js')
 
 </body>
+
 </html>

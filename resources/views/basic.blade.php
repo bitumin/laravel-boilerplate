@@ -1,18 +1,19 @@
 @extends('layouts.basic')
 
 @section('title')
-    <title>Portfolio</title>
+    <title>Title</title>
 @endsection
 
 @section('css')
-
+    <style>
+        /*CSS goes here*/
+    </style>
 @endsection
 
 @section('content')
     <div class="container">
         <div class="content">
-            <h1>Portfolio</h1>
-            Portfolio goes here...
+            <h1>Void</h1>
         </div>
     </div>
 @endsection
