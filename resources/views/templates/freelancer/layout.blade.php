@@ -13,7 +13,7 @@
 
     <link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" rel="stylesheet">
 
-    <link href="{{ asset('css/freelancer.css') }}" rel="stylesheet">
+    <link href="{{ asset('css/freelancer/freelancer.css') }}" rel="stylesheet">
 
     <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
     <link href="http://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet" type="text/css">
@@ -126,12 +126,12 @@
 
 <script src="//cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.3/jquery.easing.min.js"></script>
 <script src="//cdnjs.cloudflare.com/ajax/libs/classie/1.0.1/classie.min.js"></script>
-<script src="{{ asset('js/cbpAnimatedHeader.js') }}"></script>
+<script src="{{ asset('js/freelancer/cbpAnimatedHeader.js') }}"></script>
 
 <script src="cdnjs.cloudflare.com/ajax/libs/jqBootstrapValidation/1.3.7/jqBootstrapValidation.min.js"></script>
-<script src="{{ asset('js/contact-me.js') }}"></script>
+<script src="{{ asset('js/freelancer/contact-me.js') }}"></script>
 
-<script src="{{ asset('js/freelancer.js') }}"></script>
+<script src="{{ asset('js/freelancer/freelancer.js') }}"></script>
 
 @yield('js')
 

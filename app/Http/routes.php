@@ -119,3 +119,12 @@ Route::get('template/studio/index',['as'=>'template.studio.index','uses'=>'Examp
 Route::get('template/resume/index',['as'=>'template.resume.index','uses'=>'ExamplesController@getTemplateResumeIndex']);
 Route::get('template/resume/blog',['as'=>'template.resume.blog','uses'=>'ExamplesController@getTemplateResumeBlog']);
 Route::get('template/resume/blogdetail',['as'=>'template.resume.blogdetail','uses'=>'ExamplesController@getTemplateResumeBlogdetail']);
+Route::get('template/sprint/index',['as'=>'template.sprint.index','uses'=>'ExamplesController@getTemplateSprintIndex']);
+Route::get('template/piple/index',['as'=>'template.piple.index','uses'=>'ExamplesController@getTemplatePipleIndex']);
+Route::get('template/piple/post',['as'=>'template.piple.post','uses'=>'ExamplesController@getTemplatePiplePost']);
+Route::get('template/lucy/index',['as'=>'template.lucy.index','uses'=>'ExamplesController@getTemplateLucyIndex']);
+Route::get('template/john/index',['as'=>'template.john.index','uses'=>'ExamplesController@getTemplateJohnIndex']);
+Route::get('template/comingsoon/index',['as'=>'template.comingsoon.index','uses'=>'ExamplesController@getTemplateComingsoonIndex']);
+Route::get('template/kitchen/index',['as'=>'template.kitchen.index','uses'=>'ExamplesController@getTemplateKitchenIndex']);
+Route::get('template/cloud/index',['as'=>'template.cloud.index','uses'=>'ExamplesController@getTemplateCloudIndex']);
+Route::get('template/cloud/blog',['as'=>'template.cloud.blog','uses'=>'ExamplesController@getTemplateCloudBlog']);

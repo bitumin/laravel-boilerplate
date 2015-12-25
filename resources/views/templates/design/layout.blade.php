@@ -5,7 +5,7 @@
 
     <link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" rel='stylesheet' type='text/css' />
     <!-- Custom Theme files -->
-    <link href="{{ asset('css/style.css') }}" rel='stylesheet' type='text/css' />
+    <link href="{{ asset('css/design/style.css') }}" rel='stylesheet' type='text/css' />
     <!-- Custom Theme files -->
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <script type="application/x-javascript"> addEventListener("load", function() { setTimeout(hideURLbar, 0); }, false); function hideURLbar(){ window.scrollTo(0,1); } </script>
@@ -13,8 +13,8 @@
     <link href='http://fonts.googleapis.com/css?family=Roboto+Condensed:300,400,500,700,80,900' rel='stylesheet' type='text/css'>
     <script type="text/javascript" src="//code.jquery.com/jquery-2.1.4.min.js"></script>
     <!-- Add fancyBox main JS and CSS files -->
-    <script src="{{ asset('js/jquery.magnific-popup.js') }}" type="text/javascript"></script>
-    <link href="{{ asset('css/magnific-popup.css') }}" rel="stylesheet" type="text/css">
+    <script src="{{ asset('js/design/jquery.magnific-popup.js') }}" type="text/javascript"></script>
+    <link href="{{ asset('css/design/magnific-popup.css') }}" rel="stylesheet" type="text/css">
     <script>
         $(document).ready(function() {
             $('.popup-with-zoom-anim').magnificPopup({

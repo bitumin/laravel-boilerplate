@@ -13,23 +13,23 @@
     <!-- Google Font-->
     <link href='http://fonts.googleapis.com/css?family=Roboto:400,300italic,300,100italic,100,400italic,500,500italic,700,900,900italic,700italic%7COswald:400,300,700' rel='stylesheet' type='text/css'>
     <!-- Design Style -->
-    <link rel="stylesheet" type="text/css" href="{{ asset('css/scroll.css') }}" />
-    <link rel="stylesheet" type="text/css" href="{{ asset('css/resume.css') }}" />
+    <link rel="stylesheet" type="text/css" href="{{ asset('css/resume/scroll.css') }}" />
+    <link rel="stylesheet" type="text/css" href="{{ asset('css/resume/resume.css') }}" />
     <!-- Icon -->
     <link rel="stylesheet" type="text/css" href="//maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css" />
     <!-- Portfolio Thumbnail / Slider -->
-    <link rel="stylesheet" type="text/css" href="{{ asset('css/resume-portfolio.css') }}" />
-    <link rel="stylesheet" type="text/css" href="{{ asset('css/resume-carousel.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ asset('css/resume/resume-portfolio.css') }}" />
+    <link rel="stylesheet" type="text/css" href="{{ asset('css/resume/resume-carousel.css') }}">
     <!-- Responsive -->
-    <link rel="stylesheet" type="text/css" href="{{ asset('css/resume-responsive.css') }}" />
+    <link rel="stylesheet" type="text/css" href="{{ asset('css/resume/resume-responsive.css') }}" />
     <!-- Pie Chart / Skills -->
     <script type="text/javascript" src="//code.jquery.com/jquery-2.1.4.min.js"></script>
     <!-- Send Email -->
-    <script type="text/javascript" src="{{ asset('js/resume-sendmail.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('js/resume/resume-sendmail.js') }}"></script>
     <!-- Progressbar / Skills-->
-    <script type="text/javascript" src="{{ asset('js/resume-progressbar.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('js/resume/resume-progressbar.js') }}"></script>
     <!-- Portfolio-->
-    <script src="{{ asset('js/resume-modernizer.js') }}"></script>
+    <script src="{{ asset('js/resume/resume-modernizer.js') }}"></script>
 
     @yield('css')
 
@@ -59,22 +59,22 @@
 @yield('content')
 
 <script type="text/javascript" src="//code.jquery.com/jquery-2.1.4.min.js"></script>
-<script type="text/javascript" src="{{ asset('js/resume-head.js') }}"></script>
+<script type="text/javascript" src="{{ asset('js/resume/resume-head.js') }}"></script>
 <!-- Portfolio Thumbnail -->
-<script type="text/javascript" src="{{ asset('js/resume-imageload.js') }}"></script>
-<script type="text/javascript" src="{{ asset('js/resume-masonry.js') }}"></script>
-<script type="text/javascript" src="{{ asset('js/resume-helper.js') }}"></script>
-<script type="text/javascript" src="{{ asset('js/resume-grid.js') }}"></script>
+<script type="text/javascript" src="{{ asset('js/resume/resume-imageload.js') }}"></script>
+<script type="text/javascript" src="{{ asset('js/resume/resume-masonry.js') }}"></script>
+<script type="text/javascript" src="{{ asset('js/resume/resume-helper.js') }}"></script>
+<script type="text/javascript" src="{{ asset('js/resume/resume-grid.js') }}"></script>
 
 <!-- Portfolio Slider-->
-<script type="text/javascript"  src="{{ asset('js/resume-carousel.js') }}"></script>
-<script type="text/javascript" src="{{ asset('js/resume-easypie.js') }}"></script>
-<script type="text/javascript" src="{{ asset('js/resume-rotator.js') }}"></script>
+<script type="text/javascript"  src="{{ asset('js/resume/resume-carousel.js') }}"></script>
+<script type="text/javascript" src="{{ asset('js/resume/resume-easypie.js') }}"></script>
+<script type="text/javascript" src="{{ asset('js/resume/resume-rotator.js') }}"></script>
 
 <!-- Fit Video -->
 <script type="text/javascript"  src="//cdn.jsdelivr.net/fitvids/1.1.0/jquery.fitvids.js"></script>
 <!-- All Javascript Component-->
-<script src="{{ asset('js/resume-setting.js') }}"></script>
+<script src="{{ asset('js/resume/resume-setting.js') }}"></script>
 
 @yield('js')
 

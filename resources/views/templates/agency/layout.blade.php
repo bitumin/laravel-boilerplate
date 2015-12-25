@@ -16,7 +16,7 @@
     <link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" rel="stylesheet">
 
     <!-- Custom CSS -->
-    <link href="{{ asset('css/agency.css') }}" rel="stylesheet">
+    <link href="{{ asset('css/agency/agency.css') }}" rel="stylesheet">
 
     <!-- Custom Fonts -->
     <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
@@ -119,11 +119,11 @@
 
 <script src="//cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.3/jquery.easing.min.js"></script>
 <script src="//cdnjs.cloudflare.com/ajax/libs/classie/1.0.1/classie.min.js"></script>
-<script src="{{ asset('js/cbpAnimatedHeader.js') }}"></script>
+<script src="{{ asset('js/agency/cbpAnimatedHeader.js') }}"></script>
 
 
 <script src="cdnjs.cloudflare.com/ajax/libs/jqBootstrapValidation/1.3.7/jqBootstrapValidation.min.js"></script>
-<script src="{{ asset('js/agency.js') }}"></script>
+<script src="{{ asset('js/agency/agency.js') }}"></script>
 
 @yield('js')
 

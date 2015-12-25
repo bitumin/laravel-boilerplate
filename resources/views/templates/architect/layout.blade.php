@@ -11,7 +11,7 @@
 
     <!-- BYekan Web Fonts
     ================================================== -->
-    <link href='{{ asset('css/byekan.css') }}' rel='stylesheet' type='text/css'>
+    <link href='{{ asset('css/architect/byekan.css') }}' rel='stylesheet' type='text/css'>
 
     <!-- Basic Page Needs
 	================================================== -->
@@ -36,16 +36,16 @@
 
     <!-- CSS
     ================================================== -->
-    <link rel="stylesheet" href="{{ asset('css/architect.css') }}" />
+    <link rel="stylesheet" href="{{ asset('css/architect/architect.css') }}" />
     <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" />
-    <link rel="stylesheet" href="{{ asset('css/architect-media.css') }}" />
-    <link rel="stylesheet" href="{{ asset('css/fontello.css') }}" />
+    <link rel="stylesheet" href="{{ asset('css/architect/architect-media.css') }}" />
+    <link rel="stylesheet" href="{{ asset('css/architect/fontello.css') }}" />
 
-    <link rel="stylesheet" href="{{ asset('css/sequence.css') }}" />
+    <link rel="stylesheet" href="{{ asset('css/architect/sequence.css') }}" />
 
     <!-- HTML5 Shiv
     ================================================== -->
-    <script src="{{ asset('js/modernizer.js') }}"></script>
+    <script src="{{ asset('js/architect/modernizer.js') }}"></script>
 
     @yield('css')
 
@@ -223,13 +223,13 @@
 <script src="//cdn.jsdelivr.net/respond/1.4.2/respond.min.js"></script>
 <![endif]-->
 
-<script src="{{ asset('js/browser-selector.js') }}"></script>
-<script src="{{ asset('js/sequence.js') }}"></script>
-<script src="{{ asset('tweet.js') }}"></script>
-<script src="{{ asset('js/smoothstate.js') }}"></script>
-<script src="{{ asset('js/resize.js') }}"></script>
-<script src="{{ asset('js/architect-config.js') }}"></script>
-<script src="{{ asset('js/architect-global.js') }}"></script>
+<script src="{{ asset('js/architect/browser-selector.js') }}"></script>
+<script src="{{ asset('js/architect/sequence.js') }}"></script>
+<script src="{{ asset('js/architect/tweet.js') }}"></script>
+<script src="{{ asset('js/architect/smoothstate.js') }}"></script>
+<script src="{{ asset('js/architect/resize.js') }}"></script>
+<script src="{{ asset('js/architect/architect-config.js') }}"></script>
+<script src="{{ asset('js/architect/architect-global.js') }}"></script>
 
 @yield('js')
 

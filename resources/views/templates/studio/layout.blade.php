@@ -14,9 +14,9 @@
     <link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" rel="stylesheet">
 
     <!-- Custom styles for this template -->
-    <link href="{{ asset('css/studio.css') }}" rel="stylesheet">
+    <link href="{{ asset('css/studio/studio.css') }}" rel="stylesheet">
     <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css" rel="stylesheet">
-    <link href="{{ asset('css/jquery.fancybox.css') }}" rel="stylesheet" />
+    <link href="{{ asset('css/studio/jquery.fancybox.css') }}" rel="stylesheet" />
 
     @yield('css')
 
@@ -66,7 +66,7 @@
 <script src="//cdn.jsdelivr.net/smooth-scroll/7.1.1/smooth-scroll.min.js"></script>
 <script src="//cdn.jsdelivr.net/jquery.stellar/0.6.2/jquery.stellar.min.js"></script>
 <script src="//cdn.jsdelivr.net/fancybox/2.1.5/jquery.fancybox.pack.js"></script>
-<script src="{{ asset('js/main.js') }}"></script>
+<script src="{{ asset('js/studio/main.js') }}"></script>
 
 
 @yield('js')
