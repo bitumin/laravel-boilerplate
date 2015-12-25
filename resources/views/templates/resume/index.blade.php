@@ -482,14 +482,14 @@
 <script>
     new CBPGridGallery( document.getElementById( 'grid-gallery' ) );
 </script>
-<script type="text/javascript" src="{{ asset('js/resume-mousewheel.js') }}"></script>
-<script type="text/javascript" src="{{ asset('js/resume-wheelintent.js') }}"></script>
-<script type="text/javascript" src="{{ asset('js/resume-scrollpane.js') }}"></script>
-<script type="text/javascript" src="{{ asset('js/resume-history.js') }}"></script>
-<script type="text/javascript" src="{{ asset('js/resume-corestring.js') }}"></script>
+<script type="text/javascript" src="{{ asset('js/resume/resume-mousewheel.js') }}"></script>
+<script type="text/javascript" src="{{ asset('js/resume/resume-wheelintent.js') }}"></script>
+<script type="text/javascript" src="{{ asset('js/resume/resume-scrollpane.js') }}"></script>
+<script type="text/javascript" src="{{ asset('js/resume/resume-history.js') }}"></script>
+<script type="text/javascript" src="{{ asset('js/resume/resume-corestring.js') }}"></script>
 <script type="text/javascript" src="//cdn.jsdelivr.net/jquery.easing/1.3/jquery.easing.1.3.min.js"></script>
-<script type="text/javascript" src="{{ asset('js/resume-smartresize.js') }}"></script>
-<script type="text/javascript" src="{{ asset('js/resume-page.js') }}"></script>
+<script type="text/javascript" src="{{ asset('js/resume/resume-smartresize.js') }}"></script>
+<script type="text/javascript" src="{{ asset('js/resume/resume-page.js') }}"></script>
 
 
 @endsection

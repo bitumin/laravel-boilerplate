@@ -273,5 +273,48 @@ class ExamplesController extends Controller
         return view('templates.resume.blogdetail');
     }
 
+    public function getTemplateSprintIndex()
+    {
+        return view('templates.sprint.index');
+    }
 
+    public function getTemplatePipleIndex()
+    {
+        return view('templates.piple.index');
+    }
+
+    public function getTemplatePiplepost()
+    {
+        return view('templates.piple.post');
+    }
+
+    public function getTemplateLucyIndex()
+    {
+        return view('templates.lucy.index');
+    }
+
+    public function getTemplateJohnIndex()
+    {
+        return view('templates.john.index');
+    }
+
+    public function getTemplateComingsoonIndex()
+    {
+        return view('templates.comingsoon.index');
+    }
+
+    public function getTemplateKitchenIndex()
+    {
+        return view('templates.kitchen.index');
+    }
+
+    public function getTemplateCloudIndex()
+    {
+        return view('templates.cloud.index');
+    }
+
+    public function getTemplateCloudBlog()
+    {
+        return view('templates.cloud.blog');
+    }
 }

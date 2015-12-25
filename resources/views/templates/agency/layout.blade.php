@@ -16,7 +16,7 @@
     <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
 
     <!-- Custom CSS -->
-    <link href="{{ asset('css/agency.css') }}" rel="stylesheet">
+    <link href="{{ asset('css/agency/agency.css') }}" rel="stylesheet">
 
     <!-- Custom Fonts -->
     <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet" type="text/css">
@@ -118,12 +118,11 @@
 <!-- Class helper functions -->
 <script src="//cdnjs.cloudflare.com/ajax/libs/classie/1.0.1/classie.min.js"></script>
 <!-- Animated header -->
-<script src="{{ asset('js/cbpAnimatedHeader.js') }}"></script>
+<script src="{{ asset('js/agency/cbpAnimatedHeader.js') }}"></script>
 <!-- Bootstrap validation -->
 <script src="//cdnjs.cloudflare.com/ajax/libs/jqBootstrapValidation/1.3.7/jqBootstrapValidation.min.js"></script>
-
 <!-- Custom JS -->
-<script src="{{ asset('js/agency.js') }}"></script>
+<script src="{{ asset('js/agency/agency.js') }}"></script>
 
 @yield('js')
 

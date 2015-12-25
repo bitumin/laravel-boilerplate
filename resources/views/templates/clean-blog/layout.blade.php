@@ -12,6 +12,11 @@
     @yield('title')
 
     <link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" rel="stylesheet">
+<<<<<<< HEAD
+=======
+    <link href="{{ asset('css/clean-blog/clean-blog.css') }}" rel="stylesheet">
+
+>>>>>>> templates-dev2
     <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
 
     <link href="{{ asset('css/clean-blog.css') }}" rel="stylesheet">
@@ -105,7 +110,13 @@
     <script src="//code.jquery.com/jquery-2.1.4.min.js"></script>
     <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
 
+<<<<<<< HEAD
     <script src="{{ asset('js/clean-blog.js') }}"></script>
+=======
+<script src="//code.jquery.com/jquery-2.1.4.min.js"></script>
+<script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+<script src="{{ asset('js/clean-blog/clean-blog.js') }}"></script>
+>>>>>>> templates-dev2
 
 @yield('js')
 
