@@ -195,17 +195,17 @@ table {
 		-webkit-transition-duration: 1s;
 				transition-duration: 1s;
 	}
-        
-        .sequence-prev:after { content: "\ea03"; }
-        .sequence-next:after { content: "\ea04"; }
 
-		.sequence-next:hover:after,
-		.sequence-prev:hover:after {
-			opacity: 1;
+    .sequence-prev:after { content: "\ea03"; }
+    .sequence-next:after { content: "\ea04"; }
 
-			-webkit-transition-duration: .5s;
-					transition-duration: .5s;
-		}
+    .sequence-next:hover:after,
+    .sequence-prev:hover:after {
+        opacity: 1;
+
+        -webkit-transition-duration: .5s;
+                transition-duration: .5s;
+    }
 
 /*-------------------------------------------------*/
 /*      Sequence slides				   
@@ -313,7 +313,7 @@ table {
 		font-size: 13px;
 		font-weight: 700;
 		z-index: 1;
-		opacity: 0;
+		/*opacity: 0;*/
 		width: 100%;
 		opacity: 0;
 		margin: 5px 0;

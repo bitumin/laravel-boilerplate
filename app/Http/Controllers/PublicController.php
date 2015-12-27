@@ -13,21 +13,7 @@ class PublicController extends Controller
 {
     public function getHome()
     {
-        return view('welcome');
+        return view('basic');
     }
 
-    public function getPortfolio()
-    {
-        return view('portfolio');
-    }
-
-    public function getExamples()
-    {
-        return view('examples');
-    }
-
-    public function getTemplates()
-    {
-        return view('templates');
-    }
 }

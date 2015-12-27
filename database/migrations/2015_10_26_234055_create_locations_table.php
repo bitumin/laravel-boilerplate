@@ -22,7 +22,7 @@ class CreateLocationsTable extends Migration
             $table->string('route');
             $table->string('locality');
             $table->string('administrative_area_level_2'); //Provincia
-            $table->string('administrative_area_level_1'); //Comunidad aut�noma
+            $table->string('administrative_area_level_1'); //Comunidad autónoma
             $table->string('country');
             $table->string('postal_code');
 

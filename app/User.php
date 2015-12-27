@@ -2,6 +2,7 @@
 
 namespace App;
 
+use App\BlogifyUserTrait;
 use Caffeinated\Shinobi\Traits\ShinobiTrait;
 use Cviebrock\EloquentSluggable\SluggableTrait;
 use Cviebrock\EloquentSluggable\SluggableInterface;
@@ -19,7 +20,7 @@ class User extends Model implements AuthenticatableContract,
                                     CanResetPasswordContract,
                                     SluggableInterface
 {
-    use Authenticatable, Authorizable, CanResetPassword, ShinobiTrait, SluggableTrait {
+    use Authenticatable, Authorizable, CanResetPassword, ShinobiTrait, SluggableTrait, BlogifyUserTrait {
         ShinobiTrait::can as may;
         Authorizable::can insteadof ShinobiTrait;
     }

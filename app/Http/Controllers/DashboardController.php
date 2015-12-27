@@ -22,7 +22,7 @@ class DashboardController extends Controller
 
     public function getDashboard()
     {
-        return view('dashboard');
+        return view('dashboard.home');
     }
 
     public function getSettings()

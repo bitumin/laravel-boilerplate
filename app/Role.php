@@ -9,6 +9,13 @@ class Role extends \Caffeinated\Shinobi\Models\Role implements SluggableInterfac
 {
     use SluggableTrait;
 
+	/**
+	 * The database table used by the model
+	 *
+	 * @var string
+	 */
+	protected $table = 'roles';
+
     /**
      * Table columns from where automatically build the slug and store it.
      *
@@ -18,4 +25,28 @@ class Role extends \Caffeinated\Shinobi\Models\Role implements SluggableInterfac
         'build_from' => 'name',
         'save_to'    => 'slug',
     ];
+
+	/**
+	 * Set or unset the timestamps for the model
+	 *
+	 * @var bool
+	 */
+	public $timestamps = true;
+
+	/*
+	|--------------------------------------------------------------------------
+	| Scopes
+	|--------------------------------------------------------------------------
+	|
+	| For more information pleas check out the official Laravel docs at
+	| http://laravel.com/docs/5.0/eloquent#queryscopes
+	|
+	*/
+
+	public function scopeByAdminRoles($query)
+	{
+		$query->whereName('Owner')
+		      ->orWhere('name', 'Author')
+		      ->orWhere('name', 'Reviewer');
+	}
 }

@@ -23,29 +23,17 @@ class ProjectCalculatorTableSeeder extends Seeder
      */
     public function run()
     {
-        //Permissions
-        $manageUsers = Permission::create([
-            'name' => 'Manage users',
-            'description' => 'Manage users, roles, permissions and related backend data. Required to access the backend administrator interface.'
-        ]);
+        // Permissions
         $manageCalculatorBackend = Permission::create([
             'name' => 'Manage calculator backend',
-            'description' => 'Manage users, roles, permissions and other backend data. Required to access the backend administrator interface.'
+            'description' => 'Manage budget calculator related databases from the Administrator interface.'
         ]);
         $accessCalculator = Permission::create([
-            'name' => 'Access project calculator',
-            'description' => 'View and use the project calculator.',
-        ]);
-        $manageProfile = Permission::create([
-            'name' => 'Manage profile',
-            'description' => 'Manage personal profile details. Access profile manager view.',
-        ]);
-        $manageSettings = Permission::create([
-            'name' => 'Manage settings',
-            'description' => 'Manage settings. Access settings manager view.',
+            'name' => 'Access budget calculator',
+            'description' => 'Permission to access and use the budget calculator.',
         ]);
 
-        //Roles
+        // Roles
         $analyst = Role::create([
             'name' => 'Analyst',
             'description' => 'Analyst'
@@ -71,31 +59,22 @@ class ProjectCalculatorTableSeeder extends Seeder
             'description' => 'Founder'
         ]);
 
-        //Associate permissions and roles
-        $analyst->assignPermission($manageProfile->id);
-        $analyst->assignPermission($manageSettings->id);
-
-        $consultant->assignPermission($manageProfile->id);
-        $consultant->assignPermission($manageSettings->id);
-
-        $manager->assignPermission($manageProfile->id);
-        $manager->assignPermission($manageSettings->id);
-
-        $seniorManager->assignPermission($manageProfile->id);
-        $seniorManager->assignPermission($manageSettings->id);
-
-        $shareholder->assignPermission($manageProfile->id);
-        $shareholder->assignPermission($manageSettings->id);
+        // Associate permissions and roles
+	    $analyst->assignPermission($accessCalculator->id);
+	    $consultant->assignPermission($accessCalculator->id);
+	    $manager->assignPermission($accessCalculator->id);
+	    $seniorManager->assignPermission($accessCalculator->id);
         $shareholder->assignPermission($accessCalculator->id);
-        $shareholder->assignPermission($manageCalculatorBackend->id);
-
-        $founder->assignPermission($manageProfile->id);
-        $founder->assignPermission($manageSettings->id);
         $founder->assignPermission($accessCalculator->id);
-        $founder->assignPermission($manageCalculatorBackend->id);
-        $founder->assignPermission($manageUsers->id);
 
-        //Users (password field is hashed automatically via model mutator)
+	    $shareholder->assignPermission($manageCalculatorBackend->id);
+        $founder->assignPermission($manageCalculatorBackend->id);
+
+	    $accessAdminInterfaceID = Permission::where('name','Access administrator interface')->pluck('id');
+	    $shareholder->assignPermission($accessAdminInterfaceID);
+	    $founder->assignPermission($accessAdminInterfaceID);
+
+        // Test users
         $testAnalyst = User::create([
             'name'      => 'Test analyst',
             'email'     => 'analyst@email.com',
@@ -174,13 +153,13 @@ class ProjectCalculatorTableSeeder extends Seeder
 
         //Task types
         TaskType::create(['name' => 'Beta tester', 'hourly_wage' => 9]);
-        TaskType::create(['name' => 'Consultant (senior)', 'hourly_wage' => 24.7]);
-        TaskType::create(['name' => 'Project manager', 'hourly_wage' => 27.44]);
+	    TaskType::create(['name' => 'Analyst', 'hourly_wage' => 13.72]);
+	    TaskType::create(['name' => 'Developer (junior)', 'hourly_wage' => 16.46]);
         TaskType::create(['name' => 'Developer (senior)', 'hourly_wage' => 19.21]);
         TaskType::create(['name' => 'Designer', 'hourly_wage' => 21.1]);
-        TaskType::create(['name' => 'Analyst', 'hourly_wage' => 13.72]);
-        TaskType::create(['name' => 'Developer (junior)', 'hourly_wage' => 16.46]);
-        TaskType::create(['name' => 'Consultant (junior)', 'hourly_wage' => 21.95]);
+	    TaskType::create(['name' => 'Consultant (junior)', 'hourly_wage' => 21.95]);
+	    TaskType::create(['name' => 'Consultant (senior)', 'hourly_wage' => 24.7]);
+	    TaskType::create(['name' => 'Project manager', 'hourly_wage' => 27.44]);
 
         //Test client
         Client::create([

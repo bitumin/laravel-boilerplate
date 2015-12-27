@@ -11,11 +11,13 @@ class ExampleLocationsTableSeeder extends Seeder
      */
     public function run()
     {
-        // Example locations
+        // Seeds locations table with random catalonian addresses
         for($i=0;$i<100;++$i) {
             $catAddress = \App\Lib\Geo::getRandomCatAddress();
             $newLocation = \App\Location::create($catAddress);
-            $this->command->info('Added location: '.$catAddress['formatted_address'].' (id: '.$newLocation->id.')');
+            $this->command->info(
+	            'Added location: '.$catAddress['formatted_address'].' (id: '.$newLocation->id.')'
+            );
         }
     }
 }

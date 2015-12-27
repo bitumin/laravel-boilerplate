@@ -165,6 +165,8 @@ return [
         Frozennode\Administrator\AdministratorServiceProvider::class,
         Barryvdh\DomPDF\ServiceProvider::class,
 	    Barryvdh\Debugbar\ServiceProvider::class,
+	    Intervention\Image\ImageServiceProvider::class,
+	    App\Providers\BlogifyServiceProvider::class,
 
     ],
 
@@ -216,7 +218,8 @@ return [
         'View'      => Illuminate\Support\Facades\View::class,
         'Socialite' => Laravel\Socialite\Facades\Socialite::class,
         'PDF'       => Barryvdh\DomPDF\Facade::class,
-        'Debugbar' => Barryvdh\Debugbar\Facade::class,
+        'Debugbar'  => Barryvdh\Debugbar\Facade::class,
+        'Image'     => Intervention\Image\Facades\Image::class,
 
     ],
 

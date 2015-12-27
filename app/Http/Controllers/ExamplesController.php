@@ -132,11 +132,6 @@ class ExamplesController extends Controller
         return Response::json($results,200);
     }
 
-    public function getTemplateSbCreativeIndex()
-    {
-        return view('templates.creative.index');
-    }
-
     public function exampleToastr()
     {
         session(['status' => 'You look good today!']);
@@ -147,6 +142,21 @@ class ExamplesController extends Controller
 
         return view('examples.toastr');
     }
+
+	public function getTemplateActualizarTpvIndex()
+	{
+		return view('templates.actualizar-tpv.index');
+	}
+
+	public function getTemplateGreyFestIndex()
+	{
+		return view('templates.grey-fest.index');
+	}
+
+	public function getTemplateSbCreativeIndex()
+	{
+		return view('templates.creative.index');
+	}
 
     public function exampleCookiesAlert()
     {

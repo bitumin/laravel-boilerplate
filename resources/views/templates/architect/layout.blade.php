@@ -43,16 +43,9 @@
     ================================================== -->
     <link rel="stylesheet" href="{{ asset('css/architect/architect.css') }}" />
     <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" />
-<<<<<<< HEAD
-    <link rel="stylesheet" href="{{ asset('css/architect-media.css') }}" />
-    <link rel="stylesheet" href="{{ asset('css/fontello.css') }}" />
-    <link rel="stylesheet" href="{{ asset('css/sequence.css') }}" />
-=======
     <link rel="stylesheet" href="{{ asset('css/architect/architect-media.css') }}" />
     <link rel="stylesheet" href="{{ asset('css/architect/fontello.css') }}" />
-
     <link rel="stylesheet" href="{{ asset('css/architect/sequence.css') }}" />
->>>>>>> templates-dev2
 
     <!-- HTML5 Shiv
     ================================================== -->
