@@ -1,95 +1,88 @@
-@extends('admin.layouts.dashboard')
+@extends('blog-admin.layouts.dashboard')
 @section('page_heading', trans('profiles.form.page_title') )
 @section('section')
 
-@include('admin.snippets.validation-errors')
+@include('blog-admin.snippets.validation-errors')
 
-    {!! Form::open( [ 'route' => ['admin.profile.update', $user->hash], 'files' => true ] ) !!}
-    {!! Form::hidden('_method', 'put') !!}
-    {!! Form::hidden('hash', $user->hash) !!}
-    <div class="row form-group {{ $errors->has('name') ? 'has-error' : '' }}">
-        <div class="col-sm-2">
-            {!! Form::label('name', trans("profiles.form.name.label") ) !!}
-        </div>
-        <div class="col-sm-10">
-            {!! Form::text('name', isset($user) ? $user->lastname : '', ['class' => 'form-control form-small' ]) !!}
-        </div>
-    </div>
+    <form action="{{route('admin.profile.update', $user->slug)}}" method="post" enctype="multipart/form-data">
+        <input type="hidden" name="_method" value="put">
+        <input type="hidden" name="slug" value="{{$user->slug}}">
+        {!! csrf_field() !!}
 
-    <div class="row form-group {{ $errors->has('firstname') ? 'has-error' : '' }}">
-        <div class="col-sm-2">
-            {!! Form::label('firstname', trans("profiles.form.firstname.label") ) !!}
+        <div class="row form-group {{ $errors->has('username') ? 'has-error' : '' }}">
+            <div class="col-sm-3">
+                <label for="username">{{trans("profiles.form.username.label")}}</label>
+            </div>
+            <div class="col-sm-9">
+                <input type="text" name="username" value="{{isset($user) ? $user->username : ''}}" class="form-control form-small">
+            </div>
         </div>
-        <div class="col-sm-10">
-            {!! Form::text('firstname', isset($user) ? $user->firstname : '', ['class' => 'form-control form-small']) !!}
-        </div>
-    </div>
 
-    <div class="row form-group {{ $errors->has('username') ? 'has-error' : '' }}">
-        <div class="col-sm-2">
-            {!! Form::label('username', trans("profiles.form.username.label") ) !!}
+        <div class="row form-group {{ $errors->has('firstname') ? 'has-error' : '' }}">
+            <div class="col-sm-3">
+                <label for="firstname">{{trans("profiles.form.firstname.label")}}</label>
+            </div>
+            <div class="col-sm-9">
+                <input type="text" name="firstname" value="{{isset($user) ? $user->firstname : ''}}" class="form-control form-small">
+            </div>
         </div>
-        <div class="col-sm-10">
-            {!! Form::text('username', isset($user) ? $user->username : '', ['class' => 'form-control form-small']) !!}
-        </div>
-    </div>
 
-    <div class="row form-group {{ $errors->has('email') ? 'has-error' : '' }}">
-        <div class="col-sm-2">
-            {!! Form::label('email', trans("profiles.form.email.label") ) !!}
+        <div class="row form-group {{ $errors->has('lastname') ? 'has-error' : '' }}">
+            <div class="col-sm-3">
+                <label for="lastname">{{trans("profiles.form.lastname.label")}}</label>
+            </div>
+            <div class="col-sm-9">
+                <input type="text" name="lastname" value="{{isset($user) ? $user->lastname : ''}}" class="form-control form-small">
+            </div>
         </div>
-        <div class="col-sm-10">
-            {!! Form::text('email', isset($user) ? $user->email : '' , ['class' => 'form-control form-small']) !!}
-        </div>
-    </div>
 
-    <div class="row form-group {{ $errors->has('password') ? 'has-error' : '' }}">
-        <div class="col-sm-2">
-            {!! Form::label('password', trans("profiles.form.password.label") ) !!}
+        <div class="row form-group {{ $errors->has('email') ? 'has-error' : '' }}">
+            <div class="col-sm-3">
+                <label for="email">{{trans("profiles.form.email.label")}}</label>
+            </div>
+            <div class="col-sm-9">
+                <input type="text" name="email" value="{{isset($user) ? $user->email : ''}}" class="form-control form-small">
+            </div>
         </div>
-        <div class="col-sm-10">
-            {!! Form::password('password', ['class' => 'form-control form-small']) !!}
-        </div>
-    </div>
 
-    <div class="row form-group {{ $errors->has('newpassword') ? 'has-error' : '' }}">
-        <div class="col-sm-2">
-            {!! Form::label('newpassword', trans("profiles.form.newpassword.label") ) !!}
+        <div class="row form-group {{ $errors->has('newpassword') ? 'has-error' : '' }}">
+            <div class="col-sm-3">
+                <label for="newpassword">{{trans("profiles.form.newpassword.label")}}</label>
+            </div>
+            <div class="col-sm-9">
+                <input type="password" name="newpassword" class="form-control form-small">
+            </div>
         </div>
-        <div class="col-sm-10">
-            {!! Form::password('newpassword', ['class' => 'form-control form-small']) !!}
-        </div>
-    </div>
 
-    <div class="row form-group {{ $errors->has('newpasswordconfirm') ? 'has-error' : '' }}">
-        <div class="col-sm-2">
-            {!! Form::label('newpasswordconfirm', trans("profiles.form.newpasswordconfirm.label") ) !!}
+        <div class="row form-group {{ $errors->has('newpasswordconfirm') ? 'has-error' : '' }}">
+            <div class="col-sm-3">
+                <label for="newpasswordconfirm">{{trans("profiles.form.newpasswordconfirm.label")}}</label>
+            </div>
+            <div class="col-sm-9">
+                <input type="password" name="newpasswordconfirm" class="form-control form-small">
+            </div>
         </div>
-        <div class="col-sm-10">
-            {!! Form::password('newpasswordconfirm', ['class' => 'form-control form-small']) !!}
-        </div>
-    </div>
 
-    <div class="row form-group {{ $errors->has('profilepicture') ? 'has-error' : '' }}">
-        <div class="col-sm-2">
-            {!! Form::label('profilepicture', trans("profiles.form.profilepicture.label") ) !!}
+        <div class="row form-group {{ $errors->has('profilepicture') ? 'has-error' : '' }}">
+            <div class="col-sm-3">
+                <label for="profilepicture">{{trans("profiles.form.profilepicture.label")}}</label>
+            </div>
+            <div class="col-sm-9">
+                @if($user->profilepicture != null)
+                    <img src="{{URL::asset($user->profilepicture)}}" class="img-rounded">
+                @else
+                    <img src="{{URL::asset('img/blog/profile-icon.png')}}" class="img-rounded">
+                @endif
+                <input type="file" name="profilepicture">
+            </div>
         </div>
-        <div class="col-sm-10">
-            @if($user->profilepicture != null)
-                <img src="{{URL::asset($user->profilepicture)}}" class="img-rounded">
-            @else
-                <img src="{{URL::asset('assets/blogify/img/profile-icon.png')}}" class="img-rounded">
-            @endif
-            {!! Form::file('profilepicture','', ['class' => 'form-control form-small']) !!}
-        </div>
-    </div>
 
-    <div class="row">
-        <div class="col-sm-2">
-            {!! Form::submit(trans("profiles.form.submit_button.value"), ['class'=>'btn btn-success']) !!}
+        <div class="row">
+            <div class="col-sm-3">
+                <input type="submit" value="{{trans("profiles.form.submit_button.value")}}" class="btn btn-success">
+            </div>
         </div>
-    </div>
 
-{!! Form::close() !!}
+    </form>
 
 @stop

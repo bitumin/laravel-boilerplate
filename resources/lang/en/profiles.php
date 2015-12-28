@@ -8,7 +8,10 @@ return [
             'label' => 'Name: ',
         ],
         'firstname'          => [
-            'label' => 'Firstname: ',
+            'label' => 'First name: ',
+        ],
+        'lastname'          => [
+	        'label' => 'Last name: ',
         ],
         'username'          => [
             'label' => 'Username: ',

@@ -16,7 +16,7 @@
         }
     }
 ?>
-@extends('admin.layouts.dashboard')
+@extends('blog-admin.layouts.dashboard')
 @section('page_heading',trans("posts.form.page.title.create"))
 @section('section')
     {!! Form::open( ['route' => 'admin.posts.store'] ) !!}

@@ -11,6 +11,11 @@
 |
 */
 
+Route::get('doit', function(){
+	//do things
+	exit('done!');
+});
+
 // Example routes:
 // Route::get('uri',['as'=>'route','uses'=>'controller']);
 // Route::post('uri',['as'=>'route','uses'=>'controller']);
@@ -58,8 +63,8 @@ Route::get('example/cookies-alert',['as'=>'example.cookies-alert','uses'=>'Examp
 
 Route::get('dashboard/calculator',['as'=>'dashboard.calculator','uses'=>'ProjectCalculatorController@getView']);
 Route::get('dashboard/calculator/previewResults',['as'=>'dashboard.calculator.previewResults','uses'=>'ProjectCalculatorController@calculate']);
-Route::get('dashboard/calculator/testReport',['as'=>'dashboard.calculator.testReport','uses'=>'ProjectCalculatorController@generateTestReport']);
-Route::get('dashboard/calculator/testBudget',['as'=>'dashboard.calculator.testBudget','uses'=>'ProjectCalculatorController@generateTestBudget']);
+Route::get('dashboard/calculator/testReport',['as'=>'dashboard.calculator.testReport','uses'=>'ProjectCalculatorController@testReport']);
+Route::get('dashboard/calculator/testBudget',['as'=>'dashboard.calculator.testBudget','uses'=>'ProjectCalculatorController@testBudget']);
 Route::post('dashboard/calculator/saveProject',['as'=>'dashboard.calculator.saveProject','uses'=>'ProjectCalculatorController@saveProject']);
 Route::get('dashboard/calculator/openReport',['as'=>'dashboard.calculator.openReport','uses'=>'ProjectCalculatorController@openReport']);
 Route::get('dashboard/calculator/openBudget',['as'=>'dashboard.calculator.openBudget','uses'=>'ProjectCalculatorController@openBudget']);
@@ -172,52 +177,55 @@ Route::get('template/cloud/blog',['as'=>'template.cloud.blog','uses'=>'ExamplesC
  */
 
 // Blog (public) routes
+Route::resource('blog', 'Blog\BlogController', ['only' => ['index', 'show']]);
 Route::post('blog/{slug}', ['as'=>'blog.confirmPass','uses'=>'Blog\BlogController@show']);
 Route::get('blog/archive/{year}/{month}', ['as'=>'blog.archive','uses'=>'Blog\BlogController@archive']);
 Route::get('blog/category/{category}', ['as'=>'blog.category','uses'=>'Blog\BlogController@category']);
 Route::get('blog/protected/verify/{hash}', ['as'=>'blog.askPassword','uses'=>'Blog\BlogController@askPassword']);
-Route::resource('blog', 'BlogController', ['only' => ['index', 'show']]);
 Route::post('comments', ['as'=>'comments.store','uses'=>'Blog\CommentsController@store']);
 
-// Dashboard home
+// Dashboard routes
+
+// Home
 Route::get('admin', ['as'=>'admin.dashboard','uses'=>'Blog\DashboardController@index']);
 
-// User and categories routes
-Route::group(['middleware' => 'HasAdminRole'], function() {
-	Route::get('admin/users/overview/{trashed?}', ['as'=>'admin.users.overview','uses'=>'Blog\UserController@index']);
-	Route::get('admin/users/{hash}/restore', ['as'=>'admin.users.restore','uses'=>'Blog\UserController@restore']);
-	Route::resource('admin/users', 'Blog\UserController');
-
-	Route::get('admin/categories/overview/{trashed?}', ['as'=>'admin.categories.overview','uses'=>'Blog\CategoriesController@index']);
-	Route::get('admin/categories/{hash}/restore', ['as'=>'admin.categories.restore','uses'=>'Blog\CategoriesController@restore']);
-	Route::resource('admin/categories', 'Blog\CategoriesController');
+// User
+Route::group(['middleware' => 'App\Http\Middleware\Blog\HasAdminRole'], function() {
+	Route::resource('users', 'Blog\UserController', ['as'=>'admin']);
+	Route::get('users/overview/{trashed?}', ['as'=>'admin.users.overview','uses'=>'Blog\UserController@index']);
+	Route::get('users/{hash}/restore', ['as'=>'admin.users.restore','uses'=>'Blog\UserController@restore']);
 });
 
-// Post routes
-Route::post('admin/posts', ['as'=>'admin.posts.store','uses'=>'Blog\PostsController@store']);
-Route::post('admin/posts/image/upload', ['as'=>'admin.posts.uploadImage','uses'=>'Blog\PostsController@uploadImage']);
-Route::get('admin/posts/overview/{trashed?}', ['as'=>'admin.posts.overview','uses'=>'Blog\PostsController@index']);
-Route::get('admin/posts/action/cancel/{hash?}', ['as'=>'admin.posts.cancel','uses'=>'Blog\PostsController@cancel']);
-Route::get('admin/posts/{hash}/restore', ['as'=>'admin.posts.restore','uses'=>'Blog\PostsController@restore']);
-Route::group(['prefix'=>'admin'], function () {
-	Route::resource('posts', 'Blog\PostsController', ['except'=>'store', 'update']);
+// Categories
+Route::group(['middleware' => 'App\Http\Middleware\Blog\HasAdminRole'], function() {
+	Route::resource('categories', 'Blog\CategoriesController', ['as'=>'admin']);
+	Route::get('categories/overview/{trashed?}', ['as'=>'admin.categories.overview','uses'=>'Blog\CategoriesController@index']);
+	Route::get('categories/{hash}/restore', ['as'=>'admin.categories.restore','uses'=>'Blog\CategoriesController@restore']);
 });
 
-// Tags routes
-Route::group(['middleware' => 'HasAdminOrAuthorRole'], function() {
-	Route::post('admin/tags', ['as'=>'admin.tags.store','uses'=>'Blog\TagsController@storeOrUpdate']);
-	Route::get('admin/tags/overview/{trashed?}', ['as'=>'admin.tags.overview','uses'=>'Blog\TagsController@index']);
-	Route::get('admin/tags/{hash}/restore', ['as'=>'admin.tags.restore','uses'=>'Blog\TagsController@restore']);
-	Route::get('admin/comments/{revised?}', ['as'=>'admin.comments.index','uses'=>'Blog\CommentsController@index']);
-	Route::get('admin/comments/changestatus/{hash}/{revised}', ['as'=>'admin.comments.changeStatus','uses'=>'Blog\CommentsController@changeStatus']);
-	Route::resource('admin/tags', 'Blog\TagsController', ['except' => 'store']);
+// Posts
+Route::resource('posts', 'Blog\PostsController', ['except'=>['store', 'update'], 'as'=>'admin']);
+Route::post('posts', ['as'=>'admin.posts.store','uses'=>'Blog\PostsController@store']);
+Route::post('posts/image/upload', ['as'=>'admin.posts.uploadImage','uses'=>'Blog\PostsController@uploadImage']);
+Route::get('posts/overview/{trashed?}', ['as'=>'admin.posts.overview','uses'=>'Blog\PostsController@index']);
+Route::get('posts/action/cancel/{hash?}', ['as'=>'admin.posts.cancel','uses'=>'Blog\PostsController@cancel']);
+Route::get('posts/{hash}/restore', ['as'=>'admin.posts.restore','uses'=>'Blog\PostsController@restore']);
+
+// Tags
+Route::group(['middleware' => 'App\Http\Middleware\Blog\HasAdminOrAuthorRole'], function() {
+	Route::resource('tags', 'Blog\TagsController', ['except' => 'store', 'as'=>'admin']);
+	Route::post('tags', ['as'=>'admin.tags.store','uses'=>'Blog\TagsController@storeOrUpdate']);
+	Route::get('tags/overview/{trashed?}', ['as'=>'admin.tags.overview','uses'=>'Blog\TagsController@index']);
+	Route::get('tags/{hash}/restore', ['as'=>'admin.tags.restore','uses'=>'Blog\TagsController@restore']);
+	Route::get('comments/{revised?}', ['as'=>'admin.comments.index','uses'=>'Blog\CommentsController@index']);
+	Route::get('comments/changestatus/{hash}/{revised}', ['as'=>'admin.comments.changeStatus','uses'=>'Blog\CommentsController@changeStatus']);
 });
 
-// Profile route
-Route::resource('admin/profile', 'ProfileController');
+// Profiles
+Route::resource('profile', 'Blog\ProfileController', ['as'=>'admin']);
 
-// API routes
-Route::get('admin/api/sort/{table}/{column}/{order}/{trashed?}', ['as'=>'admin.api.sort','uses'=>'Blog\ApiController@sort']);
-Route::get('admin/api/slug/checkIfSlugIsUnique/{slug}', ['as'=>'admin.api.slug.checkIfUnique','uses'=>'Blog\ApiController@checkIfSlugIsUnique']);
-Route::post('admin/api/autosave', ['as'=>'admin.api.autosave','uses'=>'Blog\ApiController@autoSave']);
-Route::get('admin/api/tags/{hash}', ['as'=>'admin.api.tags','uses'=>'Blog\ApiController@getTag']);
+// API
+Route::get('api/sort/{table}/{column}/{order}/{trashed?}', ['as'=>'admin.api.sort','uses'=>'Blog\ApiController@sort']);
+Route::get('api/slug/checkIfSlugIsUnique/{slug}', ['as'=>'admin.api.slug.checkIfUnique','uses'=>'Blog\ApiController@checkIfSlugIsUnique']);
+Route::post('api/autosave', ['as'=>'admin.api.autosave','uses'=>'Blog\ApiController@autoSave']);
+Route::get('api/tags/{hash}', ['as'=>'admin.api.tags','uses'=>'Blog\ApiController@getTag']);

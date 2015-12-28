@@ -15,10 +15,12 @@ use Carbon\Carbon;
 
 class ProjectCalculatorController extends Controller
 {
+	protected $redirectPath = '/dashboard';
+
 	public function getView()
 	{
-		if(\Auth::user()->may('access-project-calculator'))
-			return view('dashboard.calculator');
+		if(\Auth::user()->may('access-budget-calculator'))
+			return view('budget-calculator.calculator');
 		return redirect($this->redirectPath);
 	}
 
@@ -116,9 +118,9 @@ class ProjectCalculatorController extends Controller
 		$data['today'] = Carbon::createFromFormat('Y-m-d H:i:s',$data['created_at'])->format('d/m/Y');
 
 		return PDF::loadView('pdf-templates.budget', $data)
-		          ->stream(
-			          'budget_' . $data['id'] . '_'.
-			          Carbon::createFromFormat('Y-m-d H:i:s',$data['created_at'])->format('Ymdhis') . '.pdf'
-		          );
+			->stream(
+				'budget_' . $data['id'] . '_'.
+				Carbon::createFromFormat('Y-m-d H:i:s',$data['created_at'])->format('Ymdhis') . '.pdf'
+			);
 	}
 }

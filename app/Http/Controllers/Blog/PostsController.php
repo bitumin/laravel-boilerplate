@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Blog;
 
 use Carbon\Carbon;
-use Illuminate\Contracts\Hashing\Hasher;
+use Illuminate\Contracts\Sluging\Sluger;
 use App\User;
 use App\Category;
 use App\Role;
@@ -43,6 +43,11 @@ class PostsController extends AdminController
      */
     protected $category;
 
+	/**
+	 * @var mixed
+	 */
+	protected $config;
+
     /**
      * @var \App\Tag
      */
@@ -74,35 +79,29 @@ class PostsController extends AdminController
     protected $cache;
 
     /**
-     * @var \Illuminate\Contracts\Hashing\Hasher
-     */
-    protected $hash;
-
-    /**
      * @param \App\Tag $tag
      * @param \App\Role $role
      * @param \App\User $user
      * @param \App\Post $post
-     * @param \Illuminate\Contracts\Hashing\Hasher $hash
      * @param \App\Status $status
      * @param \Illuminate\Contracts\Cache\Repository $cache
      * @param \App\Category $category
      * @param \App\Visibility $visibility
      */
     public function __construct(
-	    Tag $tag, Role $role, User $user, Post $post, Hasher $hash, Status $status,
+	    Tag $tag, Role $role, User $user, Post $post, Status $status,
 	    Repository $cache, Category $category, Visibility $visibility
     ) {
 	    parent::__construct();
 
         $this->appendMiddleware();
 
+	    $this->config = json_decode(json_encode(config('blogify')));
         $this->tag = $tag;
         $this->role = $role;
         $this->user = $user;
 	    $this->auth_user = \Auth::check() ? \Auth::user() : false;
         $this->post = $post;
-        $this->hash = $hash;
         $this->cache = $cache;
         $this->status = $status;
         $this->category = $category;
@@ -119,7 +118,7 @@ class PostsController extends AdminController
      */
     public function index($trashed = false)
     {
-        $scope = 'for'.$this->auth_user->role->name;
+        $scope = 'for'.$this->auth_user->getBloggerRoleName();
         $data = [
             'posts' => (! $trashed) ?
                 $this->post->$scope()
@@ -141,21 +140,21 @@ class PostsController extends AdminController
      */
     public function create()
     {
-        $hash = $this->auth_user->hash;
-        $post = $this->cache->has("autoSavedPost-$hash") ? $this->buildPostObject() : null;
+        $slug = $this->auth_user->slug;
+        $post = $this->cache->has("autoSavedPost-$slug") ? $this->buildPostObject() : null;
         $data = $this->getViewData($post);
 
         return view('blog-admin.posts.form', $data);
     }
 
     /**
-     * @param string $hash
+     * @param string $slug
      * @return \Illuminate\View\View
      */
-    public function show($hash)
+    public function show($slug)
     {
         $data = [
-            'post' => $this->post->byHash($hash),
+            'post' => $this->post->bySlug($slug),
         ];
 
         if ($data['post']->count() <= 0) {
@@ -166,14 +165,14 @@ class PostsController extends AdminController
     }
 
     /**
-     * @param string $hash
+     * @param string $slug
      * @return \Illuminate\View\View
      */
-    public function edit($hash)
+    public function edit($slug)
     {
-        $originalPost = $this->post->byHash($hash);
-        $hash = $this->auth_user->hash;
-        $post = $this->cache->has("autoSavedPost-$hash") ? $this->buildPostObject() : $originalPost;
+        $originalPost = $this->post->bySlug($slug);
+        $slug = $this->auth_user->slug;
+        $post = $this->cache->has("autoSavedPost-$slug") ? $this->buildPostObject() : $originalPost;
         $data = $this->getViewData($post);
 
         $originalPost->being_edited_by = $this->auth_user->id;
@@ -204,11 +203,11 @@ class PostsController extends AdminController
 
         $post = $this->storeOrUpdatePost();
 
-        if ($this->status->byHash($this->data->status)->name == 'Pending review') {
+        if ($this->status->bySlug($this->data->status)->name == 'Pending review') {
             $this->mailReviewer($post);
         }
 
-        $action = ($request->hash == '') ? 'created' : 'updated';
+        $action = ($request->slug == '') ? 'created' : 'updated';
 
         $this->tracert->log('posts', $post->id, $this->auth_user->id, $action);
 
@@ -217,19 +216,19 @@ class PostsController extends AdminController
         ]);
         session()->flash('notify', ['success', $message]);
 
-        $hash = $this->auth_user->hash;
-        $this->cache->forget("autoSavedPost-$hash");
+        $slug = $this->auth_user->slug;
+        $this->cache->forget("autoSavedPost-$slug");
 
         return redirect()->route('blog-admin.posts.index');
     }
 
     /**
-     * @param string $hash
+     * @param string $slug
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function destroy($hash)
+    public function destroy($slug)
     {
-        $post = $this->post->byHash($hash);
+        $post = $this->post->bySlug($slug);
         $post->delete();
 
         $this->tracert->log('posts', $post->id, $this->auth_user->id, 'delete');
@@ -268,21 +267,21 @@ class PostsController extends AdminController
      * and set being_edited_by
      * back to null
      *
-     * @param string $hash
+     * @param string $slug
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function cancel($hash = null)
+    public function cancel($slug = null)
     {
-        if (! isset($hash)) {
+        if (! isset($slug)) {
             return redirect()->route('blog-admin.posts.index');
         }
 
-        $userHash = $this->auth_user->hash;
-        if ($this->cache->has("autoSavedPost-$userHash")) {
-            $this->cache->forget("autoSavedPost-$userHash");
+        $userSlug = $this->auth_user->slug;
+        if ($this->cache->has("autoSavedPost-$userSlug")) {
+            $this->cache->forget("autoSavedPost-$userSlug");
         }
 
-        $post = $this->post->byHash($hash);
+        $post = $this->post->bySlug($slug);
         $post->being_edited_by = null;
         $post->save();
 
@@ -297,12 +296,12 @@ class PostsController extends AdminController
     }
 
     /**
-     * @param string $hash
+     * @param string $slug
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function restore($hash)
+    public function restore($slug)
     {
-        $post = $this->post->withTrashed()->byHash($hash);
+        $post = $this->post->withTrashed()->bySlug($slug);
         $post->restore();
 
         $message = trans('notify.success', [
@@ -322,19 +321,19 @@ class PostsController extends AdminController
      */
     private function appendMiddleware()
     {
-        $this->middleware('HasAdminOrAuthorRole', [
+        $this->middleware('App\Http\Middleware\Blog\HasAdminOrAuthorRole', [
             'only' => ['create'],
         ]);
 
-        $this->middleware('CanEditPost', [
+        $this->middleware('App\Http\Middleware\Blog\CanEditPost', [
             'only' => ['edit'],
         ]);
 
-        $this->middleware('DenyIfBeingEdited', [
+        $this->middleware('App\Http\Middleware\Blog\DenyIfBeingEdited', [
             'only' => ['edit'],
         ]);
 
-        $this->middleware('CanViewPost', [
+        $this->middleware('App\Http\Middleware\Blog\CanViewPost', [
             'only' => ['edit', 'show'],
         ]);
     }
@@ -402,8 +401,8 @@ class PostsController extends AdminController
     {
         $tags = explode(',', $this->data->tags);
 
-        foreach ($tags as $hash) {
-            array_push($this->tags, $this->tag->byHash($hash)->id);
+        foreach ($tags as $slug) {
+            array_push($this->tags, $this->tag->bySlug($slug)->id);
         }
     }
 
@@ -412,26 +411,26 @@ class PostsController extends AdminController
      */
     private function storeOrUpdatePost()
     {
-        if (! empty($this->data->hash)) {
-            $post = $this->post->byHash($this->data->hash);
+        if (! empty($this->data->slug)) {
+            $post = $this->post->bySlug($this->data->slug);
         } else {
             $post = new Post;
-            $post->hash = $this->blogify->makeHash('posts', 'hash', true);
+            $post->slug = $this->blogify->makeSlug('posts', 'slug', true);
         }
 
         $post->slug = $this->data->slug;
         $post->title = $this->data->title;
         $post->content = $this->data->post;
-        $post->status_id = $this->status->byHash($this->data->status)->id;
+        $post->status_id = $this->status->bySlug($this->data->status)->id;
         $post->publish_date = $this->data->publishdate;
-        $post->user_id = $this->user->byHash($this->auth_user->hash)->id;
-        $post->reviewer_id = $this->user->byHash($this->data->reviewer)->id;
-        $post->visibility_id = $this->visibility->byHash($this->data->visibility)->id;
-        $post->category_id = $this->category->byHash($this->data->category)->id;
+        $post->user_id = $this->user->bySlug($this->auth_user->slug)->id;
+        $post->reviewer_id = $this->user->bySlug($this->data->reviewer)->id;
+        $post->visibility_id = $this->visibility->bySlug($this->data->visibility)->id;
+        $post->category_id = $this->category->bySlug($this->data->category)->id;
         $post->being_edited_by = null;
 
         if (!empty($this->data->password)) {
-            $post->password = $this->hash->make($this->data->password);
+            $post->password = $this->slug->make($this->data->password);
         }
 
         $post->save();
@@ -464,19 +463,19 @@ class PostsController extends AdminController
      */
     private function buildPostObject()
     {
-        $hash = $this->auth_user->hash;
-        $cached_post = $this->cache->get("autoSavedPost-$hash");
+        $slug = $this->auth_user->slug;
+        $cached_post = $this->cache->get("autoSavedPost-$slug");
 
         $post = [];
-        $post['hash'] = '';
+        $post['slug'] = '';
         $post['title'] = $cached_post['title'];
         $post['slug'] = $cached_post['slug'];
         $post['content'] = $cached_post['content'];
         $post['publish_date'] = $cached_post['publishdate'];
-        $post['status_id'] = $this->status->byHash($cached_post['status'])->id;
-        $post['visibility_id'] = $this->visibility->byHash($cached_post['visibility'])->id;
-        $post['reviewer_id'] = $this->user->byHash($cached_post['reviewer'])->id;
-        $post['category_id'] = $this->category->byHash($cached_post['category'])->id;
+        $post['status_id'] = $this->status->bySlug($cached_post['status'])->id;
+        $post['visibility_id'] = $this->visibility->bySlug($cached_post['visibility'])->id;
+        $post['reviewer_id'] = $this->user->bySlug($cached_post['reviewer'])->id;
+        $post['category_id'] = $this->category->bySlug($cached_post['category'])->id;
         $post['tag'] = $this->buildTagsArrayForPostObject($cached_post['tags']);
 
         return json_decode(json_encode($post));
@@ -493,10 +492,10 @@ class PostsController extends AdminController
         }
 
         $aTags = [];
-        $hashes = explode(',', $tags);
+        $sluges = explode(',', $tags);
 
-        foreach ($hashes as $tag) {
-            array_push($aTags, $this->tag->byHash($tag));
+        foreach ($sluges as $tag) {
+            array_push($aTags, $this->tag->bySlug($tag));
         }
 
         return $aTags;

@@ -58,12 +58,12 @@ class CategoriesController extends AdminController
     }
 
     /**
-     * @param string $hash
+     * @param string $slug
      * @return \Illuminate\View\View
      */
-    public function edit($hash)
+    public function edit($slug)
     {
-        $category = $this->category->byHash($hash);
+        $category = $this->category->bySlug($slug);
 
         return view('admin.categories.form', compact('category'));
     }
@@ -97,13 +97,13 @@ class CategoriesController extends AdminController
     }
 
     /**
-     * @param string $hash
+     * @param string $slug
      * @param \App\Http\Requests\Blog\CategoryRequest $request
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function update($hash, CategoryRequest $request)
+    public function update($slug, CategoryRequest $request)
     {
-        $category = $this->category->byHash($hash);
+        $category = $this->category->bySlug($slug);
         $category->name = $request->name;
         $category->save();
 
@@ -120,12 +120,12 @@ class CategoriesController extends AdminController
     }
 
     /**
-     * @param string $hash
+     * @param string $slug
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function destroy($hash)
+    public function destroy($slug)
     {
-        $category = $this->category->byHash($hash);
+        $category = $this->category->bySlug($slug);
         $category_name = $category->name;
         $category->delete();
 
@@ -142,12 +142,12 @@ class CategoriesController extends AdminController
     }
 
     /**
-     * @param string $hash
+     * @param string $slug
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function restore($hash)
+    public function restore($slug)
     {
-        $category = $this->category->withTrashed()->byHash($hash);
+        $category = $this->category->withTrashed()->bySlug($slug);
         $category_name = $category->name;
         $category->restore();
 
@@ -181,7 +181,7 @@ class CategoriesController extends AdminController
             $category = $cat;
         } else {
             $category = new Category;
-            $category->hash = $this->blogify->makeHash('categories', 'hash', true);
+            $category->slug = $this->blogify->makeSlug('categories', 'slug', true);
         }
 
         $category->name = $request->name;

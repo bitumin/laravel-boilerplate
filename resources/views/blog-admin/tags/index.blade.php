@@ -2,14 +2,14 @@
 $trashed        = ($trashed) ? 1 : 0;
 $currentPage    = (Request::has('page')) ? Request::get('page') : '1';
 ?>
-@extends('admin.layouts.dashboard')
+@extends('blog-admin.layouts.dashboard')
 @section('page_heading', trans("tags.overview.page_title") )
 @section('section')
     @if ( session()->get('notify') )
-        @include('admin.snippets.notify')
+        @include('blog-admin.snippets.notify')
     @endif
     @if ( session()->has('success') )
-        @include('admin.widgets.alert', ['class'=>'success', 'dismissable'=>true, 'message'=> session()->get('success'), 'icon'=> 'check'])
+        @include('blog-admin.widgets.alert', ['class'=>'success', 'dismissable'=>true, 'message'=> session()->get('success'), 'icon'=> 'check'])
     @endif
 
     <p>
@@ -56,7 +56,7 @@ $currentPage    = (Request::has('page')) ? Request::get('page') : '1';
     </table>
 @endsection
 
-@include('admin.widgets.panel', ['header'=>true, 'as'=>'cotable'])
+@include('blog-admin.widgets.panel', ['header'=>true, 'as'=>'cotable'])
 
 {!! $tags->render() !!}
 

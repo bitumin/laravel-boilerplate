@@ -5,7 +5,6 @@ namespace App\Http\Controllers\Blog;
 use App\Role;
 use App\Http\Requests\Blog\UserRequest;
 use App\User;
-use Illuminate\Contracts\Hashing\Hasher as Hash;
 
 class UserController extends AdminController
 {
@@ -20,22 +19,21 @@ class UserController extends AdminController
      */
     protected $role;
 
-    /**
-     * @var \Illuminate\Contracts\Hashing\Hasher
-     */
-    protected $hash;
+	/**
+	 * @var mixed
+	 */
+	protected $config;
 
     /**
      * @param \App\User $user
      * @param \App\Role $role
-     * @param \Illuminate\Contracts\Hashing\Hasher $hash
      */
-    public function __construct(User $user, Role $role, Hash $hash) {
+    public function __construct(User $user, Role $role) {
 	    parent::__construct();
 
         $this->user = $user;
         $this->role = $role;
-        $this->hash = $hash;
+	    $this->config = json_decode(json_encode(config('blogify')));
     }
 
     ///////////////////////////////////////////////////////////////////////////
@@ -61,7 +59,7 @@ class UserController extends AdminController
             'trashed' => $trashed,
         ];
 
-        return view('admin.users.index', $data);
+        return view('blog-admin.users.index', $data);
     }
 
     /**
@@ -73,21 +71,21 @@ class UserController extends AdminController
             'roles' => $this->role->all(),
         ];
 
-        return view('admin.users.form', $data);
+        return view('blog-admin.users.form', $data);
     }
 
     /**
-     * @param string $hash
+     * @param string $slug
      * @return \Illuminate\View\View
      */
-    public function edit($hash)
+    public function edit($slug)
     {
         $data = [
-            'roles' => $this->role->all(),
-            'user'  => $this->user->byHash($hash),
+            'roles' => $this->role->byBloggerRole()->get(),
+            'user'  => $this->user->findBySlugOrFail($slug),
         ];
 
-        return view('admin.users.form', $data);
+        return view('blog-admin.users.form', $data);
     }
 
     ///////////////////////////////////////////////////////////////////////////
@@ -107,26 +105,28 @@ class UserController extends AdminController
             'password'  => $data['password'],
         ];
 
-        $this->mail->mailPassword($user->email, 'Blogify temperary password', $mail_data);
+	    \Mail::send('blog-mails.password', $mail_data, function($message) use($data) {
+		    $message->to(
+			    $data['user']->email,
+			    $data['user']->firstname.(empty($data['user']->lastname)) ? '' : ' '.$data['user']->lastname
+		    )->subject('Welcome!');
+	    });
 
-        $this->tracert->log('users', $user->id, $this->auth_user->id);
-
-        $message = trans('notify.success', [
-            'model' => 'User', 'name' => $user->fullName, 'action' =>'created'
-        ]);
-        session()->flash('notify', ['success', $message]);
+        session()->flash('notify', ['success', trans('notify.success', [
+	        'model' => 'User', 'name' => $user->fullName, 'action' =>'created'
+        ])]);
 
         return redirect()->route('admin.users.index');
     }
 
     /**
      * @param \App\Http\Requests\Blog\UserRequest $request
-     * @param string $hash
+     * @param string $slug
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function update(UserRequest $request, $hash)
+    public function update(UserRequest $request, $slug)
     {
-        $data = $this->storeOrUpdateUser($request, $hash);
+        $data = $this->storeOrUpdateUser($request, $slug);
         $user = $data['user'];
         $message = trans('notify.success', [
             'model' => 'User',
@@ -134,44 +134,39 @@ class UserController extends AdminController
             'action' =>'updated'
         ]);
 
-        $this->tracert->log('users', $user->id, $this->auth_user->id, 'update');
-
         session()->flash('notify', ['success', $message]);
+
         return redirect()->route('admin.users.index');
     }
 
     /**
-     * @param string $hash
+     * @param string $slug
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function destroy($hash)
+    public function destroy($slug)
     {
-        $user = $this->user->byHash($hash);
+        $user = $this->user->findBySlugOrFail($slug);
         $user->delete();
 
-        $this->tracert->log('users', $user->id, $this->auth_user->id, 'delete');
-
-        $message = trans('notify.success', [
-            'model' => 'User', 'name' => $user->fullName, 'action' =>'deleted'
-        ]);
-        session()->flash('notify', ['success', $message]);
+        session()->flash('notify', ['success', $message = trans('notify.success', [
+	        'model' => 'User', 'name' => $user->fullName, 'action' =>'deleted'
+        ])]);
 
         return redirect()->route('admin.users.index');
     }
 
     /**
-     * @param string $hash
+     * @param string $slug
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function restore($hash)
+    public function restore($slug)
     {
-        $user = $this->user->withTrashed()->byHash($hash);
+        $user = $this->user->withTrashed()->findBySlugOrFail($slug);
         $user->restore();
 
-        $message = trans('notify.success', [
-            'model' => 'Post', 'name' => $user->fullName, 'action' =>'restored'
-        ]);
-        session()->flash('notify', ['success', $message]);
+        session()->flash('notify', ['success', trans('notify.success', [
+	        'model' => 'Post', 'name' => $user->fullName, 'action' =>'restored'
+        ])]);
 
         return redirect()->route('admin.users.index');
     }
@@ -182,28 +177,28 @@ class UserController extends AdminController
 
     /**
      * @param \App\Http\Requests\Blog\UserRequest $data
-     * @param string $hash
+     * @param string $slug
      * @return array
      */
-    private function storeOrUpdateUser($data, $hash = null)
+    private function storeOrUpdateUser($data, $slug = null)
     {
         $password = null;
 
-        if (! isset($hash)) {
-            $password = $this->blogify->makeHash();
+        if (! isset($slug)) {
             $user = new User;
-            $user->hash = $this->blogify->makeHash('users', 'hash', true);
-            $user->password = $this->hash->make($password);
-            $user->username = $this->blogify->generateUniqueUsername($data->name, $data->firstname);
-            $user->lastname = $data->name;
+            $user->name = $data->firstname.(empty($data->lastname)) ? '' : ' '.$data->lastname;
+            $user->username = $data->username;
+            $user->password = bcrypt($data->password);
             $user->firstname = $data->firstname;
+	        $user->lastname = $data->lastname;
             $user->email = $data->email;
         } else {
-            $user = $this->user->byHash($hash);
+            $user = $this->user->findBySlugOrFail($slug);
         }
 
-        $user->role_id = $this->role->byHash($data->role)->id;
-        $user->save();
+	    $user->save();
+
+	    $user->assignRole($this->role->whereSlug($data->role)->pluck('id'));
 
         return ['user' => $user, 'password' => $password];
     }

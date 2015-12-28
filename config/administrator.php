@@ -7,7 +7,7 @@ return [
 	 *
 	 * @type string
 	 */
-	'uri' => 'admin',
+	'uri' => 'dbadministrator',
 
 	/**
 	 * Page title
@@ -77,7 +77,7 @@ return [
 	'permission' => function() {
 		if(!Auth::check())
             return false;
-        return Auth::user()->may('manage-users') || Auth::user()->may('manage-calculator-backend');
+        return Auth::user()->may('access-administrator-interface');
 	},
 
 	/**

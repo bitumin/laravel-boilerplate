@@ -1,53 +1,66 @@
 <?php
-$editable = (isset($user)) ? "disabled" : null;
+$editable = (isset($user)) ? "disabled" : "";
 ?>
-@extends('admin.layouts.dashboard')
+@extends('blog-admin.layouts.dashboard')
 @section('page_heading', isset($user) ? trans("users.form.page_title_edit")  : trans("users.form.page_title_create") )
 @section('section')
 
-@include('admin.snippets.validation-errors')
+@include('blog-admin.snippets.validation-errors')
 
-@if ( isset($user) )
-    {!! Form::open( [ 'route' => ['admin.users.update', $user->hash] ] ) !!}
-    {!! Form::hidden('_method', 'put') !!}
-@else
-    {!! Form::open( [ 'route' => 'admin.users.store' ] ) !!}
-@endif
-    <div class="row form-group {{ $errors->has('name') ? 'has-error' : '' }}">
+    <form action="
+    @if ( isset($user) )
+        {{route('admin.users.update', $user->slug)}}
+    @else
+        {{route('admin.users.store')}}
+    @endif
+    " method="post">
+    <input type="hidden" name="_method" value="put">
+    {!! csrf_field() !!}
+
+    <div class="row form-group {{ $errors->has('username') ? 'has-error' : '' }}">
         <div class="col-sm-2">
-            {!! Form::label('name', trans("users.form.name.label") ) !!}
+            <label for="username">{{trans("users.form.username.label")}}</label>
         </div>
         <div class="col-sm-10">
-            {!! Form::text('name', isset($user) ? $user->name : '', ['class' => 'form-control form-small', $editable ]) !!}
+            <input type="text" name="username" value="{{isset($user) ? $user->username : ''}}" class="form-control form-small {{$editable}}">
         </div>
     </div>
 
     <div class="row form-group {{ $errors->has('firstname') ? 'has-error' : '' }}">
         <div class="col-sm-2">
-            {!! Form::label('firstname', trans("users.form.firstname.label") ) !!}
+            <label for="firstname">{{trans("users.form.firstname.label")}}</label>
         </div>
         <div class="col-sm-10">
-            {!! Form::text('firstname', isset($user) ? $user->firstname : '', ['class' => 'form-control form-small', $editable]) !!}
+            <input type="text" name="firstname" value="{{isset($user) ? $user->firstname : ''}}" class="form-control form-small {{$editable}}">
+        </div>
+    </div>
+
+    <div class="row form-group {{ $errors->has('lastname') ? 'has-error' : '' }}">
+        <div class="col-sm-2">
+            <label for="lastname">{{trans("users.form.lastname.label")}}</label>
+        </div>
+        <div class="col-sm-10">
+            <input type="text" name="lastname" value="{{isset($user) ? $user->lastname : ''}}" class="form-control form-small {{$editable}}">
         </div>
     </div>
 
     <div class="row form-group {{ $errors->has('email') ? 'has-error' : '' }}">
         <div class="col-sm-2">
-            {!! Form::label('email', trans("users.form.email.label") ) !!}
+            <label for="email">{{trans("users.form.email.label")}}</label>
         </div>
         <div class="col-sm-10">
-            {!! Form::text('email', isset($user) ? $user->email : '' , ['class' => 'form-control form-small', $editable]) !!}
+            <input type="text" name="email" value="{{isset($user) ? $user->email : ''}}" class="form-control form-small {{$editable}}">
         </div>
     </div>
 
     <div class="row form-group {{ $errors->has('role') ? 'has-error' : '' }}">
         <div class="col-sm-2">
-            {!! Form::label('role', trans("users.form.role.label") ) !!}
+            <label for="role">{{trans("users.form.role.label")}}</label>
         </div>
         <div class="col-sm-10">
             <select name="role" class="form-control form-small">
                 @foreach ($roles as $role)
-                    <option value="{!! $role->hash !!}" {{ ( isset($user) && $role->id == $user->role_id ) ? 'selected' : '' }}>{!! $role->name !!}</option>
+                    <option value="{{ $role->slug }}" @if( isset($user) && $user->is($role->name) ) selected="selected" @endif >{{ $role->name }}</option>
                 @endforeach
             </select>
         </div>
@@ -55,10 +68,9 @@ $editable = (isset($user)) ? "disabled" : null;
 
     <div class="row">
         <div class="col-sm-2">
-            {!! Form::submit(trans("users.form.submit_button.value"), ['class'=>'btn btn-success']) !!}
+            <input type="submit" value="{{trans("users.form.submit_button.value")}}" class="btn btn-success">
         </div>
     </div>
 
-{!! Form::close() !!}
-
+    </form>
 @stop

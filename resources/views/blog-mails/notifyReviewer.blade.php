@@ -4,7 +4,7 @@
     Hello {{ $data['reviewer']->firstname }},
 </p>
 <p>
-   You are assigned as reviewer for the " {{ $data['post']['title'] }}" article.<br>
+    You are assigned as reviewer for the " {{ $data['post']['title'] }}" article.<br>
     Please review it as soon as possible, the article is placed in your feed.
 </p>
 <p>

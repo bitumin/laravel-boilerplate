@@ -1,8 +1,8 @@
-@extends('admin.layouts.dashboard')
+@extends('blog-admin.layouts.dashboard')
 @section('page_heading', isset($category) ? trans("categories.form.page_title_edit")  : trans("categories.form.page_title_create") )
 @section('section')
 
-    @include('admin.snippets.validation-errors')
+    @include('blog-admin.snippets.validation-errors')
 
     @if ( ! isset($category) )
         {!! Form::open( [ 'route' => 'admin.categories.store' ] ) !!}

@@ -1,8 +1,8 @@
-@extends('admin.layouts.dashboard')
+@extends('blog-admin.layouts.dashboard')
 @section('page_heading', isset($tag) ? trans("tags.form.page_title_edit")  : trans("tags.form.page_title_create") )
 @section('section')
 
-    @include('admin.snippets.validation-errors')
+    @include('blog-admin.snippets.validation-errors')
 
     @if ( ! isset($tag) )
         {!! Form::open( [ 'route' => 'admin.tags.store' ] ) !!}

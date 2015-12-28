@@ -49,4 +49,12 @@ class Role extends \Caffeinated\Shinobi\Models\Role implements SluggableInterfac
 		      ->orWhere('name', 'Author')
 		      ->orWhere('name', 'Reviewer');
 	}
+
+	public function scopeByBloggerRole($query)
+	{
+		$query->whereName('Owner')
+			->orWhere('name', 'Author')
+			->orWhere('name', 'Reviewer')
+			->orWhere('name', 'Member');
+	}
 }

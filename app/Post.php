@@ -105,7 +105,7 @@ class Post extends BaseModel
     |
     */
 
-    public function scopeForAdmin($query)
+    public function scopeForOwner($query)
     {
         return $query;
     }

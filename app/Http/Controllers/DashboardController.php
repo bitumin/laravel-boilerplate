@@ -27,17 +27,12 @@ class DashboardController extends Controller
 
     public function getSettings()
     {
-        if(Auth::user()->may('manage-settings'))
-            return view('dashboard.settings');
-        return redirect($this->redirectPath);
+        return view('dashboard.settings');
     }
 
 	public function getProfile()
 	{
-		if(!Auth::user()->may('manage-profile'))
-			return redirect($this->redirectPath);
-
-		$me = Auth::user();
+		$me = \Auth::user();
 
 		return view('dashboard.profile',compact('me'));
 	}
@@ -50,7 +45,7 @@ class DashboardController extends Controller
         if($validator->fails())
             return \Response::json([],400);
 
-        $me = Auth::user();
+        $me = \Auth::user();
         $me->name = $input['name'];
         $me->email = $input['email'];
 
@@ -67,7 +62,7 @@ class DashboardController extends Controller
         if($validator->fails())
             return \Response::json([],400);
 
-        $me = Auth::user();
+        $me = \Auth::user();
         $me->password = bcrypt($input['password']);
 
         if($me->save())

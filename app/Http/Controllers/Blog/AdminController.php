@@ -13,9 +13,11 @@ class AdminController extends Controller
 	 */
 	protected $auth_user;
 
-	public function __construct() {
+	public function __construct()
+	{
 		$this->middleware('auth');
 
 		$this->auth_user = \Auth::check() ? \Auth::user() : false;
 	}
+
 }

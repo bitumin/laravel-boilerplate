@@ -103,9 +103,9 @@ class ApiController extends AdminController
     public function autoSave(Cache $cache, Request $request)
     {
         try {
-            $hash = $this->auth_user->hash;
+            $slug = $this->auth_user->slug;
             $cache->put(
-                "autoSavedPost-$hash",
+                "autoSavedPost-$slug",
                 $request->all(),
                 Carbon::now()->addHours(2)
             );
@@ -117,13 +117,13 @@ class ApiController extends AdminController
     }
 
     /**
-     * @param $hash
+     * @param $slug
      * @param \App\Tag $tag
      * @return mixed
      */
-    public function getTag($hash, Tag $tag)
+    public function getTag($slug, Tag $tag)
     {
-        return $tag->byHash($hash);
+        return $tag->bySlug($slug);
     }
 
 

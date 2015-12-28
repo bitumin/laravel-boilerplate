@@ -22,7 +22,7 @@
                         <i class="fa fa-user fa-fw"></i>  <i class="fa fa-caret-down"></i>
                     </a>
                     <ul class="dropdown-menu dropdown-user">
-                        <li><a href="{{ route('admin.profile.edit', Auth::user()->hash) }}"><i class="fa fa-user fa-fw"></i> {{ trans("navigation.profile") }} </a>
+                        <li><a href="{{ route('admin.profile.edit', Auth::user()->slug ) }}"><i class="fa fa-user fa-fw"></i> {{ trans("navigation.profile") }} </a>
                         </li>
                         <li class="divider"></li>
                         <li><a href="{!! route('auth.getLogout') !!}"><i class="fa fa-sign-out fa-fw"></i> {{ trans("navigation.logout") }} </a>
@@ -119,7 +119,8 @@
                 </div>
                 <!-- /.col-lg-12 -->
            </div>
-			<div class="row">  
+			<div class="row">
+
 				@yield('section')
 
             </div>

@@ -49,7 +49,7 @@ class CommentsController extends Controller
 		$comment = new Comment;
 		$comment->content = $request->comment;
 		$comment->user_id = $this->auth->user()->id;
-		$comment->post_id = $this->post->byHash($request->post)->id;
+		$comment->post_id = $this->post->bySlug($request->post)->id;
 		$comment->revised = ($this->config->approve_comments_first) ? 1 : 2;
 		$comment->save();
 
@@ -89,18 +89,18 @@ class CommentsController extends Controller
     ///////////////////////////////////////////////////////////////////////////
 
     /**
-     * @param string $hash
+     * @param string $slug
      * @param string $new_revised
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function changeStatus($hash, $new_revised)
+    public function changeStatus($slug, $new_revised)
     {
         $revised = $this->checkRevised($new_revised);
         if ($revised === false) {
             abort(404);
         }
 
-        $comment = $this->comment->byHash($hash);
+        $comment = $this->comment->bySlug($slug);
         $comment->revised = $revised;
         $comment->save();
 

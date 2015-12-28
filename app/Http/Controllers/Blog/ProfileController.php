@@ -3,7 +3,6 @@
 namespace App\Http\Controllers\Blog;
 
 use App\User;
-use Illuminate\Contracts\Hashing\Hasher;
 use App\Http\Requests\Blog\ProfileUpdateRequest;
 use Intervention\Image\Facades\Image;
 use Illuminate\Contracts\Auth\Guard;
@@ -12,32 +11,22 @@ class ProfileController extends AdminController
 {
 
     /**
+     * This is the User model, not any particular user
+     *
      * @var \App\User
      */
     protected $user;
 
     /**
-     * @var \Illuminate\Contracts\Hashing\Hasher
-     */
-    protected $hash;
-
-    /**
      * @param \App\User $user
      * @param \Illuminate\Contracts\Auth\Guard $auth
-     * @param \Illuminate\Contracts\Hashing\Hasher $hash
      */
-    public function __construct(
-        User $user,
-        Guard $auth,
-        Hasher $hash
-    ) {
+    public function __construct( User $user, Guard $auth ) {
         parent::__construct();
 
-        $this->middleware('IsOwner', ['only', 'edit']);
+        $this->middleware('App\Http\Middleware\Blog\IsOwner', ['only', 'edit']);
 
         $this->user = $user;
-        $this->tracert = $tracert;
-        $this->hash = $hash;
     }
 
     ///////////////////////////////////////////////////////////////////////////
@@ -45,16 +34,16 @@ class ProfileController extends AdminController
     ///////////////////////////////////////////////////////////////////////////
 
     /**
-     * @param string $hash
+     * @param string $slug
      * @return \Illuminate\View\View
      */
-    public function edit($hash)
+    public function edit($slug)
     {
         $data = [
-            'user' => $this->user->byHash($hash),
+            'user' => $this->user->findBySlugOrFail($slug),
         ];
 
-        return view('admin.profiles.form', $data);
+        return view('blog-admin.profiles.form', $data);
     }
 
     ///////////////////////////////////////////////////////////////////////////
@@ -62,20 +51,20 @@ class ProfileController extends AdminController
     ///////////////////////////////////////////////////////////////////////////
 
     /**
-     * @param string $hash
-     * @param \jorenvanhocht\Blogify\Requests\ProfileUpdateRequest $request
+     * @param string $slug
+     * @param \App\Http\Requests\Blog\ProfileUpdateRequest $request
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function update($hash, ProfileUpdateRequest $request)
+    public function update($slug, ProfileUpdateRequest $request)
     {
-        $user = $this->user->byHash($hash);
-        $user->lastname = $request->name;
+        $user = $this->user->findBySlugOrFail($slug);
+        $user->lastname = $request->lastname;
         $user->firstname = $request->firstname;
         $user->username = $request->username;
         $user->email = $request->email;
 
         if ($request->has('newpassword')) {
-            $user->password = $this->hash->make($request->newpassword);
+            $user->password = bcrypt($request->newpassword);
         }
 
         if ($request->hasFile('profilepicture')) {
@@ -84,19 +73,19 @@ class ProfileController extends AdminController
 
         $user->save();
 
-        $this->tracert->log('users', $user->id, $this->auth_user->id, 'update');
-
-        $message = trans('notify.success', [
-            'model' => 'User', 'name' => $user->fullName, 'action' =>'updated'
+        session()->flash('notify', [
+	        'success',
+	        trans('notify.success', [
+		        'model' => 'User',
+		        'name' => $user->fullName,
+		        'action' =>'updated',
+	        ])
         ]);
-        session()->flash('notify', ['success', $message]);
 
         return redirect()->route('admin.dashboard');
     }
 
-    ///////////////////////////////////////////////////////////////////////////
     // Helper methods
-    ///////////////////////////////////////////////////////////////////////////
 
     /**
      * @param $image
@@ -133,11 +122,14 @@ class ProfileController extends AdminController
         $fullpath = $this->config->upload_paths->profiles->profilepictures.$filename.'.'.$extention;
 
         Image::make($image->getRealPath())
-            ->resize($this->config->image_sizes->profilepictures[0], $this->config->image_sizes->profilepictures[1], function($constraint) {
-                $constraint->aspectRatio();
-                $constraint->upsize();
-            })
-            ->save($fullpath);
+            ->resize(
+	            $this->config->image_sizes->profilepictures[0],
+	            $this->config->image_sizes->profilepictures[1],
+	            function($constraint) {
+	                $constraint->aspectRatio();
+	                $constraint->upsize();
+                })
+	        ->save($fullpath);
 
         return $fullpath;
     }

@@ -8,7 +8,6 @@ use App\User;
 
 class IsOwner
 {
-
     /**
      * The Guard implementation.
      *
@@ -17,6 +16,8 @@ class IsOwner
     protected $auth;
 
     /**
+     * This is the User model (not any specific user)
+     *
      * @var \App\User
      */
     protected $user;
@@ -42,11 +43,10 @@ class IsOwner
      */
     public function handle($request, Closure $next)
     {
-        $user = $this->user->byHash($request->segment(3));
+        $user = $this->user->findBySlugOrFail($request->segment(2));
 
-        if ($this->auth->user()->getAuthIdentifier() != $user->id) {
+        if ($this->auth->user()->getAuthIdentifier() != $user->id)
             abort(404);
-        }
 
         return $next($request);
     }

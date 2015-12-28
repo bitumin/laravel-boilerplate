@@ -7,5 +7,5 @@
             @endforeach
         </ul>
     @endsection
-    @include('admin.widgets.panel', ['class'=>'danger', 'header'=>true, 'as'=>'panel6'])
+    @include('blog-admin.widgets.panel', ['class'=>'danger', 'header'=>true, 'as'=>'panel6'])
 @endif

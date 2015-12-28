@@ -27,23 +27,21 @@ return [
     'form'  => [
         'page_title_create'    => 'Create new user',
         'page_title_edit'      => 'Edit user',
-
-        'name'                 => [
-            'label' => 'Name:',
+        'username'                 => [
+	        'label' => 'Username:',
         ],
-
+        'lastname'                 => [
+            'label' => 'Last name:',
+        ],
         'firstname'            => [
             'label' => 'First name:',
         ],
-
         'email'                => [
             'label' => 'E-mail:',
         ],
-
         'role'                 => [
             'label' => 'Role:',
         ],
-
         'submit_button'        => [
             'value' => 'Save user',
         ],

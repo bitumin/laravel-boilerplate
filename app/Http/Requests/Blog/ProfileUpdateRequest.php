@@ -17,12 +17,12 @@ class ProfileUpdateRequest extends Request
     protected $auth;
 
     /**
-     * Holds the hash of the user
+     * Holds the slug of the user
      * that we are trying to edit
      *
      * @var string
      */
-    protected $hash;
+    protected $slug;
 
     /**
      * @var \App\User
@@ -57,14 +57,13 @@ class ProfileUpdateRequest extends Request
      */
     public function authorize()
     {
-        $this->hash = $this->route('profile');
+        $this->slug = $this->route('profile');
         $this->user_id = $this->getUserId();
 
-        if ($this->auth->user()->getAuthIdentifier() != $this->user_id) {
+        if ($this->auth->user()->getAuthIdentifier() != $this->user_id)
             return false;
-        }
 
-        return true;
+	    return true;
     }
 
     /**
@@ -74,15 +73,14 @@ class ProfileUpdateRequest extends Request
      */
     public function rules()
     {
-        $this->hash = $this->route('profile');
+        $this->slug = $this->route('profile');
         $this->user_id = $this->getUserId();
 
         return [
-            'name'                  => 'required|min:3|max:30',
+            'lastname'              => 'required|min:3|max:30',
             'firstname'             => 'required|min:3|max:30',
             'username'              => 'required|min:2|max:30',
             'email'                 => "required|email|unique:users,email,$this->user_id",
-            'password'              => "required_with:newpassword|AuthUserPass",
             'newpasswordconfirm'    => "required_with:newpassword|same:newpassword",
             'profilepicture'        => 'image|max:1000',
         ];
@@ -96,7 +94,7 @@ class ProfileUpdateRequest extends Request
      */
     private function getUserId()
     {
-        return $this->user->byHash($this->hash)->id;
+        return $this->user->findBySlugOrFail($this->slug)->id;
     }
 
     /**

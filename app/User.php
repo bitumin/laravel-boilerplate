@@ -75,4 +75,18 @@ class User extends Model implements AuthenticatableContract,
         return $this->hasMany('App\Task');
     }
 
+	public function getBloggerRoleName()
+	{
+		if($this->is('Owner'))
+			return 'Owner';
+		else if($this->is('Author'))
+			return 'Author';
+		else if($this->is('Reviewer'))
+			return 'Reviewer';
+		else if($this->is('Member'))
+			return 'Member';
+
+		return false;
+	}
+
 }

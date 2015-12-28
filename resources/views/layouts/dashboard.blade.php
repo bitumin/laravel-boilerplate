@@ -17,7 +17,6 @@
     @yield('css')
 
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
-    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
     <!--[if lt IE 9]>
     <script src="//oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
     <script src="//oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
@@ -226,17 +225,13 @@
                         <i class="fa fa-user fa-fw"></i>  <i class="fa fa-caret-down"></i>
                     </a>
                     <ul class="dropdown-menu dropdown-user">
-                        @if(\Illuminate\Support\Facades\Auth::user()->may('manage-profile'))
                         <li>
                             <a href="{{ route('dashboard.profile') }}"><i class="fa fa-user fa-fw"></i> My Profile</a>
                         </li>
-                        @endif
-                        @if(\Illuminate\Support\Facades\Auth::user()->may('manage-settings'))
                         <li>
                             <a href="{{ route('dashboard.settings') }}"><i class="fa fa-gear fa-fw"></i> Settings</a>
                         </li>
                         <li class="divider"></li>
-                        @endif
                         <li>
                             <a href="{{ route('auth.getLogout') }}"><i class="fa fa-sign-out fa-fw"></i> Logout</a>
                         </li>
@@ -261,16 +256,16 @@
                                 <i class="fa fa-dashboard fa-fw"></i> Dashboard
                             </a>
                         </li>
-                        @if(Auth::user()->may('access-project-calculator'))
+                        @if(Auth::user()->may('access-budget-calculator'))
                         <li>
                             <a href="{{ route('dashboard.calculator') }}" @if(Request::is('dashboard/calculator')) class="active" @endif>
                                 <i class="fa fa-calculator fa-fw"></i> Project calculator
                             </a>
                         </li>
                         @endif
-                        @if(Auth::user()->may('manage-users') || Auth::user()->may('manage-calculator-backend'))
+                        @if(Auth::user()->may('access-administrator-interface'))
                         <li>
-                            <a href="/admin" @if(Request::is('admin')) class="active" @endif >
+                            <a href="/dbadministrator" @if(Request::is('dbadministrator')) class="active" @endif >
                                 <i class="fa fa-database fa-fw"></i> Manage database
                             </a>
                         </li>

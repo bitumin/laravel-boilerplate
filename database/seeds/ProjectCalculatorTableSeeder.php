@@ -70,9 +70,11 @@ class ProjectCalculatorTableSeeder extends Seeder
 	    $shareholder->assignPermission($manageCalculatorBackend->id);
         $founder->assignPermission($manageCalculatorBackend->id);
 
-	    $accessAdminInterfaceID = Permission::where('name','Access administrator interface')->pluck('id');
+	    $manageUsersID = Permission::whereSlug('manage-users')->pluck('id');
+	    $accessAdminInterfaceID = Permission::whereSlug('access-administrator-interface')->pluck('id');
 	    $shareholder->assignPermission($accessAdminInterfaceID);
 	    $founder->assignPermission($accessAdminInterfaceID);
+	    $founder->assignPermission($manageUsersID);
 
         // Test users
         $testAnalyst = User::create([

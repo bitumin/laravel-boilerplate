@@ -2,14 +2,14 @@
     $trashed        = ($trashed) ? 1 : 0;
     $currentPage    = (Request::has('page')) ? Request::get('page') : '1';
 ?>
-@extends('admin.layouts.dashboard')
+@extends('blog-admin.layouts.dashboard')
 @section('page_heading', trans("users.overview.page_title") )
 @section('section')
     @if ( session()->get('notify') )
-        @include('admin.snippets.notify')
+        @include('blog-admin.snippets.notify')
     @endif
     @if ( session()->has('success') )
-        @include('admin.widgets.alert', ['class'=>'success', 'dismissable'=>true, 'message'=> session()->get('success'), 'icon'=> 'check'])
+        @include('blog-admin.widgets.alert', ['class'=>'success', 'dismissable'=>true, 'message'=> session()->get('success'), 'icon'=> 'check'])
     @endif
 
     <p>
@@ -21,11 +21,11 @@
     <table class="table table-bordered sortable">
         <thead>
             <tr>
-                <th role="lastname"><a href="{!! route('admin.api.sort', ['users', 'name', 'asc', $trashed]).'?page='.$currentPage !!}" title="Order by name" class="sort"> {{ trans("users.overview.table_head.name") }} <span class="fa fa-sort-down fa-fw"></span> </a></th>
-                <th role="firstname"><a href="{!! route('admin.api.sort', ['users', 'firstname', 'asc', $trashed]).'?page='.$currentPage !!}" title="Order by first name" class="sort"> {{ trans("users.overview.table_head.firstname") }} </a></th>
-                <th role="username"><a href="{!! route('admin.api.sort', ['users', 'username', 'asc', $trashed]).'?page='.$currentPage !!}" title="Order by username" class="sort"> {{ trans("users.overview.table_head.username") }} </a></th>
-                <th role="email"><a href="{!! route('admin.api.sort', ['users', 'email', 'asc', $trashed]).'?page='.$currentPage !!}" title="Order by E-mail" class="sort"> {{ trans("users.overview.table_head.email") }} </a></th>
-                <th role="role_id"><a href="{!! route('admin.api.sort', ['users', 'role_id', 'asc', $trashed]).'?page='.$currentPage !!}" title="Order by Role" class="sort"> {{ trans("users.overview.table_head.role") }} </a></th>
+                <th role="lastname"><a href="{{ route('admin.api.sort', ['users', 'name', 'asc', $trashed]).'?page='.$currentPage }}" title="Order by name" class="sort"> {{ trans("users.overview.table_head.name") }} <span class="fa fa-sort-down fa-fw"></span> </a></th>
+                <th role="firstname"><a href="{{ route('admin.api.sort', ['users', 'firstname', 'asc', $trashed]).'?page='.$currentPage }}" title="Order by first name" class="sort"> {{ trans("users.overview.table_head.firstname") }} </a></th>
+                <th role="username"><a href="{{ route('admin.api.sort', ['users', 'username', 'asc', $trashed]).'?page='.$currentPage }}" title="Order by username" class="sort"> {{ trans("users.overview.table_head.username") }} </a></th>
+                <th role="email"><a href="{{ route('admin.api.sort', ['users', 'email', 'asc', $trashed]).'?page='.$currentPage }}" title="Order by E-mail" class="sort"> {{ trans("users.overview.table_head.email") }} </a></th>
+                <th role="role_id"><a href="{{ route('admin.api.sort', ['users', 'role_id', 'asc', $trashed]).'?page='.$currentPage }}" title="Order by Role" class="sort"> {{ trans("users.overview.table_head.role") }} </a></th>
                 <th> {{ trans("users.overview.table_head.actions") }} </th>
             </tr>
         </thead>
@@ -39,21 +39,21 @@
             @endif
             @foreach ( $users as $user )
                 <tr>
-                    <td>{!! $user->lastname !!}</td>
-                    <td>{!! $user->firstname !!}</td>
-                    <td>{!! $user->username !!}</td>
-                    <td>{!! $user->email !!}</td>
-                    <td>{!! $user->role->name !!}</td>
+                    <td>{{ $user->lastname }}</td>
+                    <td>{{ $user->firstname }}</td>
+                    <td>{{ $user->username }}</td>
+                    <td>{{ $user->email }}</td>
+                    <td>{{ $user->getBloggerRoleName() }}</td>
                     <td>
                         @if(!$trashed)
-                            <a href="{{ route('admin.users.edit', [$user->hash] ) }}"><span class="fa fa-edit fa-fw"></span></a>
-                            {!! Form::open( [ 'route' => ['admin.users.destroy', $user->hash], 'class' => $user->hash . ' form-delete' ] ) !!}
+                            <a href="{{ route('admin.users.edit', [$user->slug] ) }}"><span class="fa fa-edit fa-fw"></span></a>
 
-                            {!! Form::hidden('_method', 'delete') !!}
-                            <a href="#" title="{{$user->name}}" class="delete" id="{{$user->hash}}"><span class="fa fa-trash-o fa-fw"></span></a>
-                            {!! Form::close() !!}
+                            <form action="{{route('admin.users.destroy', $user->slug)}}" class="{{$user->slug.' form-delete'}}">
+                                <input type="hidden" name="_method" value="delete">
+                                <a href="#" title="{{$user->name}}" class="delete" id="{{$user->slug}}"><span class="fa fa-trash-o fa-fw"></span></a>
+                            </form>
                         @else
-                            <a href="{{route('admin.users.restore', [$user->hash])}}" title="">Restore</a>
+                            <a href="{{route('admin.users.restore', [$user->slug])}}" title="">Restore</a>
                         @endif
                     </td>
                 </tr>
@@ -62,8 +62,8 @@
     </table>
 @endsection
 
-@include('admin.widgets.panel', ['header'=>true, 'as'=>'cotable'])
+@include('blog-admin.widgets.panel', ['header'=>true, 'as'=>'cotable'])
 
-{!! $users->render() !!}
+{{ $users->render() }}
 
-@stop
+@endsection

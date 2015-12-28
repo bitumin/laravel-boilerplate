@@ -1,4 +1,4 @@
-@extends('admin.layouts.dashboard')
+@extends('blog-admin.layouts.dashboard')
 @section('page_heading', $post->title )
 @section('section')
     <div class="row">

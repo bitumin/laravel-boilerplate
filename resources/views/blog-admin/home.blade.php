@@ -162,7 +162,7 @@
 
                 <!-- /.panel-body -->
             @endsection
-            @include('admin.widgets.panel', ['header'=>true, 'as'=>'activityfeed'])
+            @include('blog-admin.widgets.panel', ['header'=>true, 'as'=>'activityfeed'])
         </div>
     </div>
     @endif

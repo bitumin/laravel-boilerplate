@@ -71,13 +71,13 @@ class TagsController extends AdminController
     }
 
     /**
-     * @param $hash
+     * @param $slug
      * @return \Illuminate\View\View
      */
-    public function edit($hash)
+    public function edit($slug)
     {
         $data = [
-            'tag' => $this->tag->byHash($hash),
+            'tag' => $this->tag->bySlug($slug),
         ];
 
         return view('admin.tags.form', $data);
@@ -130,13 +130,13 @@ class TagsController extends AdminController
     }
 
     /**
-     * @param string $hash
+     * @param string $slug
      * @param \App\Http\Requests\Blog\TagUpdateRequest $request
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function update($hash, TagUpdateRequest $request)
+    public function update($slug, TagUpdateRequest $request)
     {
-        $tag = $this->tag->byHash($hash);
+        $tag = $this->tag->bySlug($slug);
         $tag->name = $request->tags;
         $tag->save();
 
@@ -151,12 +151,12 @@ class TagsController extends AdminController
     }
 
     /**
-     * @param string $hash
+     * @param string $slug
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function destroy($hash)
+    public function destroy($slug)
     {
-        $tag = $this->tag->byHash($hash);
+        $tag = $this->tag->bySlug($slug);
         $tag->delete();
 
         $this->tracert->log('tags', $tag->id, $this->auth_user->id, 'delete');
@@ -170,12 +170,12 @@ class TagsController extends AdminController
     }
 
     /**
-     * @param string $hash
+     * @param string $slug
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function restore($hash)
+    public function restore($slug)
     {
-        $tag = $this->tag->withTrashed()->byHash($hash);
+        $tag = $this->tag->withTrashed()->bySlug($slug);
         $tag->restore();
 
         $message = trans('notify.success', [
@@ -221,7 +221,7 @@ class TagsController extends AdminController
                 $tag = $t;
             } else {
                 $tag = new Tag;
-                $tag->hash = $this->blogify->makeHash('tags', 'hash', true);
+                $tag->slug = $this->blogify->makeSlug('tags', 'slug', true);
             }
 
             $tag->name = $tag_name;
