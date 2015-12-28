@@ -166,7 +166,6 @@ return [
         Barryvdh\DomPDF\ServiceProvider::class,
 	    Barryvdh\Debugbar\ServiceProvider::class,
 	    Intervention\Image\ImageServiceProvider::class,
-	    App\Providers\BlogifyServiceProvider::class,
 
     ],
 

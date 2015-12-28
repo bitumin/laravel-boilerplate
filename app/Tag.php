@@ -2,13 +2,19 @@
 
 namespace App;
 
+use Cviebrock\EloquentSluggable\SluggableInterface;
+use Cviebrock\EloquentSluggable\SluggableTrait;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Validator;
 
-class Tag extends BaseModel
+class Tag extends BaseModel implements SluggableInterface
 {
+    use SoftDeletes, SluggableTrait;
 
-    use SoftDeletes;
+	protected $sluggable = [
+		'build_from' => 'name',
+		'save_to'    => 'slug',
+	];
 
     /**
      * The database table used by the model
@@ -39,9 +45,9 @@ class Tag extends BaseModel
     {
         $rules = [];
         $messages = [
-            'required'  => trans('blogify::posts.validation.required'),
-            'min'       => trans('blogify::posts.validation.min'),
-            'max'       => trans('blogify::posts.validation.max'),
+            'required'  => trans('posts.validation.required'),
+            'min'       => trans('posts.validation.min'),
+            'max'       => trans('posts.validation.max'),
         ];
 
         foreach ($tags as $key => $tag) {
@@ -63,7 +69,7 @@ class Tag extends BaseModel
 
     public function post()
     {
-        return $this->belongsToMany('jorenvanhocht\Blogify\Models\post', 'posts_have_tags', 'tag_id', 'post_id');
+        return $this->belongsToMany('App\Post', 'post_tag', 'tag_id', 'post_id');
     }
 
 }
