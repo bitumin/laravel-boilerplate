@@ -196,7 +196,7 @@ var app = {
                 var link            = $(atag);
                 var url             = link[0].href;
                 var urlParts        = url.split('/');
-                var newUrl = app.generateBaseUrl() + '/' + '/admin/' + urlParts[6] + '/';
+                var newUrl = app.generateBaseUrl() + '/' + '/dashboard/blog/' + urlParts[6] + '/';
 
                 if ( 'status_id' in data['data'][i] ) {
                     // Append the actions to the last column
@@ -319,7 +319,7 @@ var app = {
             CKEDITOR.config.height = 400;
             CKEDITOR.config.extraPlugins = 'wordcount';
             CKEDITOR.replace( 'post',{
-                filebrowserUploadUrl: app.generateBaseUrl() + '/admin/posts/image/upload'
+                filebrowserUploadUrl: app.generateBaseUrl() + '/dashboard/blog/posts/image/upload'
             } );
         }
     },
@@ -415,7 +415,7 @@ var app = {
          */
         checkIfSlugIsUnique: function()
         {
-            app.slug.apiBaseUrl = app.generateBaseUrl() + '/admin/api/slug/checkIfSlugIsUnique/' + app.slug.slug;
+            app.slug.apiBaseUrl = app.generateBaseUrl() + '/dashboard/blog/api/slug/checkIfSlugIsUnique/' + app.slug.slug;
             if ( app.slug.slug.length > 0 )
             {
                 $.ajax({
@@ -484,7 +484,7 @@ var app = {
                     'X-CSRF-TOKEN': $("input[name='_token']")[0].value
                 },
                 type:     'post',
-                url:        app.generateBaseUrl() + '/admin/categories',
+                url:        app.generateBaseUrl() + '/dashboard/blog/categories',
                 data:       { 'name': $('#newCategory')[0].value },
                 dataType:   'json',
                 success: function(data)
@@ -554,7 +554,7 @@ var app = {
                     'X-CSRF-TOKEN': $("input[name='_token']")[0].value
                 },
                 type:     'post',
-                url:        app.generateBaseUrl() + '/admin/tags',
+                url:        app.generateBaseUrl() + '/dashboard/blog/tags',
                 data:       { 'tags': $('#newTags')[0].value },
                 dataType:   'json',
                 success: function(data)
@@ -621,7 +621,7 @@ var app = {
             {
                 $.ajax({
                     type:     'get',
-                    url:        app.generateBaseUrl() + '/admin/api/tags/' + hashes[i],
+                    url:        app.generateBaseUrl() + '/dashboard/blog/api/tags/' + hashes[i],
                     dataType:   'json',
                     success: function(data)
                     {
@@ -778,7 +778,7 @@ var app = {
                     'X-CSRF-TOKEN': $("input[name='_token']")[0].value
                 },
                 type:     'post',
-                url:        app.generateBaseUrl() + '/admin/api/autosave',
+                url:        app.generateBaseUrl() + '/dashboard/blog/api/autosave',
                 data:       app.autoSave.data,
                 dataType:   'json',
                 success: function( response )

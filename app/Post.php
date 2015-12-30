@@ -2,12 +2,14 @@
 
 namespace App;
 
+use Cviebrock\EloquentSluggable\SluggableInterface;
+use Cviebrock\EloquentSluggable\SluggableTrait;
 use Auth;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class Post extends BaseModel
+class Post extends BaseModel implements SluggableInterface
 {
-    use SoftDeletes;
+    use SoftDeletes, SluggableTrait;
 
     /**
      * The database table used by the model
@@ -15,6 +17,16 @@ class Post extends BaseModel
      * @var string
      */
     protected $table = 'posts';
+
+	/**
+	 * Table columns from where automatically build the slug and store it.
+	 *
+	 * @var array
+	 */
+	protected $sluggable = [
+		'build_from' => 'title',
+		'save_to'    => 'slug',
+	];
 
     /**
      * The attributes that are mass assignable

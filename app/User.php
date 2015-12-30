@@ -64,7 +64,6 @@ class User extends Model implements AuthenticatableContract,
         return $this->belongsToMany('App\Role');
     }
 
-    //1:many
     public function wages()
     {
         return $this->hasMany('App\Wage');
@@ -74,6 +73,8 @@ class User extends Model implements AuthenticatableContract,
     {
         return $this->hasMany('App\Task');
     }
+
+	//Blog related methods, scopes, etc.
 
 	public function getBloggerRoleName()
 	{
@@ -87,6 +88,25 @@ class User extends Model implements AuthenticatableContract,
 			return 'Member';
 
 		return false;
+	}
+
+	public function scopeBlogger($query)
+	{
+		$query->whereHas('roles', function($query) {
+			$query->where(function($query){
+				$query->where('role_id', Role::findBySlug('Owner')->id)
+				    ->orWhere('role_id', Role::findBySlug('Author')->id)
+				    ->orWhere('role_id', Role::findBySlug('Reviewer')->id)
+				    ->orWhere('role_id', Role::findBySlug('Member')->id);
+			});
+		});
+	}
+
+	public function reviewers()
+	{
+		return User::whereHas('roles', function($query) {
+			$query->where('role_id', Role::findBySlug('Reviewer')->id);
+		});
 	}
 
 }

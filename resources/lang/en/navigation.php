@@ -3,7 +3,7 @@
 return [
     'profile'   => ' Edit profile',
     'settings'  => ' Settings',
-    'logout'    => ' logout',
+    'logout'    => ' Logout',
 
     'dashboard' => [
         'title'     => ' Dashboard',

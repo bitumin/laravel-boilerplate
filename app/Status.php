@@ -2,8 +2,12 @@
 
 namespace App;
 
-class Status extends BaseModel
+use Cviebrock\EloquentSluggable\SluggableInterface;
+use Cviebrock\EloquentSluggable\SluggableTrait;
+
+class Status extends BaseModel implements SluggableInterface
 {
+	use SluggableTrait;
 
     /**
      * The database table used by the model
@@ -11,6 +15,16 @@ class Status extends BaseModel
      * @var string
      */
     protected $table = 'statuses';
+
+	/**
+	 * Table columns from where automatically build the slug and store it.
+	 *
+	 * @var array
+	 */
+	protected $sluggable = [
+		'build_from' => 'name',
+		'save_to'    => 'slug',
+	];
 
     /**
      * The attributes that are mass assignable

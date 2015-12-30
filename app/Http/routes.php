@@ -176,56 +176,84 @@ Route::get('template/cloud/blog',['as'=>'template.cloud.blog','uses'=>'ExamplesC
  |--------------------------------------------------------------------------
  */
 
-// Blog (public) routes
-Route::resource('blog', 'Blog\BlogController', ['only' => ['index', 'show']]);
-Route::post('blog/{slug}', ['as'=>'blog.confirmPass','uses'=>'Blog\BlogController@show']);
-Route::get('blog/archive/{year}/{month}', ['as'=>'blog.archive','uses'=>'Blog\BlogController@archive']);
-Route::get('blog/category/{category}', ['as'=>'blog.category','uses'=>'Blog\BlogController@category']);
-Route::get('blog/protected/verify/{hash}', ['as'=>'blog.askPassword','uses'=>'Blog\BlogController@askPassword']);
-Route::post('comments', ['as'=>'comments.store','uses'=>'Blog\CommentsController@store']);
+/* Front end routes */
 
-// Dashboard routes
+Route::get('blog', ['as'=>'blog.index','uses'=>'BlogController@indexBlog']);
+Route::get('blog/{slug}', ['as'=>'blog.show','uses'=>'BlogController@showBlog']);
+Route::post('blog/{slug}', ['as'=>'blog.confirmPass','uses'=>'BlogController@showBlog']);
+Route::get('blog/archive/{year}/{month}', ['as'=>'blog.archive','uses'=>'BlogController@archiveBlog']);
+Route::get('blog/category/{category}', ['as'=>'blog.category','uses'=>'BlogController@categoryBlog']);
+Route::get('blog/protected/verify/{slug}', ['as'=>'blog.askPassword','uses'=>'BlogController@askPassword']);
+Route::post('blog/comments', ['as'=>'comments.store','uses'=>'BlogController@storeComments']);
 
-// Home
-Route::get('admin', ['as'=>'admin.dashboard','uses'=>'Blog\DashboardController@index']);
+/* Back end routes */
 
+// Dashboard
+Route::get('dashboard/blog', ['as'=>'blog.admin.dashboard','uses'=>'BlogAdminController@indexDashboard']);
+
+Route::group(['middleware' => 'App\Http\Middleware\HasAdminRole'], function() {
 // User
-Route::group(['middleware' => 'App\Http\Middleware\Blog\HasAdminRole'], function() {
-	Route::resource('users', 'Blog\UserController', ['as'=>'admin']);
-	Route::get('users/overview/{trashed?}', ['as'=>'admin.users.overview','uses'=>'Blog\UserController@index']);
-	Route::get('users/{hash}/restore', ['as'=>'admin.users.restore','uses'=>'Blog\UserController@restore']);
-});
+	Route::get('dashboard/blog/users', ['as'=>'blog.admin.users.index','uses'=>'BlogAdminController@indexUser']);
+	Route::get('dashboard/blog/users/create', ['as'=>'blog.admin.users.create','uses'=>'BlogAdminController@createUser']);
+	Route::post('dashboard/blog/users', ['as'=>'blog.admin.users.store','uses'=>'BlogAdminController@storeUser']);
+//	Route::get('dashboard/blog/users/{slug}', ['as'=>'blog.admin.users.show','uses'=>'BlogAdminController@showUser']);
+	Route::get('dashboard/blog/users/{slug}/edit', ['as'=>'blog.admin.users.edit','uses'=>'BlogAdminController@editUser']);
+	Route::put('dashboard/blog/users/{slug}', ['as'=>'blog.admin.users.update','uses'=>'BlogAdminController@updateUser']);
+	Route::delete('dashboard/blog/users/{slug}', ['as'=>'blog.admin.users.destroy','uses'=>'BlogAdminController@destroyUser']);
+	Route::get('dashboard/blog/users/overview/{trashed?}', ['as'=>'blog.admin.users.overview','uses'=>'BlogAdminController@indexUser']);
+	Route::get('dashboard/blog/users/{slug}/restore', ['as'=>'blog.admin.users.restore','uses'=>'BlogAdminController@restoreUser']);
 
 // Categories
-Route::group(['middleware' => 'App\Http\Middleware\Blog\HasAdminRole'], function() {
-	Route::resource('categories', 'Blog\CategoriesController', ['as'=>'admin']);
-	Route::get('categories/overview/{trashed?}', ['as'=>'admin.categories.overview','uses'=>'Blog\CategoriesController@index']);
-	Route::get('categories/{hash}/restore', ['as'=>'admin.categories.restore','uses'=>'Blog\CategoriesController@restore']);
+	Route::get('dashboard/blog/categories', ['as'=>'blog.admin.categories.index','uses'=>'BlogAdminController@indexCategory']);
+	Route::get('dashboard/blog/categories/create', ['as'=>'blog.admin.categories.create','uses'=>'BlogAdminController@createCategory']);
+	Route::post('dashboard/blog/categories', ['as'=>'blog.admin.categories.store','uses'=>'BlogAdminController@storeCategory']);
+//	Route::get('dashboard/blog/categories/{slug}', ['as'=>'blog.admin.categories.show','uses'=>'BlogAdminController@showCategory']);
+	Route::get('dashboard/blog/categories/{slug}/edit', ['as'=>'blog.admin.categories.edit','uses'=>'BlogAdminController@editCategory']);
+	Route::put('dashboard/blog/categories/{slug}', ['as'=>'blog.admin.categories.update','uses'=>'BlogAdminController@updateCategory']);
+	Route::delete('dashboard/blog/categories/{slug}', ['as'=>'blog.admin.categories.destroy','uses'=>'BlogAdminController@destroyCategory']);
+	Route::get('dashboard/blog/categories/overview/{trashed?}', ['as'=>'blog.admin.categories.overview','uses'=>'BlogAdminController@indexCategory']);
+	Route::get('dashboard/blog/categories/{slug}/restore', ['as'=>'blog.admin.categories.restore','uses'=>'BlogAdminController@restoreCategory']);
 });
 
 // Posts
-Route::resource('posts', 'Blog\PostsController', ['except'=>['store', 'update'], 'as'=>'admin']);
-Route::post('posts', ['as'=>'admin.posts.store','uses'=>'Blog\PostsController@store']);
-Route::post('posts/image/upload', ['as'=>'admin.posts.uploadImage','uses'=>'Blog\PostsController@uploadImage']);
-Route::get('posts/overview/{trashed?}', ['as'=>'admin.posts.overview','uses'=>'Blog\PostsController@index']);
-Route::get('posts/action/cancel/{hash?}', ['as'=>'admin.posts.cancel','uses'=>'Blog\PostsController@cancel']);
-Route::get('posts/{hash}/restore', ['as'=>'admin.posts.restore','uses'=>'Blog\PostsController@restore']);
+Route::get('dashboard/blog/posts', ['as'=>'blog.admin.posts.index','uses'=>'BlogAdminController@indexPost']);
+Route::get('dashboard/blog/posts/create', ['as'=>'blog.admin.posts.create','uses'=>'BlogAdminController@createPost']);
+Route::get('dashboard/blog/posts/{slug}', ['as'=>'blog.admin.posts.show','uses'=>'BlogAdminController@showPost']);
+Route::get('dashboard/blog/posts/{slug}/edit', ['as'=>'blog.admin.posts.edit','uses'=>'BlogAdminController@editPost']);
+Route::delete('dashboard/blog/posts/{slug}', ['as'=>'blog.admin.posts.destroy','uses'=>'BlogAdminController@destroyPost']);
+Route::post('dashboard/blog/posts', ['as'=>'blog.admin.posts.store','uses'=>'BlogAdminController@storePost']);
+Route::post('dashboard/blog/posts/image/upload', ['as'=>'blog.admin.posts.uploadImage','uses'=>'BlogAdminController@uploadImage']);
+Route::get('dashboard/blog/posts/overview/{trashed?}', ['as'=>'blog.admin.posts.overview','uses'=>'BlogAdminController@indexPost']);
+Route::get('dashboard/blog/posts/action/cancel/{slug?}', ['as'=>'blog.admin.posts.cancel','uses'=>'BlogAdminController@cancelPost']);
+Route::get('dashboard/blog/posts/{slug}/restore', ['as'=>'blog.admin.posts.restore','uses'=>'BlogAdminController@restorePost']);
 
+Route::group(['middleware' => 'App\Http\Middleware\HasAdminOrAuthorRole'], function() {
 // Tags
-Route::group(['middleware' => 'App\Http\Middleware\Blog\HasAdminOrAuthorRole'], function() {
-	Route::resource('tags', 'Blog\TagsController', ['except' => 'store', 'as'=>'admin']);
-	Route::post('tags', ['as'=>'admin.tags.store','uses'=>'Blog\TagsController@storeOrUpdate']);
-	Route::get('tags/overview/{trashed?}', ['as'=>'admin.tags.overview','uses'=>'Blog\TagsController@index']);
-	Route::get('tags/{hash}/restore', ['as'=>'admin.tags.restore','uses'=>'Blog\TagsController@restore']);
-	Route::get('comments/{revised?}', ['as'=>'admin.comments.index','uses'=>'Blog\CommentsController@index']);
-	Route::get('comments/changestatus/{hash}/{revised}', ['as'=>'admin.comments.changeStatus','uses'=>'Blog\CommentsController@changeStatus']);
+	Route::get('dashboard/blog/tags', ['as'=>'blog.admin.tags.index','uses'=>'BlogAdminController@indexTag']);
+	Route::get('dashboard/blog/tags/create', ['as'=>'blog.admin.tags.create','uses'=>'BlogAdminController@createTag']);
+//	Route::get('dashboard/blog/tags/{slug}', ['as'=>'blog.admin.tags.show','uses'=>'BlogAdminController@showTag']);
+	Route::get('dashboard/blog/tags/{slug}/edit', ['as'=>'blog.admin.tags.edit','uses'=>'BlogAdminController@editTag']);
+	Route::put('dashboard/blog/tags/{slug}', ['as'=>'blog.admin.tags.update','uses'=>'BlogAdminController@updateTag']);
+	Route::delete('dashboard/blog/tags/{slug}', ['as'=>'blog.admin.tags.destroy','uses'=>'BlogAdminController@destroyTag']);
+	Route::post('dashboard/blog/tags', ['as'=>'blog.admin.tags.store','uses'=>'BlogAdminController@storeOrUpdateTag']);
+	Route::get('dashboard/blog/tags/overview/{trashed?}', ['as'=>'blog.admin.tags.overview','uses'=>'BlogAdminController@indexTag']);
+	Route::get('dashboard/blog/tags/{slug}/restore', ['as'=>'blog.admin.tags.restore','uses'=>'BlogAdminController@restoreTag']);
+
+// Comments
+	Route::get('dashboard/blog/comments/{revised?}', ['as'=>'blog.admin.comments.index','uses'=>'BlogController@indexComments']);
+	Route::get('dashboard/blog/comments/changestatus/{slug}/{revised}', ['as'=>'blog.admin.comments.changeStatus','uses'=>'BlogController@changeStatus']);
 });
 
 // Profiles
-Route::resource('profile', 'Blog\ProfileController', ['as'=>'admin']);
+//Route::get('dashboard/blog/profile', ['as'=>'blog.admin.profile.index','uses'=>'BlogAdminController@indexProfile']);
+//Route::get('dashboard/blog/profile/create', ['as'=>'blog.admin.profile.create','uses'=>'BlogAdminController@createProfile']);
+//Route::post('dashboard/blog/profile', ['as'=>'blog.admin.profile.store','uses'=>'BlogAdminController@storeProfile']);
+//Route::get('dashboard/blog/profile/{slug}', ['as'=>'blog.admin.profile.show','uses'=>'BlogAdminController@showProfile']);
+Route::get('dashboard/blog/profile/{slug}/edit', ['as'=>'blog.admin.profile.edit','uses'=>'BlogAdminController@editProfile']);
+Route::put('dashboard/blog/profile/{slug}', ['as'=>'blog.admin.profile.update','uses'=>'BlogAdminController@updateProfile']);
+//Route::delete('dashboard/blog/profile/{slug}', ['as'=>'blog.admin.profile.destroy','uses'=>'BlogAdminController@destroyProfile']);
 
 // API
-Route::get('api/sort/{table}/{column}/{order}/{trashed?}', ['as'=>'admin.api.sort','uses'=>'Blog\ApiController@sort']);
-Route::get('api/slug/checkIfSlugIsUnique/{slug}', ['as'=>'admin.api.slug.checkIfUnique','uses'=>'Blog\ApiController@checkIfSlugIsUnique']);
-Route::post('api/autosave', ['as'=>'admin.api.autosave','uses'=>'Blog\ApiController@autoSave']);
-Route::get('api/tags/{hash}', ['as'=>'admin.api.tags','uses'=>'Blog\ApiController@getTag']);
+Route::get('dashboard/blog/api/sort/{table}/{column}/{order}/{trashed?}', ['as'=>'blog.admin.api.sort','uses'=>'BlogAdminController@sort']);
+Route::post('dashboard/blog/api/autosave', ['as'=>'blog.admin.api.autosave','uses'=>'BlogAdminController@autoSave']);
+Route::get('dashboard/blog/api/tags/{slug}', ['as'=>'blog.admin.api.tags','uses'=>'BlogAdminController@getTag']);

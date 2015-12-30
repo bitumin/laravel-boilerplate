@@ -33,6 +33,14 @@ class Role extends \Caffeinated\Shinobi\Models\Role implements SluggableInterfac
 	 */
 	public $timestamps = true;
 
+	/**
+	 * The users that belong to the role.
+	 */
+	public function users()
+	{
+		return $this->belongsToMany('App\User');
+	}
+
 	/*
 	|--------------------------------------------------------------------------
 	| Scopes
@@ -57,4 +65,5 @@ class Role extends \Caffeinated\Shinobi\Models\Role implements SluggableInterfac
 			->orWhere('name', 'Reviewer')
 			->orWhere('name', 'Member');
 	}
+
 }
